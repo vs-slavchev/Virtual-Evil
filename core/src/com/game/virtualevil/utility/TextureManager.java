@@ -17,8 +17,7 @@ public class TextureManager {
 	public TextureManager() {
 		String[] imgNames = {
 				"hero",
-				"forest_tiles",
-				"sc_map"
+				"forest_tiles"
 		};
 
 		for (int i = 0; i < imgNames.length;i++) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.virtualevil.entity.EntityManager;
 import com.game.virtualevil.utility.FontManager;
+import com.game.virtualevil.utility.Map;
 import com.game.virtualevil.utility.TextureManager;
 
 public class Game extends ApplicationAdapter {
@@ -16,9 +17,7 @@ public class Game extends ApplicationAdapter {
 	private TextureManager textureManager;
 	private FontManager fontManager;
 	private EntityManager entityManager;
-    
-    //private Sprite mapSprite;
-	//private byte[] map;
+    private Map map;
 	
 	private final boolean testing = true;
 	float delta;
@@ -30,12 +29,7 @@ public class Game extends ApplicationAdapter {
 		fontManager = new FontManager();
 		entityManager = new EntityManager(this);
 		
-		/*mapSprite = new Sprite(textureManager.getImage("sc_map"));
-		mapSprite.setPosition(0, 0);
-		mapSprite.setSize(Gdx.graphics.getWidth()*2, Gdx.graphics.getHeight()*2);*/
-		
-		/*FileHandle file = Gdx.files.internal("myblob.bin");
-		map = file.readBytes();*/
+		map = new Map();
 		
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
@@ -49,14 +43,14 @@ public class Game extends ApplicationAdapter {
 		
 		entityManager.updateEntities(delta);
 	
-		//camera.update();
+		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		//mapSprite.draw(batch);
+		map.drawMap(batch);
 		entityManager.drawEntities(batch);
 		batch.end();
 	}
@@ -66,6 +60,7 @@ public class Game extends ApplicationAdapter {
 		batch.dispose();
 		textureManager.disposeAllTextures();
 		fontManager.disposeFonts();
+		map.getTileSet().getTexture().dispose();
 	}
 	
 	public boolean isTesting() {
@@ -82,5 +77,13 @@ public class Game extends ApplicationAdapter {
 
 	public TextureManager getTextureManager() {
 		return textureManager;
+	}
+
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
+	public Map getMap() {
+		return map;
 	}
 }
