@@ -2,7 +2,6 @@ package com.game.virtualevil;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -29,10 +28,15 @@ public class Game extends ApplicationAdapter {
 		fontManager = new FontManager();
 		entityManager = new EntityManager(this);
 		
-		map = new Map();
+		map = new Map(this);
 		
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+		//scaled 2x
+		camera = new OrthographicCamera(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        camera.position.set(camera.viewportWidth, camera.viewportHeight, 0);
+		
+		//normal scale
+		/*camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);*/ 
         camera.update();
 		
 	}

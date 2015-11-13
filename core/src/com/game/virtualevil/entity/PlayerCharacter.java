@@ -2,7 +2,6 @@ package com.game.virtualevil.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,22 +9,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.Game;
-import com.game.virtualevil.utility.TextureManager;
+import com.game.virtualevil.utility.ability.Ability;
 
-public class PlayerCharacter {
+public class PlayerCharacter extends GameCharacter{
 
-	private float x, y, moveSpeed = 100f;
-	private int direction = 0, prevDirection;
-	private Vector2 collisionBoxVector;
-
-	private Animation animation;
-	private Texture spriteSheet;
-	private TextureRegion[][] frames;
-	private float frameTime;
-	private Game game;
+	
 
 	public PlayerCharacter(Game game) {
-		this.game = game;
+		super(game);
 		x = Gdx.graphics.getWidth()/2;
 		y = Gdx.graphics.getHeight()/2;
 		spriteSheet = game.getTextureManager().getImage("hero");
@@ -34,19 +25,29 @@ public class PlayerCharacter {
 		animation = new Animation(0.15f, frames[0]);
 		collisionBoxVector = new Vector2(spriteSheet.getWidth()/3 - 5,
 				spriteSheet.getHeight()/4 - 5);
+		
+		abilities.add(0, new Ability("SPRINT", this));
 	}
 
-	public void update(float delta) {
-		prevDirection = direction;
+	public void applyAction(float delta) {
 		processInput(delta);
-		if (prevDirection != direction) {
-			animation = new Animation(0.15f, frames[direction]);
-			frameTime = 0.0f;
-		}
-
 	}
 
 	public void processInput(float delta) {
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+			abilities.get(0).useAbility();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+			abilities.get(1).useAbility();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+			abilities.get(2).useAbility();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)) {
+			abilities.get(3).useAbility();
+		}
+		
+		boolean playerMoved = false;
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			float futureY = y + moveSpeed * delta;
 			Rectangle colRect = new Rectangle(x + 2, futureY - 2,
@@ -54,7 +55,7 @@ public class PlayerCharacter {
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				y = futureY;
 				direction = 3;
-				frameTime += delta;
+				playerMoved = true;
 				game.getCamera().translate(0, moveSpeed * delta);
 			}
 		} else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
@@ -64,7 +65,7 @@ public class PlayerCharacter {
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				y = futureY;
 				direction = 0;
-				frameTime += delta;
+				playerMoved = true;
 				game.getCamera().translate(0, -moveSpeed * delta);
 			}
 		}
@@ -75,9 +76,8 @@ public class PlayerCharacter {
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				x = futureX;
 				direction = 1;
-				frameTime += delta;
+				playerMoved = true;
 				game.getCamera().translate(-moveSpeed * delta, 0);
-				//return;
 			}
 		} else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 			float futureX = x + moveSpeed * delta;
@@ -86,33 +86,36 @@ public class PlayerCharacter {
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				x = futureX;
 				direction = 2;
-				frameTime += delta;
+				playerMoved = true;
 				game.getCamera().translate(moveSpeed * delta, 0);
-				//return;
 			}
 		}
+		if (playerMoved) {
+			frameTime += delta;
+		}
 	}
-
+	
 	public void draw(SpriteBatch batch) {
-		batch.draw(animation.getKeyFrame(frameTime, true), x, y);
+		super.draw(batch);
 		drawUI(batch);
 	}
-
+	
 	/* the camera offset is the distance from 0,0 to the lower left corner of
 	 * the camera currently */
 	private void drawUI(SpriteBatch batch) {
 		float cameraOffsetX = game.getCamera().position.x - game.getCamera().viewportWidth / 2f;
-		float cameraOffsetY = game.getCamera().position.y - game.getCamera().viewportHeight / 2f;
+		float cameraOffsetY = game.getCamera().position.y - game.getCamera().viewportHeight*3/2;
+		// or - game.getCamera().viewportHeight/2 for normal scale
 
 		// draw debugging info top left
 		if (game.isTesting()) {
 			BitmapFont debugFont = game.getFontManager().getDebugFont();
-			debugFont.draw(batch, "x: " + (int) x + "; y: " + (int) y, cameraOffsetX + 10,
-					cameraOffsetY + Gdx.graphics.getHeight() - 10);
-			debugFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), cameraOffsetX + 10,
-					cameraOffsetY + Gdx.graphics.getHeight() - 25);
-			debugFont.draw(batch, "dir: " + direction, cameraOffsetX + 10,
-					cameraOffsetY + Gdx.graphics.getHeight() - 40);
+			debugFont.draw(batch, "x: " + (int) x + "; y: " + (int) y, cameraOffsetX + 5,
+					cameraOffsetY + Gdx.graphics.getHeight() - 5);
+			debugFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), cameraOffsetX + 5,
+					cameraOffsetY + Gdx.graphics.getHeight() - 20);
+			debugFont.draw(batch, "dir: " + direction, cameraOffsetX + 5,
+					cameraOffsetY + Gdx.graphics.getHeight() - 35);
 		}
 	}
 }

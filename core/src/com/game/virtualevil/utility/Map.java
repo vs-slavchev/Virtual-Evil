@@ -2,12 +2,12 @@ package com.game.virtualevil.utility;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.game.virtualevil.Game;
 
 public class Map {
 
@@ -22,11 +22,10 @@ public class Map {
 	private Sprite tileSet;
 	private TextureRegion tileTexture;
 
-	public Map() {
+	public Map(Game game) {
 		readMap("map1");
-
-		tilesetName = "forest_tiles.png";
-		tileSet = new Sprite(new Texture(tilesetName));
+		tilesetName = "cyber_tileset";
+		tileSet = new Sprite(game.getTextureManager().getImage(tilesetName));
 	}
 
 	public boolean collidesWithTerrain(Rectangle characterCollisionRectangle) {
@@ -82,7 +81,7 @@ public class Map {
 		FileHandle file2 = Gdx.files.internal(mapName + ".bin");
 
 		byte[] bytes;
-		int mapWidth, mapHeight, multFactor;
+		int multFactor;
 		byte[][] map2 = null;
 
 		try {
@@ -145,8 +144,9 @@ public class Map {
 	public void setTileID(int xIndex, int yIndex, int tileID) {
 		if (xIndex < 0 || xIndex >= map[0].length
 				|| yIndex < 0 || yIndex >= map.length) {
-			map[yIndex][xIndex] = toSignedByte(tileID);
+			return;
 		}
+		map[yIndex][xIndex] = toSignedByte(tileID);
 	}
 	
 	/* takes: 0-255; returns -128 to 127 */

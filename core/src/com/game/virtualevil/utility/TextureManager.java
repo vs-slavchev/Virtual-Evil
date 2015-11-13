@@ -1,10 +1,8 @@
 package com.game.virtualevil.utility;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 
 public class TextureManager {
@@ -17,7 +15,7 @@ public class TextureManager {
 	public TextureManager() {
 		String[] imgNames = {
 				"hero",
-				"forest_tiles"
+				"cyber_tileset"
 		};
 
 		for (int i = 0; i < imgNames.length;i++) {
