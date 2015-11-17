@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.virtualevil.entity.EntityManager;
 import com.game.virtualevil.utility.FontManager;
 import com.game.virtualevil.utility.Map;
+import com.game.virtualevil.utility.MapManager;
 import com.game.virtualevil.utility.TextureManager;
 
 public class Game extends ApplicationAdapter {
@@ -16,29 +17,26 @@ public class Game extends ApplicationAdapter {
 	private TextureManager textureManager;
 	private FontManager fontManager;
 	private EntityManager entityManager;
-    private Map map;
+	private MapManager mapManager;
+    //private Map map;
 	
 	private final boolean testing = true;
 	float delta;
 
 	@Override
 	public void create() {		
+		
 		batch = new SpriteBatch();
 		textureManager = new TextureManager();
 		fontManager = new FontManager();
+		
+		camera = new OrthographicCamera(Gdx.graphics.getWidth()/2,
+				Gdx.graphics.getHeight()/2);
+		
+		mapManager = new MapManager(this);
 		entityManager = new EntityManager(this);
 		
-		map = new Map(this);
-		
-		//scaled 2x
-		camera = new OrthographicCamera(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        camera.position.set(camera.viewportWidth, camera.viewportHeight, 0);
-		
-		//normal scale
-		/*camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);*/ 
         camera.update();
-		
 	}
 
 	@Override
@@ -54,7 +52,7 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		map.drawMap(batch);
+		mapManager.drawMap(batch, camera);
 		entityManager.drawEntities(batch);
 		batch.end();
 	}
@@ -64,7 +62,6 @@ public class Game extends ApplicationAdapter {
 		batch.dispose();
 		textureManager.disposeAllTextures();
 		fontManager.disposeFonts();
-		map.getTileSet().getTexture().dispose();
 	}
 	
 	public boolean isTesting() {
@@ -88,6 +85,6 @@ public class Game extends ApplicationAdapter {
 	}
 
 	public Map getMap() {
-		return map;
+		return mapManager.getMap();
 	}
 }

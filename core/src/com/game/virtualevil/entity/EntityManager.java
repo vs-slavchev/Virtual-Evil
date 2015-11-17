@@ -5,7 +5,6 @@ import com.game.virtualevil.Game;
 
 public class EntityManager {
 	private Game game;
-
 	private PlayerCharacter pc;
 	
 	public EntityManager(Game game) {

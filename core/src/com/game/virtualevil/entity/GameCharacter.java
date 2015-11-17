@@ -63,4 +63,12 @@ public abstract class GameCharacter {
 	public void removeStatusEffect(StatusEffect statusEffect) {
 		statusEffects.remove(statusEffect);
 	}
+
+	public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
 }

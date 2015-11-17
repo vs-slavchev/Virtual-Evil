@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.game.virtualevil.Game;
+import com.game.virtualevil.entity.PlayerCharacter;
 
 public class Map {
 
@@ -22,8 +24,9 @@ public class Map {
 	private Sprite tileSet;
 	private TextureRegion tileTexture;
 
-	public Map(Game game) {
-		readMap("map1");
+	/* the mapName shouldn't contain '.bin' */
+	public Map(Game game, String mapName) {
+		readMap(mapName);
 		tilesetName = "cyber_tileset";
 		tileSet = new Sprite(game.getTextureManager().getImage(tilesetName));
 	}
@@ -56,7 +59,7 @@ public class Map {
 		/* 0-100 -> 0%
 		 * 100-200 -> 50%
 		 * 200-255 -> 100% */
-		if (getTileID(mapXindex, mapYindex) < 40) {
+		if (getTileID(mapXindex, mapYindex) < 60) {
 			return false;
 		} else if (getTileID(mapXindex, mapYindex) < 100) {
 			Rectangle tileColRect = new Rectangle(mapXindex * tileSize + tileSize/4,
@@ -92,7 +95,10 @@ public class Map {
 			width *= multFactor;
 			height *= multFactor;
 
+			// create the map with the now known width and height 
 			map2 = new byte[height][width];
+			/* fill the 2D map with information from the read 1D
+			 *  array of bytes */
 			for (int i = 0; i < height; i++) {
 				for (int j = 0; j < width; j++) {
 					map2[i][j] = bytes[3 + i * width + j];
@@ -103,13 +109,30 @@ public class Map {
 			return;
 		}
 		map = map2;
-		// printMap(mapWidth, mapHeight, map2);
 	}
 
-	public void drawMap(SpriteBatch batch) {
+	public void drawMap(SpriteBatch batch, Vector3 cameraPosition) {
+		// distance from the camera center; measured in map indices
+		int renderDistanceInIndices = 12;
+		
+		// calculate on which indices of the map the camera is
+		int cameraXindex = (int) (cameraPosition.x / tileSize);
+		int cameraYindex = (int) ((height*tileSize - cameraPosition.y) / tileSize);
+		
+		/* determine which are the min and max values for the vertical/horizontal 
+		 * drawing of the map to prevent invalid indexing */
+		int leftDrawBoundaryIndex = (cameraXindex - renderDistanceInIndices < 0)
+				? 0 : cameraXindex - renderDistanceInIndices;
+		int rightDrawBoundaryIndex = (cameraXindex + renderDistanceInIndices >= width)
+				? width : cameraXindex + renderDistanceInIndices;
+		int upDrawBoundaryIndex = (cameraYindex - renderDistanceInIndices < 0)
+				? 0 : cameraYindex - renderDistanceInIndices;
+		int downDrawBoundaryIndex = (cameraYindex + renderDistanceInIndices >= height)
+				? height : cameraYindex + renderDistanceInIndices;
+		
 		// go trough the on-screen map and render the corresponding tile
-		for (int u = 0; u < height; u++) {
-			for (int v = 0; v < width; v++) {
+		for (int u = upDrawBoundaryIndex; u < downDrawBoundaryIndex; u++) {
+			for (int v = leftDrawBoundaryIndex; v < rightDrawBoundaryIndex; v++) {
 				int tileID = getTileID(v, u);
 				tileTexture = new TextureRegion(tileSet, (tileID % numTilesPerRow) * tileSize,
 						(tileID / numTilesPerRow) * tileSize, tileSize, tileSize);
@@ -132,6 +155,11 @@ public class Map {
 	}
 
 	/* takes: x and y and returns the tileID as an int */
+	/**
+	 * @param x the x index of the tile
+	 * @param y the y index of the tile
+	 * @return the ID of the tile
+	 */
 	public int getTileID(int x, int y) {
 		if (x < 0 || x >= map[0].length || y < 0 || y >= map.length) {
 			System.out.println("invalid map indexing: x: "
@@ -140,7 +168,10 @@ public class Map {
 		return map[y][x] + 127;
 	}
 	
-	/* modifies the map */
+	/**
+	 * @param xIndex the x index of the tile
+	 * @param yIndex the y index of the tile
+	 * @param tileID the ID to set the tile ID to*/
 	public void setTileID(int xIndex, int yIndex, int tileID) {
 		if (xIndex < 0 || xIndex >= map[0].length
 				|| yIndex < 0 || yIndex >= map.length) {
@@ -149,7 +180,12 @@ public class Map {
 		map[yIndex][xIndex] = toSignedByte(tileID);
 	}
 	
-	/* takes: 0-255; returns -128 to 127 */
+	/**
+	 * Takes an int between 0 and 255 and returns a byte
+	 * with a value ranging from -128 to 127.
+	 * @param value the unsigned int value to convert
+	 * @return the converted signed byte
+	 */
 	@SuppressWarnings("static-method")
 	private byte toSignedByte(int value) {
 		if (value < 0 || value > 255) {
@@ -160,6 +196,14 @@ public class Map {
 
 	public Sprite getTileSet() {
 		return tileSet;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getTotalHeight() {
+		return height * tileSize;
 	}
 
 }

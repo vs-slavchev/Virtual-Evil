@@ -17,8 +17,15 @@ public class PlayerCharacter extends GameCharacter{
 
 	public PlayerCharacter(Game game) {
 		super(game);
-		x = Gdx.graphics.getWidth()/2;
-		y = Gdx.graphics.getHeight()/2;
+		
+		game.getMap().getHeight();
+		game.getCamera().position.set(game.getCamera().viewportWidth,
+				game.getMap().getTotalHeight() - game.getCamera().viewportHeight, 0);
+		game.getCamera().update();
+        
+        
+		x = game.getCamera().viewportWidth;
+		y = game.getMap().getTotalHeight() - game.getCamera().viewportHeight;
 		spriteSheet = game.getTextureManager().getImage("hero");
 		frames = TextureRegion.split(spriteSheet,
 				spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
@@ -110,12 +117,12 @@ public class PlayerCharacter extends GameCharacter{
 		// draw debugging info top left
 		if (game.isTesting()) {
 			BitmapFont debugFont = game.getFontManager().getDebugFont();
-			debugFont.draw(batch, "x: " + (int) x + "; y: " + (int) y, cameraOffsetX + 5,
-					cameraOffsetY + Gdx.graphics.getHeight() - 5);
-			debugFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), cameraOffsetX + 5,
-					cameraOffsetY + Gdx.graphics.getHeight() - 20);
-			debugFont.draw(batch, "dir: " + direction, cameraOffsetX + 5,
-					cameraOffsetY + Gdx.graphics.getHeight() - 35);
+			debugFont.draw(batch, "x: " + (int) x + "; y: " + (int) y, cameraOffsetX + 5f,
+					cameraOffsetY + Gdx.graphics.getHeight() - 5f);
+			debugFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), cameraOffsetX + 5f,
+					cameraOffsetY + Gdx.graphics.getHeight() - 20f);
+			debugFont.draw(batch, "dir: " + direction, cameraOffsetX + 5f,
+					cameraOffsetY + Gdx.graphics.getHeight() - 35f);
 		}
 	}
 }
