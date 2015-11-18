@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.game.virtualevil.Game;
-import com.game.virtualevil.entity.PlayerCharacter;
 
 public class Map {
 
@@ -23,6 +22,8 @@ public class Map {
 	private final int numTilesPerRow = 10;
 	private Sprite tileSet;
 	private TextureRegion tileTexture;
+	// distance from the camera center; measured in map indices
+	private int renderDistanceInIndices = 12;
 
 	/* the mapName shouldn't contain '.bin' */
 	public Map(Game game, String mapName) {
@@ -31,6 +32,12 @@ public class Map {
 		tileSet = new Sprite(game.getTextureManager().getImage(tilesetName));
 	}
 
+	/**
+	 * Checks whether a rectangle collides with any tiles near it.
+	 * The tile indices in which the rectangle is located are calculated
+	 * and the rectangle is checked for collision against the nearest tiles.
+	 * @param characterCollisionRectangle the rectangle of the entity to be checked
+	 * @return true - collision detected, false - no collision */
 	public boolean collidesWithTerrain(Rectangle characterCollisionRectangle) {
 		/* map[0][0] is top left, but player 0,0 is bottom left, so we flip the
 		 * player y to match the map layout */
@@ -54,7 +61,14 @@ public class Map {
 				|| collidesWithTile(characterCollisionRectangle, mapXindex +1, mapYindex -1);
 	}
 
-	/* the tile collision box depends on the tileID*/
+	/**
+	 * Check whether a rectangle collides with the specified tile.
+	 * The collision rectangle of the tile depends on its ID, that
+	 * is its position in tile set.
+	 * @param characterCollisionRectangle the rectangle to be checked
+	 * @param mapXindex the x index of the map 2D array
+	 * @param mapYindex the y index of the map 2D array
+	 * @return true - collision detected, false - no collision */
 	private boolean collidesWithTile(Rectangle characterCollisionRectangle, int mapXindex, int mapYindex) {
 		/* 0-100 -> 0%
 		 * 100-200 -> 50%
@@ -98,7 +112,7 @@ public class Map {
 			// create the map with the now known width and height 
 			map2 = new byte[height][width];
 			/* fill the 2D map with information from the read 1D
-			 *  array of bytes */
+			 * array of bytes */
 			for (int i = 0; i < height; i++) {
 				for (int j = 0; j < width; j++) {
 					map2[i][j] = bytes[3 + i * width + j];
@@ -112,9 +126,6 @@ public class Map {
 	}
 
 	public void drawMap(SpriteBatch batch, Vector3 cameraPosition) {
-		// distance from the camera center; measured in map indices
-		int renderDistanceInIndices = 12;
-		
 		// calculate on which indices of the map the camera is
 		int cameraXindex = (int) (cameraPosition.x / tileSize);
 		int cameraYindex = (int) ((height*tileSize - cameraPosition.y) / tileSize);
@@ -154,7 +165,6 @@ public class Map {
 		}
 	}
 
-	/* takes: x and y and returns the tileID as an int */
 	/**
 	 * @param x the x index of the tile
 	 * @param y the y index of the tile

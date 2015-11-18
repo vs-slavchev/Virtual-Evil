@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.virtualevil.entity.EntityManager;
 import com.game.virtualevil.utility.FontManager;
 import com.game.virtualevil.utility.Map;
-import com.game.virtualevil.utility.MapManager;
 import com.game.virtualevil.utility.TextureManager;
 
 public class Game extends ApplicationAdapter {
@@ -17,7 +16,7 @@ public class Game extends ApplicationAdapter {
 	private TextureManager textureManager;
 	private FontManager fontManager;
 	private EntityManager entityManager;
-	private MapManager mapManager;
+	private Map map;
     //private Map map;
 	
 	private final boolean testing = true;
@@ -33,7 +32,7 @@ public class Game extends ApplicationAdapter {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth()/2,
 				Gdx.graphics.getHeight()/2);
 		
-		mapManager = new MapManager(this);
+		map = new Map(this, "map1");
 		entityManager = new EntityManager(this);
 		
         camera.update();
@@ -52,7 +51,7 @@ public class Game extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		mapManager.drawMap(batch, camera);
+		map.drawMap(batch, camera.position);
 		entityManager.drawEntities(batch);
 		batch.end();
 	}
@@ -85,6 +84,6 @@ public class Game extends ApplicationAdapter {
 	}
 
 	public Map getMap() {
-		return mapManager.getMap();
+		return map;
 	}
 }

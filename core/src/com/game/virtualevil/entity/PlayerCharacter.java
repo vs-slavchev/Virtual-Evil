@@ -61,7 +61,7 @@ public class PlayerCharacter extends GameCharacter{
 					collisionBoxVector.x, collisionBoxVector.y);
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				y = futureY;
-				direction = 3;
+				direction = Direction.UP;
 				playerMoved = true;
 				game.getCamera().translate(0, moveSpeed * delta);
 			}
@@ -71,7 +71,7 @@ public class PlayerCharacter extends GameCharacter{
 					collisionBoxVector.x, collisionBoxVector.y);
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				y = futureY;
-				direction = 0;
+				direction = Direction.DOWN;
 				playerMoved = true;
 				game.getCamera().translate(0, -moveSpeed * delta);
 			}
@@ -82,7 +82,7 @@ public class PlayerCharacter extends GameCharacter{
 					collisionBoxVector.x, collisionBoxVector.y);
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				x = futureX;
-				direction = 1;
+				direction = Direction.LEFT;
 				playerMoved = true;
 				game.getCamera().translate(-moveSpeed * delta, 0);
 			}
@@ -92,7 +92,7 @@ public class PlayerCharacter extends GameCharacter{
 					collisionBoxVector.x, collisionBoxVector.y);
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				x = futureX;
-				direction = 2;
+				direction = Direction.RIGHT;
 				playerMoved = true;
 				game.getCamera().translate(moveSpeed * delta, 0);
 			}
@@ -112,7 +112,6 @@ public class PlayerCharacter extends GameCharacter{
 	private void drawUI(SpriteBatch batch) {
 		float cameraOffsetX = game.getCamera().position.x - game.getCamera().viewportWidth / 2f;
 		float cameraOffsetY = game.getCamera().position.y - game.getCamera().viewportHeight*3/2;
-		// or - game.getCamera().viewportHeight/2 for normal scale
 
 		// draw debugging info top left
 		if (game.isTesting()) {

@@ -13,8 +13,12 @@ import com.game.virtualevil.utility.ability.StatusEffect;
 
 public abstract class GameCharacter {
 
+	public enum Direction {
+		DOWN, LEFT, RIGHT, UP
+	}
+	
 	protected float x, y, moveSpeed = 100f;
-	protected int direction = 0, prevDirection;
+	protected Direction prevDirection, direction = Direction.DOWN;
 	protected Vector2 collisionBoxVector;
 	protected CopyOnWriteArrayList<StatusEffect> statusEffects= new CopyOnWriteArrayList<>();
 	protected ArrayList<Ability> abilities = new ArrayList<>();
@@ -33,7 +37,7 @@ public abstract class GameCharacter {
 		prevDirection = direction;
 		applyAction(delta);
 		if (prevDirection != direction) {
-			animation = new Animation(0.15f, frames[direction]);
+			animation = new Animation(0.15f, frames[direction.ordinal()]);
 			frameTime = 0.0f;
 		}
 		
