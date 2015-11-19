@@ -4,6 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.game.virtualevil.entity.GameCharacter;
 import com.game.virtualevil.utility.ability.statusEffects.SprintStatusEffect;
 
+/**
+ * The main status effect class. The ConcreteAbility
+ * class covers the more basic status effects. For
+ * more complex implementations extend this class.
+ * @author vs */
 public abstract class StatusEffect {
 
 	// time is measured in seconds
@@ -18,7 +23,11 @@ public abstract class StatusEffect {
 		this.character = character;
 	}
 
-	public static StatusEffect createStatusEffectByName(String statusEffectName,
+	/**
+	 * A creating method for the factory for status effects.
+	 * @param gameCharacter the bearer of the effect
+	 * @return a status effect *//*
+	public static StatusEffect createAndApplyStatusEffect(String statusEffectName,
 			GameCharacter gameCharacter) {
 		switch (statusEffectName) {
 		case "Sprinting":
@@ -27,30 +36,35 @@ public abstract class StatusEffect {
 			System.out.println("Unhandled status effect in constructor");
 			return null;
 		}
-	}
+	} */
 
-	// do something when the affected character attacks
-	public void onBearerAttack() {
-		// empty for the base class
-	}
+	/**
+	 * Specifies action when the status effect bearer
+	 * attacks. */
+	protected abstract void onBearerAttack();
 
-	// do something when the affected character is hit
-	public void onBearerHit() {
-		// empty for the base class
-	}
+	/**
+	 * Specifies action when the status effect bearer
+	 * receives a hit. */
+	protected abstract void onBearerHit();
 
-	// every effect is updated every frame
+	/**
+	 * Specifies the end effect of the status effect:
+	 * returning values to their previous state,
+	 * starting an animation, activating some
+	 * other effect or ability. */
+	protected abstract void expire();
+	
+	/** Every effect is updated every frame */
 	public void update() {
 		if (remainingDuration >= 0) {
 			remainingDuration -= Gdx.graphics.getDeltaTime();
 			if (remainingDuration < 0) {
+				// remove the status effect from the character
+				character.removeStatusEffect(statusEffect);
 				expire();
 			}
 		}
 	}
 
-	public void expire() {
-		// remove this status effect from the character
-		character.removeStatusEffect(statusEffect);
-	}
 }

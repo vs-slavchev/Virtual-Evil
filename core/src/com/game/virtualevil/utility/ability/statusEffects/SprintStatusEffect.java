@@ -14,8 +14,18 @@ public class SprintStatusEffect extends StatusEffect{
 	}
 	
 	@Override
-	public void expire() {
-		super.expire();
+	protected void expire() {
 		character.modifyMoveSpeed( -AbilityConstants.SPRINT_BONUS);
+	}
+
+	@Override
+	protected void onBearerAttack() {
+		// intentionally empty for this class
+	}
+
+	@Override
+	protected void onBearerHit() {
+		// intentionally empty for this class
+		
 	}
 }

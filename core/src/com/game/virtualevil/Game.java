@@ -17,13 +17,12 @@ public class Game extends ApplicationAdapter {
 	private FontManager fontManager;
 	private EntityManager entityManager;
 	private Map map;
-    //private Map map;
 	
 	private final boolean testing = true;
 	float delta;
 
 	@Override
-	public void create() {		
+	public void create() {
 		
 		batch = new SpriteBatch();
 		textureManager = new TextureManager();
@@ -34,8 +33,7 @@ public class Game extends ApplicationAdapter {
 		
 		map = new Map(this, "map1");
 		entityManager = new EntityManager(this);
-		
-        camera.update();
+		camera.update();
 	}
 
 	@Override

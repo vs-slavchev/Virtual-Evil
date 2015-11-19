@@ -22,10 +22,11 @@ public class Map {
 	private final int numTilesPerRow = 10;
 	private Sprite tileSet;
 	private TextureRegion tileTexture;
-	// distance from the camera center; measured in map indices
+	// rendering distance from the camera center; measured in map indices
 	private int renderDistanceInIndices = 12;
 
-	/* the mapName shouldn't contain '.bin' */
+	/**
+	 * The mapName shouldn't contain '.bin' */
 	public Map(Game game, String mapName) {
 		readMap(mapName);
 		tilesetName = "cyber_tileset";
