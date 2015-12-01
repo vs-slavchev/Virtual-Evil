@@ -17,15 +17,15 @@ public class PlayerCharacter extends GameCharacter{
 	public PlayerCharacter(Game game) {
 		super(game);
 		
-		setPosition(new Vector2(game.getCamera().viewportWidth,
-				game.getMap().getTotalHeight() - game.getCamera().viewportHeight));
+		
+		setPosition(new Vector2(200, game.getMap().getTotalHeight() - 250));
         
 		spriteSheet = game.getTextureManager().getImage("hero");
 		frames = TextureRegion.split(spriteSheet,
 				spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
 		animation = new Animation(0.15f, frames[0]);
-		collisionBoxVector = new Vector2(spriteSheet.getWidth()/3 - 5,
-				spriteSheet.getHeight()/4 - 5);
+		collisionBoxVector = new Vector2(spriteSheet.getWidth()/3 - 8,
+				spriteSheet.getHeight()/4 - 16);
 		
 		abilities.add(0, Ability.createAbility(AbilityConstants.SPRINT_NAME, this));
 		abilities.add(1, Ability.createAbility(AbilityConstants.RETURN_NAME, this));
@@ -71,8 +71,7 @@ public class PlayerCharacter extends GameCharacter{
 		boolean playerMoved = false;
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			float futureY = position.y + moveSpeed * delta;
-			Rectangle colRect = new Rectangle(position.x + 2, futureY - 2,
-					collisionBoxVector.x, collisionBoxVector.y);
+			Rectangle colRect = createColRect(position.x, futureY);					
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				position.y = futureY;
 				direction = Direction.UP;
@@ -81,8 +80,7 @@ public class PlayerCharacter extends GameCharacter{
 			}
 		} else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
 			float futureY = position.y - moveSpeed * delta;
-			Rectangle colRect = new Rectangle(position.x + 2, futureY - 2,
-					collisionBoxVector.x, collisionBoxVector.y);
+			Rectangle colRect = createColRect(position.x, futureY);
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				position.y = futureY;
 				direction = Direction.DOWN;
@@ -92,8 +90,7 @@ public class PlayerCharacter extends GameCharacter{
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 			float futureX = position.x - moveSpeed * delta;
-			Rectangle colRect = new Rectangle(futureX + 2, position.y - 2,
-					collisionBoxVector.x, collisionBoxVector.y);
+			Rectangle colRect = createColRect(futureX, position.y);
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				position.x = futureX;
 				direction = Direction.LEFT;
@@ -102,8 +99,7 @@ public class PlayerCharacter extends GameCharacter{
 			}
 		} else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 			float futureX = position.x + moveSpeed * delta;
-			Rectangle colRect = new Rectangle(futureX + 2, position.y - 2,
-					collisionBoxVector.x, collisionBoxVector.y);
+			Rectangle colRect = createColRect(futureX, position.y);
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				position.x = futureX;
 				direction = Direction.RIGHT;
@@ -114,6 +110,16 @@ public class PlayerCharacter extends GameCharacter{
 		if (playerMoved) {
 			frameTime += delta;
 		}
+	}
+	
+	/**
+	 * A helper method: creates a rectangle for the terrain collision.
+	 * @param x left x coordinate
+	 * @param y bottom y coordinate
+	 * @return the collision rectangle */
+	private Rectangle createColRect(float x, float y) {
+		return new Rectangle(x + 4, y - 20,
+				collisionBoxVector.x, collisionBoxVector.y);
 	}
 	
 	public void draw(SpriteBatch batch) {

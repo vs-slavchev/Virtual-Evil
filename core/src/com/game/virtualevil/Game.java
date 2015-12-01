@@ -51,6 +51,7 @@ public class Game extends ApplicationAdapter {
 		batch.begin();
 		map.drawMap(batch, camera.position);
 		entityManager.drawEntities(batch);
+		map.drawLayer2Map(batch, camera.position);
 		batch.end();
 	}
 

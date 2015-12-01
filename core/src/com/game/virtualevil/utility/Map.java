@@ -71,12 +71,13 @@ public class Map {
 	 * @param mapYindex the y index of the map 2D array
 	 * @return true - collision detected, false - no collision */
 	private boolean collidesWithTile(Rectangle characterCollisionRectangle, int mapXindex, int mapYindex) {
-		/* 0-100 -> 0%
-		 * 100-200 -> 50%
-		 * 200-255 -> 100% */
-		if (getTileID(mapXindex, mapYindex) < 60) {
+		/* tileID -> collisionPercent
+		 * 0-80 -> 0%
+		 * 80-130 -> 50%
+		 * 130-255 -> 100% */
+		if (getTileID(mapXindex, mapYindex) < 80) {
 			return false;
-		} else if (getTileID(mapXindex, mapYindex) < 100) {
+		} else if (getTileID(mapXindex, mapYindex) < 130) {
 			Rectangle tileColRect = new Rectangle(mapXindex * tileSize + tileSize/4,
 					(mapYindex +1) * tileSize + tileSize/8,
 					tileSize/2, tileSize/2);
@@ -127,31 +128,81 @@ public class Map {
 	}
 
 	public void drawMap(SpriteBatch batch, Vector3 cameraPosition) {
-		// calculate on which indices of the map the camera is
-		int cameraXindex = (int) (cameraPosition.x / tileSize);
-		int cameraYindex = (int) ((height*tileSize - cameraPosition.y) / tileSize);
-		
-		/* determine which are the min and max values for the vertical/horizontal 
-		 * drawing of the map to prevent invalid indexing */
-		int leftDrawBoundaryIndex = (cameraXindex - renderDistanceInIndices < 0)
-				? 0 : cameraXindex - renderDistanceInIndices;
-		int rightDrawBoundaryIndex = (cameraXindex + renderDistanceInIndices >= width)
-				? width : cameraXindex + renderDistanceInIndices;
-		int upDrawBoundaryIndex = (cameraYindex - renderDistanceInIndices < 0)
-				? 0 : cameraYindex - renderDistanceInIndices;
-		int downDrawBoundaryIndex = (cameraYindex + renderDistanceInIndices >= height)
-				? height : cameraYindex + renderDistanceInIndices;
-		
+		Rectangle renderRectIndices = calculateRenderRectIndices(cameraPosition);
 		// go trough the on-screen map and render the corresponding tile
-		for (int u = upDrawBoundaryIndex; u < downDrawBoundaryIndex; u++) {
-			for (int v = leftDrawBoundaryIndex; v < rightDrawBoundaryIndex; v++) {
-				int tileID = getTileID(v, u);
-				tileTexture = new TextureRegion(tileSet, (tileID % numTilesPerRow) * tileSize,
+		for (int y = (int) renderRectIndices.height; y < renderRectIndices.y; y++) {
+			for (int x = (int) renderRectIndices.x; x < renderRectIndices.width; x++) {
+				drawTile(batch, x, y, getTileID(x, y));
+				/*tileTexture = new TextureRegion(tileSet, (tileID % numTilesPerRow) * tileSize,
 						(tileID / numTilesPerRow) * tileSize, tileSize, tileSize);
 				batch.draw(tileTexture, v * tileSize, height * tileSize - ((u + 1) * tileSize),
-						tileSize, tileSize);
+						tileSize, tileSize);*/
 			}
 		}
+	}
+	
+	/**
+	 * Draws the upper layer (2nd layer) of the game-world.
+	 * Objects drawn here depend on the tiles in the game map.
+	 * Method is similar to the drawMap() one. */
+	public void drawLayer2Map(SpriteBatch batch, Vector3 cameraPosition) {
+		
+		Rectangle renderRectIndices = calculateRenderRectIndices(cameraPosition);
+		// go trough the on-screen map and render the corresponding layer 2 tile
+		for (int y = (int) renderRectIndices.height; y < renderRectIndices.y; y++) {
+			for (int x = (int) renderRectIndices.x; x < renderRectIndices.width; x++) {
+				int tileID = getTileID(x, y);
+				
+				if (tileID >= 80 && tileID <= 81) {
+					// draw the middle part of the game-object column
+					drawTile(batch, x, y - 1, 70);
+					// draw the top part of the game-object column 
+					drawTile(batch, x, y - 2, 60);
+				} else if (tileID >= 82 && tileID <= 83) {
+					// draw the top part of the game-object column
+					drawTile(batch, x, y - 1, 60);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Draws a single specific tile.
+	 * @param batch the SpriteBatch
+	 * @param x the x index in the game map
+	 * @param y the y index in the game map
+	 * @param tileID the ID of the tile to be drawn */
+	private void drawTile(SpriteBatch batch, int x, int y, int tileID) {
+		tileTexture = new TextureRegion(tileSet, (tileID % numTilesPerRow) * tileSize,
+				(tileID / numTilesPerRow) * tileSize, tileSize, tileSize);
+		batch.draw(tileTexture, x * tileSize, height * tileSize - ((y + 1) * tileSize),
+				tileSize, tileSize);
+	}
+	
+	/**
+	 * Calculates the indices of the map at which the tile rendering
+	 * happens and puts them in a rectangle. The rectangle just serves
+	 * to contain 4 values, it is not actually a rectangle in the game world. 
+	 * @param cameraPosition the center of the camera
+	 * @return the 4 indices for the game map, in which rendering occurs */
+	public Rectangle calculateRenderRectIndices(Vector3 cameraPosition) {
+		
+		// calculate on which indices of the map the camera is
+		int cameraXindex = (int) (cameraPosition.x / tileSize);
+		int cameraYindex = (int) ((height * tileSize - cameraPosition.y) / tileSize);
+
+		/* determine which are the min and max values for the
+		 * vertical/horizontal drawing of the map to prevent invalid indexing */
+		int leftDrawBoundaryIndex = (cameraXindex - renderDistanceInIndices < 0) ? 0
+				: cameraXindex - renderDistanceInIndices;
+		int rightDrawBoundaryIndex = (cameraXindex + renderDistanceInIndices >= width) ? width
+				: cameraXindex + renderDistanceInIndices;
+		int upDrawBoundaryIndex = (cameraYindex - renderDistanceInIndices < 0) ? 0
+				: cameraYindex - renderDistanceInIndices;
+		int downDrawBoundaryIndex = (cameraYindex + renderDistanceInIndices >= height) ? height
+				: cameraYindex + renderDistanceInIndices;
+		
+		return new Rectangle(leftDrawBoundaryIndex, downDrawBoundaryIndex, rightDrawBoundaryIndex, upDrawBoundaryIndex);
 	}
 
 	@SuppressWarnings("unused")
