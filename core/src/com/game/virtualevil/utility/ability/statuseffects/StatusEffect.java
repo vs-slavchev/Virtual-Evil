@@ -1,8 +1,7 @@
-package com.game.virtualevil.utility.ability;
+package com.game.virtualevil.utility.ability.statuseffects;
 
 import com.badlogic.gdx.Gdx;
 import com.game.virtualevil.entity.GameCharacter;
-import com.game.virtualevil.utility.ability.statusEffects.SprintStatusEffect;
 
 /**
  * The main status effect class. The ConcreteAbility
@@ -13,30 +12,14 @@ public abstract class StatusEffect {
 
 	// time is measured in seconds
 	protected float remainingDuration;
-	protected StatusEffect statusEffect;
-	protected GameCharacter character;
+	protected final GameCharacter character;
 	// the unique name should describe a process
-	protected String statusEffectName;
+	protected final String statusEffectName;
 
 	public StatusEffect(String statusEffectName, GameCharacter character) {
 		this.statusEffectName = statusEffectName;
 		this.character = character;
 	}
-
-	/**
-	 * A creating method for the factory for status effects.
-	 * @param gameCharacter the bearer of the effect
-	 * @return a status effect *//*
-	public static StatusEffect createAndApplyStatusEffect(String statusEffectName,
-			GameCharacter gameCharacter) {
-		switch (statusEffectName) {
-		case "Sprinting":
-			return new SprintStatusEffect(statusEffectName, gameCharacter);
-		default:
-			System.out.println("Unhandled status effect in constructor");
-			return null;
-		}
-	} */
 
 	/**
 	 * Specifies action when the status effect bearer
@@ -61,7 +44,7 @@ public abstract class StatusEffect {
 			remainingDuration -= Gdx.graphics.getDeltaTime();
 			if (remainingDuration < 0) {
 				// remove the status effect from the character
-				character.removeStatusEffect(statusEffect);
+				character.removeStatusEffect(this);
 				expire();
 			}
 		}

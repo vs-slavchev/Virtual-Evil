@@ -22,8 +22,11 @@ public class Map {
 	private final int numTilesPerRow = 10;
 	private Sprite tileSet;
 	private TextureRegion tileTexture;
-	// rendering distance from the camera center; measured in map indices
-	private int renderDistanceInIndices = 12;
+	/* rendering distance from the camera center;
+	 * measured in map indices. Distance depends
+	 * on the screen width. */
+	private final int renderDistanceInIndices =
+			(Gdx.graphics.getWidth()/2)/(2*tileSize) + 1;
 
 	/**
 	 * The mapName shouldn't contain '.bin' */

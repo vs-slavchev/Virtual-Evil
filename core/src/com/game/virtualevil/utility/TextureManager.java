@@ -15,7 +15,8 @@ public class TextureManager {
 	public TextureManager() {
 		String[] imgNames = {
 				"hero",
-				"cyber_tileset"
+				"cyber_tileset",
+				"bat"
 		};
 
 		for (int i = 0; i < imgNames.length;i++) {

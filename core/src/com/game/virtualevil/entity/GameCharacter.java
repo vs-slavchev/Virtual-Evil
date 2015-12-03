@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.Game;
 import com.game.virtualevil.utility.ability.Ability;
-import com.game.virtualevil.utility.ability.StatusEffect;
+import com.game.virtualevil.utility.ability.statuseffects.StatusEffect;
 
 /**
  * The basic Character class. Entities which can move,
@@ -64,6 +64,14 @@ public abstract class GameCharacter {
 	
 	public void draw(SpriteBatch batch) {
 		batch.draw(animation.getKeyFrame(frameTime, true), position.x, position.y);
+	}
+	
+	protected void setUpAnimation() {
+		frames = TextureRegion.split(spriteSheet,
+				spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
+		animation = new Animation(0.15f, frames[0]);
+		collisionBoxVector = new Vector2(spriteSheet.getWidth()/3 - 8,
+				spriteSheet.getHeight()/4 - 16);
 	}
 	
 	public void modifyMoveSpeed(float amount) {

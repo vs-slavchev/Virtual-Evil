@@ -1,10 +1,8 @@
 package com.game.virtualevil.utility.ability;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.virtualevil.entity.GameCharacter;
-import com.game.virtualevil.utility.ability.concrete.ConcreteAbility;
-import com.game.virtualevil.utility.ability.concrete.RemnantAbility;
-import com.game.virtualevil.utility.ability.statusEffects.SprintStatusEffect;
 
 /**
  * The main ability class. It uses the Factory
@@ -17,9 +15,8 @@ public abstract class Ability {
 	
 	// time is measured in seconds
 	protected float remainingCooldown;
-	// should describe an action
-	protected String abilityName;
-	protected GameCharacter character;
+	protected final String abilityName;
+	protected final GameCharacter character;
 	
 	public Ability(String abilityName, GameCharacter character) {
 		this.abilityName = abilityName;
@@ -27,26 +24,9 @@ public abstract class Ability {
 	}
 	
 	/**
-	 * The creating method for the factory.
-	 * @param abilityName the name of the ability
-	 * @param character a reference to the character
-	 * @return the ability that was created */
-	public static Ability createAbility(String abilityName, GameCharacter character) {
-		switch (abilityName) {
-		case AbilityConstants.SPRINT_NAME:
-			return new ConcreteAbility(abilityName, character);
-		case AbilityConstants.RETURN_NAME:
-			return new RemnantAbility(abilityName, character);
-		default:
-			System.out.println("using invalid ability");
-			return null;
-		}
-	}
-	
-	/**
 	 * This is the method to be called when an ability
 	 * <em>should<em> be used. */
-	public void attemptToUse() {
+	public final void attemptToUse() {
 		if (isOffCooldown()) {
 			useAbility();
 		}
@@ -59,7 +39,7 @@ public abstract class Ability {
 	
 	/**
 	 *  This method is called every frame. */
-	public void update() {
+	public final void update() {
 		if (remainingCooldown > 0) {
 			remainingCooldown -= Gdx.graphics.getDeltaTime();
 		}
@@ -68,10 +48,16 @@ public abstract class Ability {
 	/**
 	 * Checks whether the ability is not on cooldown.
 	 * @return true - off cooldown; false - on cooldown. */
-	public boolean isOffCooldown() {
+	public final boolean isOffCooldown() {
 		if (remainingCooldown > 0) {
 			return false;
 		}
 		return true;
+	}
+	
+	public void drawIcon(SpriteBatch batch) {
+		// draw icon on interface
+		// draw cooldown animation
+		// reuse some code from here in subclasses
 	}
 }

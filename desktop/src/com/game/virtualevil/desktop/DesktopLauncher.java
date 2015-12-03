@@ -9,8 +9,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Virtual Evil";
-		config.width = 1280;
-		config.height = 960;
+		config.fullscreen = true;
+		config.vSyncEnabled = true;
 		new LwjglApplication(new Game(), config);
 	}
 }

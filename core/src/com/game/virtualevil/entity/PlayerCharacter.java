@@ -11,24 +11,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.Game;
 import com.game.virtualevil.utility.ability.Ability;
 import com.game.virtualevil.utility.ability.AbilityConstants;
+import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
+import com.game.virtualevil.utility.ability.concrete.SprintAbility;
 
 public class PlayerCharacter extends GameCharacter{
 
 	public PlayerCharacter(Game game) {
 		super(game);
-		
-		
 		setPosition(new Vector2(200, game.getMap().getTotalHeight() - 250));
-        
 		spriteSheet = game.getTextureManager().getImage("hero");
-		frames = TextureRegion.split(spriteSheet,
-				spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
-		animation = new Animation(0.15f, frames[0]);
-		collisionBoxVector = new Vector2(spriteSheet.getWidth()/3 - 8,
-				spriteSheet.getHeight()/4 - 16);
+		setUpAnimation();
 		
-		abilities.add(0, Ability.createAbility(AbilityConstants.SPRINT_NAME, this));
-		abilities.add(1, Ability.createAbility(AbilityConstants.RETURN_NAME, this));
+		abilities.add(0, new SprintAbility(this));
+		abilities.add(1, new ReturnAbility(this));
 	}
 	
 	/**
@@ -43,27 +38,9 @@ public class PlayerCharacter extends GameCharacter{
 		game.getCamera().update();
 	}
 
+	@Override
 	public void applyAction(float delta) {
-		processInput(delta);
-	}
-
-	/**
-	 * Checks for all kinds of gameplay related
-	 * player input.
-	 * @param delta	 the time delta*/
-	public void processInput(float delta) {
-		if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
-			abilities.get(0).attemptToUse();
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
-			abilities.get(1).attemptToUse();
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
-			abilities.get(2).attemptToUse();
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)) {
-			abilities.get(3).attemptToUse();
-		}
+		processAbilitiesInput(delta);
 		
 		/* check if moving in the desired direction is possible;
 		 * if it is - do move, else don't.The boolean used to
@@ -71,7 +48,7 @@ public class PlayerCharacter extends GameCharacter{
 		boolean playerMoved = false;
 		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 			float futureY = position.y + moveSpeed * delta;
-			Rectangle colRect = createColRect(position.x, futureY);					
+			Rectangle colRect = createColRect(position.x, futureY);
 			if (!game.getMap().collidesWithTerrain(colRect)) {
 				position.y = futureY;
 				direction = Direction.UP;
@@ -111,6 +88,24 @@ public class PlayerCharacter extends GameCharacter{
 			frameTime += delta;
 		}
 	}
+
+	/**
+	 * Checks for ability related player input.
+	 * @param delta	 the time delta */
+	public void processAbilitiesInput(float delta) {
+		if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+			abilities.get(0).attemptToUse();
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) {
+			abilities.get(1).attemptToUse();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+			abilities.get(2).attemptToUse();
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)) {
+			abilities.get(3).attemptToUse();
+		}
+	}
 	
 	/**
 	 * A helper method: creates a rectangle for the terrain collision.
@@ -122,16 +117,13 @@ public class PlayerCharacter extends GameCharacter{
 				collisionBoxVector.x, collisionBoxVector.y);
 	}
 	
-	public void draw(SpriteBatch batch) {
-		super.draw(batch);
-		drawUI(batch);
-	}
-	
 	/** the camera offset is the distance from 0,0 to the lower left corner of
 	 * the camera currently */
-	private void drawUI(SpriteBatch batch) {
-		float cameraOffsetX = game.getCamera().position.x - game.getCamera().viewportWidth / 2f;
-		float cameraOffsetY = game.getCamera().position.y - game.getCamera().viewportHeight*3/2;
+	public void drawUI(SpriteBatch batch) {
+		float cameraOffsetX = game.getCamera().position.x
+					- game.getCamera().viewportWidth / 2f;
+		float cameraOffsetY = game.getCamera().position.y
+					- game.getCamera().viewportHeight*3/2;
 
 		// draw debugging info top left
 		if (game.isTesting()) {

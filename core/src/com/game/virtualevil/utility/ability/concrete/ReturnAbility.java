@@ -10,12 +10,12 @@ import com.game.virtualevil.utility.ability.AbilityConstants;
  * position and should be nulled after the position has been
  * used to go back to.
  * @author vs */
-public class RemnantAbility extends Ability{
+public class ReturnAbility extends Ability{
 	
 	private Vector2 position;
 
-	public RemnantAbility(String abilityName, GameCharacter character) {
-		super(abilityName, character);
+	public ReturnAbility(GameCharacter character) {
+		super("Return", character);
 	}
 	
 	@Override

@@ -2,6 +2,7 @@ package com.game.virtualevil;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,6 +25,10 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create() {
 		
+		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width,
+				Gdx.graphics.getDesktopDisplayMode().height, true);
+		Gdx.graphics.setVSync(true);
+		
 		batch = new SpriteBatch();
 		textureManager = new TextureManager();
 		fontManager = new FontManager();
@@ -40,6 +45,10 @@ public class Game extends ApplicationAdapter {
 	public void render() {
 		delta = Gdx.graphics.getDeltaTime();
 		
+		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+			Gdx.app.exit();
+		}
+		
 		entityManager.updateEntities(delta);
 	
 		camera.update();
@@ -52,6 +61,7 @@ public class Game extends ApplicationAdapter {
 		map.drawMap(batch, camera.position);
 		entityManager.drawEntities(batch);
 		map.drawLayer2Map(batch, camera.position);
+		entityManager.getPlayer().drawUI(batch);
 		batch.end();
 	}
 

@@ -1,13 +1,12 @@
-package com.game.virtualevil.utility.ability.statusEffects;
+package com.game.virtualevil.utility.ability.statuseffects;
 
 import com.game.virtualevil.entity.GameCharacter;
 import com.game.virtualevil.utility.ability.AbilityConstants;
-import com.game.virtualevil.utility.ability.StatusEffect;
 
 public class SprintStatusEffect extends StatusEffect{
 
-	public SprintStatusEffect(String statusEffectName, GameCharacter character) {
-		super(statusEffectName, character);
+	public SprintStatusEffect(GameCharacter character) {
+		super("Sprinting", character);
 		
 		this.character.modifyMoveSpeed(AbilityConstants.SPRINT_BONUS);
 		remainingDuration = AbilityConstants.SPRINT_DURATION;
@@ -26,6 +25,5 @@ public class SprintStatusEffect extends StatusEffect{
 	@Override
 	protected void onBearerHit() {
 		// intentionally empty for this class
-		
 	}
 }
