@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.game.virtualevil.Game;
+import com.game.virtualevil.gamestate.PlayGameState;
 
 public class Map {
 
@@ -30,10 +30,11 @@ public class Map {
 
 	/**
 	 * The mapName shouldn't contain '.bin' */
-	public Map(Game game, String mapName) {
+	public Map(PlayGameState playGameState, String mapName) {
 		readMap(mapName);
 		tilesetName = "cyber_tileset";
-		tileSet = new Sprite(game.getTextureManager().getImage(tilesetName));
+		tileSet = new Sprite(playGameState.getAssetManager()
+				.getTextureManager().getImage(tilesetName));
 	}
 
 	/**

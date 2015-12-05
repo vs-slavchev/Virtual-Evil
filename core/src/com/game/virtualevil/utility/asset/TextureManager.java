@@ -1,4 +1,4 @@
-package com.game.virtualevil.utility;
+package com.game.virtualevil.utility.asset;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class TextureManager {
 		}
 	}
 
-	public Texture loadTexture(String fname) {
+	public void loadTexture(String fname) {
 		Texture texture = new Texture(path + fname + ext);
 		/*try {
 			texture = new Texture(path + fname + ext);
@@ -33,12 +33,14 @@ public class TextureManager {
 					JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}*/
-		textures.put(fname, texture);
-		return texture;
+		if (texture != null) {
+			textures.put(fname, texture);
+		}
 	}
 
 	public Texture getImage(String s) {
 		if (!textures.containsKey(s)) {
+			// throw error
 			System.out.println(" Image not found in hashmap. key=\"" + s + "\"");
 		}
 		return textures.get(s);

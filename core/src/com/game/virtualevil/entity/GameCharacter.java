@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.game.virtualevil.Game;
+import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.ability.Ability;
 import com.game.virtualevil.utility.ability.statuseffects.StatusEffect;
 
@@ -33,10 +33,10 @@ public abstract class GameCharacter {
 	protected Texture spriteSheet;
 	protected TextureRegion[][] frames;
 	protected float frameTime;
-	protected Game game;
+	protected PlayGameState playGameState;
 	
-	public GameCharacter(Game game) {
-		this.game = game;
+	public GameCharacter(PlayGameState playGameState) {
+		this.playGameState = playGameState;
 		position = new Vector2();
 	}
 

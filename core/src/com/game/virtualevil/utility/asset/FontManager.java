@@ -1,4 +1,4 @@
-package com.game.virtualevil.utility;
+package com.game.virtualevil.utility.asset;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -17,7 +17,7 @@ public class FontManager {
 		return debugFont;
 	}
 	
-	public void disposeFonts() {
+	public void disposeAllFonts() {
 		debugFont.dispose();
 	}	
 }

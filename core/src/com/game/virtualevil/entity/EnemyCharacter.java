@@ -1,12 +1,13 @@
 package com.game.virtualevil.entity;
 
-import com.game.virtualevil.Game;
+import com.game.virtualevil.gamestate.PlayGameState;
 
 public class EnemyCharacter extends NonPlayerCharacter{
 
-	public EnemyCharacter(Game game, int x, int y) {
-		super(game, x, y);
-		spriteSheet = game.getTextureManager().getImage("bat");
+	public EnemyCharacter(PlayGameState playGameState, int x, int y) {
+		super(playGameState, x, y);
+		spriteSheet = playGameState.getAssetManager()
+				.getTextureManager().getImage("bat");
 		setUpAnimation();
 	}
 

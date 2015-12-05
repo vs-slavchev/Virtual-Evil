@@ -1,6 +1,6 @@
 package com.game.virtualevil.entity;
 
-import com.game.virtualevil.Game;
+import com.game.virtualevil.gamestate.PlayGameState;
 
 public class NonPlayerCharacter extends GameCharacter{
 	
@@ -11,8 +11,8 @@ public class NonPlayerCharacter extends GameCharacter{
 	protected boolean isActive;
 	protected AI_State aiState;
 	
-	public NonPlayerCharacter(Game game, int x, int y) {
-		super(game);
+	public NonPlayerCharacter(PlayGameState playGameState, int x, int y) {
+		super(playGameState);
 		position.x = x;
 		position.y = y;
 	}
@@ -35,4 +35,3 @@ public class NonPlayerCharacter extends GameCharacter{
 		return aiState;
 	}
 }
-// setter factory? for npcs
