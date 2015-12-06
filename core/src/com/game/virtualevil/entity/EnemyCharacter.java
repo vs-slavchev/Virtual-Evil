@@ -13,6 +13,6 @@ public class EnemyCharacter extends NonPlayerCharacter{
 
 	@Override
 	protected void applyAction(float delta) {
-		// TODO
+		super.applyAction(delta);
 	}
 }

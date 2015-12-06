@@ -22,12 +22,13 @@ public class ReturnAbility extends Ability{
 	public void useAbility() {
 		if (position == null) {
 			position = new Vector2(character.getPosition());
+			remainingCooldown = AbilityConstants.INIT_RETURN_CD;
 			/* TODO: add an indication on the ground where the char
 			 * will be returned to */
 		} else {
 			character.setPosition(position);
 			position = null;
-			remainingCooldown = AbilityConstants.POSITION_RETURN_CD;
+			remainingCooldown = AbilityConstants.RETURN_CD;
 			/* TODO: 1. remove the indication;
 			 * 2. maybe forbid returning if the location is very far
 			 * away for balance purposes, and give indication to the

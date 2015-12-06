@@ -2,16 +2,22 @@ package com.game.virtualevil.gamestate;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.game.virtualevil.Game;
 import com.game.virtualevil.entity.EntityManager;
+import com.game.virtualevil.utility.GameInputProcessor;
+import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.Map;
+import com.game.virtualevil.utility.UiInputProcessor;
 
-public class PlayGameState extends GameState{
+public final class PlayGameState extends GameState{
 
 	private EntityManager entityManager;
 	private Map map;
+	private InputController playerInputController;
+	private GameInputProcessor gameInputProcessor;
+	private UiInputProcessor uiInputProcessor;
 	
 	public PlayGameState(GameStateManager gsm, Game game) {
 		super(gsm, game);
@@ -25,24 +31,26 @@ public class PlayGameState extends GameState{
 				Gdx.graphics.getHeight()/2);
 		camera.update();
 		
+		// set up input handling
+		playerInputController = new InputController();
+		gameInputProcessor = new GameInputProcessor(playerInputController);
+		uiInputProcessor = new UiInputProcessor();
+		/* Input is sent to the first registered input processor
+		 * in the multiplexer. If it doesn't handle it, then 
+		 * the input is forwarded to the second one: the one 
+		 * responsible for the UI input handling. Then the
+		 * multiplexer is registered as an input handler.*/
+		InputMultiplexer multiplexer = new InputMultiplexer();
+		multiplexer.addProcessor(gameInputProcessor);
+		multiplexer.addProcessor(uiInputProcessor);
+		Gdx.input.setInputProcessor(multiplexer);
+		
 		entityManager = new EntityManager(this);
 	}
 
 	@Override
 	public void update(float delta) {
-		handleInput();
-		
 		entityManager.updateEntities(delta);
-	}
-
-	/** keys not related to player character
-	 * control (for instance menus/tabs/options) */
-	@SuppressWarnings("static-method")
-	private void handleInput() {
-		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-			Gdx.app.exit();
-		}
-		// TODO handle more keys
 	}
 
 	@Override
@@ -66,5 +74,9 @@ public class PlayGameState extends GameState{
 	}
 	public Map getMap() {
 		return map;
+	}
+
+	public InputController getInputContrller() {
+		return playerInputController;
 	}
 }
