@@ -6,17 +6,14 @@ import com.game.virtualevil.utility.InputController;
 /**
  * NPCs should be controlled by changing their
  * input controller states.
- * @author vs
- *
- */
+ * @author vs */
 public class NonPlayerCharacter extends GameCharacter{
 	
 	public enum AI_State {
 		IDLE, PATROL, ATTACK, FLEE
 	}
 
-	protected boolean isActive;
-	protected AI_State aiState;
+	protected AI_State aiState = AI_State.IDLE;
 	
 	public NonPlayerCharacter(PlayGameState playGameState, int x, int y) {
 		super(playGameState);
@@ -25,11 +22,20 @@ public class NonPlayerCharacter extends GameCharacter{
 		position.y = y;
 	}
 
+	public void update(float delta) {
+		/* toggle isActive according to whether character is in view.
+		 * Here != works as XOR */
+		if (isActive != playGameState.isCharacterInView(this)){
+			isActive = !isActive;
+		}
+		super.update(delta);
+	}
+	
 	@Override
 	protected void applyAction(float delta) {
 		super.applyAction(delta);
-		// TODO
-		// activate when in viewport
+		/* transfer here some ai logic applicable
+		 * for all npcs */
 	}
 
 	public boolean isActive() {

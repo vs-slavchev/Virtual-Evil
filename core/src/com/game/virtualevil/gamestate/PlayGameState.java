@@ -1,11 +1,13 @@
 package com.game.virtualevil.gamestate;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.Game;
 import com.game.virtualevil.entity.EntityManager;
+import com.game.virtualevil.entity.NonPlayerCharacter;
 import com.game.virtualevil.utility.GameInputProcessor;
 import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.Map;
@@ -39,7 +41,7 @@ public final class PlayGameState extends GameState{
 		 * in the multiplexer. If it doesn't handle it, then 
 		 * the input is forwarded to the second one: the one 
 		 * responsible for the UI input handling. Then the
-		 * multiplexer is registered as an input handler.*/
+		 * multiplexer is registered as an input handler. */
 		InputMultiplexer multiplexer = new InputMultiplexer();
 		multiplexer.addProcessor(gameInputProcessor);
 		multiplexer.addProcessor(uiInputProcessor);
@@ -62,6 +64,15 @@ public final class PlayGameState extends GameState{
 		map.drawLayer2Map(batch, camera.position);
 		entityManager.getPlayer().drawUI(batch);
 		batch.end();
+	}
+	
+	public boolean isCharacterInView(NonPlayerCharacter npc) {
+		Rectangle cameraView = map.calculateRenderRectIndices(camera.position);
+		Vector2 mapIndicesNpc = map.positionToMapIndices(npc.getPosition());
+		return mapIndicesNpc.x >= cameraView.x
+				&& mapIndicesNpc.x <= cameraView.width
+				&& mapIndicesNpc.y >= cameraView.height
+				&& mapIndicesNpc.y <= cameraView.y;
 	}
 
 	@Override

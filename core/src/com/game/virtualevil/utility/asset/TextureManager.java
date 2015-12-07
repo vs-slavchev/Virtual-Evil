@@ -9,7 +9,7 @@ public class TextureManager {
 
 	private Map<String, Texture> textures = new HashMap<String, Texture>();
 	
-	private final String path = "";
+	private final String path = "images/";
 	private final String ext = ".png";
 	
 	public TextureManager() {

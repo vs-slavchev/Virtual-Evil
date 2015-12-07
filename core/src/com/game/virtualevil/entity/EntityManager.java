@@ -1,6 +1,7 @@
 package com.game.virtualevil.entity;
 
 import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.virtualevil.gamestate.PlayGameState;
 
@@ -8,8 +9,10 @@ public class EntityManager {
 	
 	private PlayerCharacter pc;
 	private ArrayList<EnemyCharacter> enemiesList = new ArrayList<>();
+	//private PlayGameState playGameState;
 	
 	public EntityManager(PlayGameState playGameState) {
+		//this.playGameState = playGameState;
 		pc = new PlayerCharacter(playGameState);
 		enemiesList.add(new EnemyCharacter(playGameState, 1000, 3000));
 	}

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.game.virtualevil.gamestate.PlayGameState;
@@ -137,10 +138,6 @@ public class Map {
 		for (int y = (int) renderRectIndices.height; y < renderRectIndices.y; y++) {
 			for (int x = (int) renderRectIndices.x; x < renderRectIndices.width; x++) {
 				drawTile(batch, x, y, getTileID(x, y));
-				/*tileTexture = new TextureRegion(tileSet, (tileID % numTilesPerRow) * tileSize,
-						(tileID / numTilesPerRow) * tileSize, tileSize, tileSize);
-				batch.draw(tileTexture, v * tileSize, height * tileSize - ((u + 1) * tileSize),
-						tileSize, tileSize);*/
 			}
 		}
 	}
@@ -186,27 +183,42 @@ public class Map {
 	/**
 	 * Calculates the indices of the map at which the tile rendering
 	 * happens and puts them in a rectangle. The rectangle just serves
-	 * to contain 4 values, it is not actually a rectangle in the game world. 
+	 * to contain 4 values, it is not actually a rectangle in the game world,
+	 * as the width and height fields do not contain what they are supposed to
+	 * (they are absolute, not relative as they should be). 
 	 * @param cameraPosition the center of the camera
 	 * @return the 4 indices for the game map, in which rendering occurs */
 	public Rectangle calculateRenderRectIndices(Vector3 cameraPosition) {
 		
 		// calculate on which indices of the map the camera is
-		int cameraXindex = (int) (cameraPosition.x / tileSize);
-		int cameraYindex = (int) ((height * tileSize - cameraPosition.y) / tileSize);
+		Vector2 cameraIndices = positionToMapIndices(new Vector2(
+				cameraPosition.x,
+				cameraPosition.y));
 
 		/* determine which are the min and max values for the
 		 * vertical/horizontal drawing of the map to prevent invalid indexing */
-		int leftDrawBoundaryIndex = (cameraXindex - renderDistanceInIndices < 0) ? 0
-				: cameraXindex - renderDistanceInIndices;
-		int rightDrawBoundaryIndex = (cameraXindex + renderDistanceInIndices >= width) ? width
-				: cameraXindex + renderDistanceInIndices;
-		int upDrawBoundaryIndex = (cameraYindex - renderDistanceInIndices < 0) ? 0
-				: cameraYindex - renderDistanceInIndices;
-		int downDrawBoundaryIndex = (cameraYindex + renderDistanceInIndices >= height) ? height
-				: cameraYindex + renderDistanceInIndices;
+		int leftDrawBoundaryIndex = (int) ((cameraIndices.x - renderDistanceInIndices < 0)
+				? 0 : cameraIndices.x - renderDistanceInIndices);
+		int rightDrawBoundaryIndex = (int) ((cameraIndices.x + renderDistanceInIndices >= width)
+				? width : cameraIndices.x + renderDistanceInIndices);
+		int upDrawBoundaryIndex = (int) ((cameraIndices.y - renderDistanceInIndices < 0)
+				? 0 : cameraIndices.y - renderDistanceInIndices);
+		int downDrawBoundaryIndex = (int) ((cameraIndices.y + renderDistanceInIndices >= height)
+				? height : cameraIndices.y + renderDistanceInIndices);
 		
-		return new Rectangle(leftDrawBoundaryIndex, downDrawBoundaryIndex, rightDrawBoundaryIndex, upDrawBoundaryIndex);
+		return new Rectangle(leftDrawBoundaryIndex, downDrawBoundaryIndex,
+				rightDrawBoundaryIndex, upDrawBoundaryIndex);
+	}
+	
+	/**
+	 *  Calculate on which indices of the map the position is.
+	 * @param position character or camera position vector
+	 * @return a vector containing the map indices */
+	public Vector2 positionToMapIndices(Vector2 position) {
+		Vector2 mapIndices = new Vector2();
+		mapIndices.x = (int) (position.x / tileSize);
+		mapIndices.y = (int) ((height * tileSize - position.y) / tileSize);
+		return mapIndices;
 	}
 
 	@SuppressWarnings("unused")

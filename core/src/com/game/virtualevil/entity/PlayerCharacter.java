@@ -1,14 +1,11 @@
 package com.game.virtualevil.entity;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.Game;
 import com.game.virtualevil.gamestate.PlayGameState;
-import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
 import com.game.virtualevil.utility.ability.concrete.SprintAbility;
 
@@ -20,6 +17,7 @@ public final class PlayerCharacter extends GameCharacter{
 		setPosition(new Vector2(200, playGameState.getMap().getTotalHeight() - 250));
 		spriteSheet = playGameState.getAssetManager().getTextureManager().getImage("hero");
 		setUpAnimation();
+		isActive = true;
 		
 		abilities.add(0, new SprintAbility(this));
 		abilities.add(1, new ReturnAbility(this));

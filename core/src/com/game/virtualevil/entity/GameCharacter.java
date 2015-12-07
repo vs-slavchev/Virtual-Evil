@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.game.virtualevil.entity.GameCharacter.Direction;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.ability.Ability;
@@ -27,6 +26,7 @@ public abstract class GameCharacter {
 	}
 	
 	// entity related fields
+	protected boolean isActive = false;
 	protected float moveSpeed = 100f;
 	protected Vector2 position, collisionBoxVector;
 	protected CopyOnWriteArrayList<StatusEffect> statusEffects =
@@ -60,18 +60,20 @@ public abstract class GameCharacter {
 	}
 	
 	public void update(float delta) {
-		prevDirection = spriteDirection;
-		applyAction(delta);
-		if (prevDirection != spriteDirection) {
-			animation = new Animation(0.15f, frames[spriteDirection.ordinal()]);
-			frameTime = 0.0f;
-		}
-		
-		for (StatusEffect effect : statusEffects) {
-			effect.update();
-		}
-		for (Ability ability : abilities) {
-			ability.update();
+		if (isActive) {
+			prevDirection = spriteDirection;
+			applyAction(delta);
+			if (prevDirection != spriteDirection) {
+				animation = new Animation(0.15f, frames[spriteDirection.ordinal()]);
+				frameTime = 0.0f;
+			}
+			
+			for (StatusEffect effect : statusEffects) {
+				effect.update();
+			}
+			for (Ability ability : abilities) {
+				ability.update();
+			}
 		}
 	}
 	
