@@ -8,6 +8,8 @@ package com.game.virtualevil.utility.ability;
  * @author vs */
 public class AbilityConstants {
 
+	public static final int ABILITIES_COUNT = 4;
+	
 	public static final float SPRINT_BONUS = 200f;
 	public static final float SPRINT_DURATION = 5f;
 	public static final float SPRINT_CD = 7f;

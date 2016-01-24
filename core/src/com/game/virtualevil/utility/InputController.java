@@ -1,5 +1,8 @@
 package com.game.virtualevil.utility;
 
+import com.badlogic.gdx.Gdx;
+import com.game.virtualevil.utility.ability.AbilityConstants;
+
 /**
  * Contains information about which action is currently
  * active according to the player input.
@@ -7,15 +10,36 @@ package com.game.virtualevil.utility;
 public class InputController {
 
 	private boolean left, right, up, down,
-					one, two, three, four,
 					switchWeapon, weaponAbility;
+	
+	private boolean[] numberKeys = new boolean[AbilityConstants.ABILITIES_COUNT];
 	
 	/** Used to avoid glitches when going back to 
 	 * a state and input information is outdated. */
 	public void reset() {
 		left = right = up = down =
-		one = two = three = four =
 		switchWeapon = weaponAbility = false;
+		for (int i = 0; i < numberKeys.length; i++) {
+			numberKeys[i] = false;
+		}
+	}
+	
+	/* game crashing is ok, invalid array indexing error
+	 * should not happen in production */
+	public void setNumberKey(int keyNum, boolean value) {
+		if (keyNum - 1  >= numberKeys.length) {
+			Gdx.app.log("InputController error", "setNumberKey() parameter is invalid: "
+					+ keyNum + " > " + numberKeys.length);
+		}
+		this.numberKeys[keyNum-1] = value;
+	}
+	
+	public boolean getNumberKey(int keyNum) {
+		if (keyNum - 1  >= numberKeys.length) {
+			Gdx.app.log("InputController error", "setNumberKey() parameter is invalid: "
+					+ keyNum + " > " + numberKeys.length);
+		}
+		return numberKeys[keyNum-1];
 	}
 
 	public boolean isLeft() {
@@ -48,38 +72,6 @@ public class InputController {
 
 	public void setDown(boolean down) {
 		this.down = down;
-	}
-
-	public boolean isOne() {
-		return one;
-	}
-
-	public void setOne(boolean one) {
-		this.one = one;
-	}
-
-	public boolean isTwo() {
-		return two;
-	}
-
-	public void setTwo(boolean two) {
-		this.two = two;
-	}
-
-	public boolean isThree() {
-		return three;
-	}
-
-	public void setThree(boolean three) {
-		this.three = three;
-	}
-
-	public boolean isFour() {
-		return four;
-	}
-
-	public void setFour(boolean four) {
-		this.four = four;
 	}
 
 	public boolean isSwitchWeapon() {

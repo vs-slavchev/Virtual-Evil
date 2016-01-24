@@ -42,18 +42,11 @@ public final class PlayerCharacter extends GameCharacter{
 	public void applyAction(float delta) {
 		super.applyAction(delta);
 		
-		// check the ability related input
-		if (inputController.isOne()) {
-			abilities.get(0).attemptToUse();
-		}
-		if (inputController.isTwo()) {
-			abilities.get(1).attemptToUse();
-		}
-		if (inputController.isThree()) {
-			abilities.get(2).attemptToUse();
-		}
-		if (inputController.isFour()) {
-			abilities.get(3).attemptToUse();
+		// check the ability related input		
+		for (int i = 0; i < abilities.size(); i++) {
+			if (inputController.getNumberKey(i+1)) {
+				abilities.get(i).attemptToUse();
+			}			
 		}
 	}
 	

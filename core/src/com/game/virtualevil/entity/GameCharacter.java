@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.ability.Ability;
+import com.game.virtualevil.utility.ability.AbilityConstants;
 import com.game.virtualevil.utility.ability.statuseffects.StatusEffect;
 
 /**
@@ -31,7 +32,8 @@ public abstract class GameCharacter {
 	protected Vector2 position, collisionBoxVector;
 	protected CopyOnWriteArrayList<StatusEffect> statusEffects =
 			new CopyOnWriteArrayList<>();
-	protected ArrayList<Ability> abilities = new ArrayList<>();
+	protected ArrayList<Ability> abilities =
+			new ArrayList<>(AbilityConstants.ABILITIES_COUNT);
 	
 	// animation related fields
 	protected Direction prevDirection, spriteDirection;
@@ -77,6 +79,16 @@ public abstract class GameCharacter {
 		}
 	}
 	
+	protected void updateAnimation(float delta) {
+		if (characterMoved) {
+			frameTime += delta;
+		}
+	}
+	
+	public void draw(SpriteBatch batch) {
+		batch.draw(animation.getKeyFrame(frameTime, true), position.x, position.y);
+	}
+	
 	/** Contains the character actions implementation.
 	 * Extend to add action logic for AI or player input processing.
 	 * @param delta the time delta */
@@ -97,16 +109,6 @@ public abstract class GameCharacter {
 		}
 		
 		updateAnimation(delta);
-	}
-	
-	protected void updateAnimation(float delta) {
-		if (characterMoved) {
-			frameTime += delta;
-		}
-	}
-	
-	public void draw(SpriteBatch batch) {
-		batch.draw(animation.getKeyFrame(frameTime, true), position.x, position.y);
 	}
 	
 	protected void performVerticalMovement(Direction dir, float delta) {

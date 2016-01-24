@@ -31,16 +31,16 @@ public class GameInputProcessor implements InputProcessor {
 			inputController.setDown(true);
 			return true;
 		case Keys.NUM_1:
-			inputController.setOne(true);
+			inputController.setNumberKey(1, true);
 			return true;
 		case Keys.NUM_2:
-			inputController.setTwo(true);
+			inputController.setNumberKey(2, true);
 			return true;
 		case Keys.NUM_3:
-			inputController.setThree(true);
+			inputController.setNumberKey(3, true);
 			return true;
 		case Keys.NUM_4:
-			inputController.setFour(true);
+			inputController.setNumberKey(4, true);
 			return true;
 		case Keys.Q:
 			inputController.setSwitchWeapon(true);
@@ -69,16 +69,16 @@ public class GameInputProcessor implements InputProcessor {
 			inputController.setDown(false);
 			return true;
 		case Keys.NUM_1:
-			inputController.setOne(false);
+			inputController.setNumberKey(1, false);
 			return true;
 		case Keys.NUM_2:
-			inputController.setTwo(false);
+			inputController.setNumberKey(2, false);
 			return true;
 		case Keys.NUM_3:
-			inputController.setThree(false);
+			inputController.setNumberKey(3, false);
 			return true;
 		case Keys.NUM_4:
-			inputController.setFour(false);
+			inputController.setNumberKey(4, false);
 			return true;
 		case Keys.Q:
 			inputController.setSwitchWeapon(false);
