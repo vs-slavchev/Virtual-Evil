@@ -1,10 +1,6 @@
 package com.game.virtualevil.entity;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.game.virtualevil.Game;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
 import com.game.virtualevil.utility.ability.concrete.SprintAbility;
@@ -57,29 +53,6 @@ public final class PlayerCharacter extends GameCharacter{
 		if (characterMoved) {
 			centerCameraOnPlayer();
 			frameTime += delta;
-		}
-	}
-
-	/** the camera offset is the distance from 0,0 to the lower left corner of
-	 * the camera currently */
-	public void drawUI(SpriteBatch batch) {
-		float cameraOffsetX = playGameState.getCamera().position.x
-					- playGameState.getCamera().viewportWidth / 2f;
-		float cameraOffsetY = playGameState.getCamera().position.y
-					- playGameState.getCamera().viewportHeight*3/2;
-
-		// draw debugging info top left
-		if (Game.TESTING) {
-			BitmapFont debugFont = playGameState.getAssetManager()
-					.getFontManager().getDebugFont();
-			
-			debugFont.draw(batch, "x: " + (int) position.x + "; y: "
-					+ (int) position.y, cameraOffsetX + 5f,
-					cameraOffsetY + Gdx.graphics.getHeight() - 5f);
-			debugFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(),
-					cameraOffsetX + 5f, cameraOffsetY + Gdx.graphics.getHeight() - 20f);
-			debugFont.draw(batch, "dir: " + spriteDirection, cameraOffsetX + 5f,
-					cameraOffsetY + Gdx.graphics.getHeight() - 35f);
 		}
 	}
 }

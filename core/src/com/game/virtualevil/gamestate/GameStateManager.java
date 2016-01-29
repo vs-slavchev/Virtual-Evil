@@ -18,11 +18,13 @@ public class GameStateManager {
 	public GameStateManager(Game game) {
 		stateMap.put(StateType.PLAY, new PlayGameState(this, game));
 		stateMap.put(StateType.MAIN_MENU, new MainMenuGameState(this, game));
-		setState(StateType.PLAY);
+		setCurrentState(StateType.PLAY);
 	}
 	
-	public void setState(StateType state) {
-		currentState = stateMap.get(state);
+	public void setCurrentState(StateType state) {
+		if (stateMap.containsKey(state)) {
+			currentState = stateMap.get(state);			
+		}
 	}
 	
 	public void update(float delta) {

@@ -56,7 +56,7 @@ public class TextureManager {
 		}
 	}
 	
-	// fix tilemap bleeding; thanks to Hollowbit for finding the solution
+	// fix tilemap bleeding; thanks to awilki01 and Hollowbit for the solution
 	private static void fixBleeding(TextureRegion region) {
 		float fix = 0.01f;
 		float x = region.getRegionX();

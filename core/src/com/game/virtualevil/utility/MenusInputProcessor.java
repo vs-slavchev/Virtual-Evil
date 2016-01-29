@@ -1,12 +1,16 @@
 package com.game.virtualevil.utility;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
+import com.game.virtualevil.Game;
 
 public class MenusInputProcessor implements InputProcessor{
 
 	@Override
 	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
+		if (keycode == Keys.Z) {
+			Game.TESTING = !Game.TESTING;
+		}
 		return false;
 	}
 

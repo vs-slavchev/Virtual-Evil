@@ -2,7 +2,6 @@ package com.game.virtualevil.entity;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -164,5 +163,9 @@ public abstract class GameCharacter {
 
 	public void setPosition(Vector2 position) {
 		this.position = new Vector2(position);
+	}
+
+	public Direction getSpriteDirection() {
+		return spriteDirection;
 	}
 }

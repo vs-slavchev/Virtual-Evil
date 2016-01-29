@@ -11,7 +11,7 @@ public class Game extends ApplicationAdapter {
 	private AssetManager assetManager;
 	
 	// only for debug version
-	public static final boolean TESTING = true;
+	public static boolean TESTING = true;
 
 	@Override
 	public void create() {

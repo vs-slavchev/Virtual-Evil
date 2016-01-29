@@ -8,6 +8,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.game.virtualevil.Game;
 import com.badlogic.gdx.Input.Keys;
 
 /**
@@ -26,6 +27,9 @@ public class UiInputProcessor  implements InputProcessor{
 			return true;
 		case Keys.F10:
 			saveScreenshot();
+			return true;
+		case Keys.Z:
+			Game.TESTING = !Game.TESTING;
 			return true;
 			
 		//examples
