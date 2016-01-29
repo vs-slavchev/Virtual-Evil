@@ -4,10 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class TextureManager {
 
-	private Map<String, Texture> textures = new HashMap<String, Texture>();
+	private Map<String, TextureRegion> texRegions = new HashMap<String, TextureRegion>();
 	
 	private final String path = "images/";
 	private final String ext = ".png";
@@ -24,8 +25,9 @@ public class TextureManager {
 		}
 	}
 
+	@SuppressWarnings("null")
 	public void loadTexture(String fname) {
-		Texture texture = new Texture(path + fname + ext);
+		TextureRegion textureRegion = new TextureRegion(new Texture(path + fname + ext));
 		/*try {
 			texture = new Texture(path + fname + ext);
 		} catch (GdxRuntimeException e) {
@@ -33,23 +35,37 @@ public class TextureManager {
 					JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}*/
-		if (texture != null) {
-			textures.put(fname, texture);
+		
+		if (textureRegion != null) {
+			fixBleeding(textureRegion);
+			texRegions.put(fname, textureRegion);
 		}
 	}
 
-	public Texture getImage(String s) {
-		if (!textures.containsKey(s)) {
+	public TextureRegion getImage(String s) {
+		if (!texRegions.containsKey(s)) {
 			// throw error
 			System.out.println(" Image not found in hashmap. key=\"" + s + "\"");
 		}
-		return textures.get(s);
+		return texRegions.get(s);
 	}
 	
 	public void disposeAllTextures() {
-		for (Texture tex : textures.values()) {
-			tex.dispose();
+		for (TextureRegion tex : texRegions.values()) {
+			tex.getTexture().dispose();
 		}
 	}
-
+	
+	// fix tilemap bleeding; thanks to Hollowbit for finding the solution
+	private static void fixBleeding(TextureRegion region) {
+		float fix = 0.01f;
+		float x = region.getRegionX();
+		float y = region.getRegionY();
+		float width = region.getRegionWidth();
+		float height = region.getRegionHeight();
+		float invTexWidth = 1f / region.getTexture().getWidth();
+		float invTexHeight = 1f / region.getTexture().getHeight();
+		region.setRegion((x + fix) * invTexWidth, (y + fix) * invTexHeight,
+				(x + width - fix) * invTexWidth, (y + height - fix) * invTexHeight);
+	}
 }

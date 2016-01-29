@@ -38,7 +38,7 @@ public abstract class GameCharacter {
 	// animation related fields
 	protected Direction prevDirection, spriteDirection;
 	protected Animation animation;
-	protected Texture spriteSheet;
+	protected TextureRegion spriteSheet;
 	protected TextureRegion[][] frames;
 	protected float frameTime;
 	protected boolean characterMoved;
@@ -54,11 +54,10 @@ public abstract class GameCharacter {
 	}
 
 	protected void setUpAnimation() {
-		frames = TextureRegion.split(spriteSheet,
-				spriteSheet.getWidth() / 3, spriteSheet.getHeight() / 4);
+		frames = spriteSheet.split(spriteSheet.getRegionWidth() / 3, spriteSheet.getRegionHeight() / 4);
 		animation = new Animation(0.15f, frames[0]);
-		collisionBoxVector = new Vector2(spriteSheet.getWidth()/3 - 8,
-				spriteSheet.getHeight()/4 - 16);
+		collisionBoxVector = new Vector2(spriteSheet.getRegionWidth()/3 - 8,
+				spriteSheet.getRegionHeight()/4 - 16);
 	}
 	
 	public void update(float delta) {
