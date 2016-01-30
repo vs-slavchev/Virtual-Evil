@@ -17,10 +17,12 @@ public class TextureManager {
 		String[] imgNames = {
 				"hero",
 				"cyber_tileset",
-				"bat"
+				"bat",
+				"startScreenBackground",
+				"chipBuildings"
 		};
 
-		for (int i = 0; i < imgNames.length;i++) {
+		for (int i = 0; i < imgNames.length; i++) {
 			loadTexture(imgNames[i]);
 		}
 	}

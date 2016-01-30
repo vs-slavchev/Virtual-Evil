@@ -11,8 +11,6 @@ public class DesktopLauncher {
 		config.title = "Virtual Evil";
 		//config.addIcon(path, fileType);
 		//config.fullscreen = true;
-		//config.foregroundFPS = 60; // Setting to 0 disables foreground fps throttling
-		//config.backgroundFPS = 60; // Setting to 0 disables background fps throttling
 		config.vSyncEnabled = true;
 		new LwjglApplication(new Game(), config);
 	}
