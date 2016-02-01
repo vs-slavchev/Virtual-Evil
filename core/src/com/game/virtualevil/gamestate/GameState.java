@@ -29,6 +29,7 @@ public abstract class GameState {
 	 * it in subclass constructors, as it is invoked
 	 * in superclass constructor. Only override. */
 	public abstract void initialize();
+	
 	public abstract void update(float delta);
 	
 	/**

@@ -25,6 +25,9 @@ public class TextureManager {
 		for (int i = 0; i < imgNames.length; i++) {
 			loadTexture(imgNames[i]);
 		}
+		// fix bleeding for some tilesets
+		fixBleeding(texRegions.get("cyber_tileset"));
+		fixBleeding(texRegions.get("chipBuildings"));
 	}
 
 	@SuppressWarnings("null")
@@ -39,7 +42,6 @@ public class TextureManager {
 		}*/
 		
 		if (textureRegion != null) {
-			fixBleeding(textureRegion);
 			texRegions.put(fname, textureRegion);
 		}
 	}
