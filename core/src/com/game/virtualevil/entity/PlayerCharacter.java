@@ -4,8 +4,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
 import com.game.virtualevil.utility.ability.concrete.SprintAbility;
+import com.game.virtualevil.utility.weapon.Weapon;
 
-public final class PlayerCharacter extends GameCharacter{
+public final class PlayerCharacter extends GameCharacter {
+	public Weapon Pistol;
 
 	public PlayerCharacter(PlayGameState playGameState) {
 		super(playGameState);
@@ -14,14 +16,17 @@ public final class PlayerCharacter extends GameCharacter{
 		spriteSheet = playGameState.getAssetManager().getTextureManager().getImage("hero");
 		setUpAnimation();
 		isActive = true;
-		
+
 		abilities.add(0, new SprintAbility(this));
 		abilities.add(1, new ReturnAbility(this));
-	}
+		Pistol = new Weapon("Makarov", 15, 90, 8, 8, 45);
 	
+	}
+
 	/**
-	 * Sets the player and camera positions as the
-	 * player should always be in the center of the camera. */
+	 * Sets the player and camera positions as the player should always be in
+	 * the center of the camera.
+	 */
 	@Override
 	public void setPosition(Vector2 position) {
 		this.position.x = position.x;
@@ -37,17 +42,18 @@ public final class PlayerCharacter extends GameCharacter{
 	@Override
 	public void applyAction(float delta) {
 		super.applyAction(delta);
-		
-		// check the ability related input		
+
+		// check the ability related input
 		for (int i = 0; i < abilities.size(); i++) {
-			if (inputController.getNumberKey(i+1)) {
+			if (inputController.getNumberKey(i + 1)) {
 				abilities.get(i).attemptToUse();
-			}			
+			}
 		}
 	}
-	
+
 	/**
-	 * Overriden because the camera needs to be on the player. */
+	 * Overriden because the camera needs to be on the player.
+	 */
 	@Override
 	protected void updateAnimation(float delta) {
 		if (characterMoved) {
