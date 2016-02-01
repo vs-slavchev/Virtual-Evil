@@ -19,7 +19,7 @@ public class Map {
 	private byte[][] map;
 
 	// drawing on the screen
-	private int tileSize = 32;
+	private final int tileSize = 32;
 	private final int numTilesPerRow = 10;
 	private Sprite tileSet;
 	private TextureRegion tileTexture;
