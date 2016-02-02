@@ -12,21 +12,23 @@ import com.game.virtualevil.Game;
 public class MainMenuGameState extends GameState{
 	
 	private TextureRegion background, blackTrapezoid;
+	// 2D array of the images of the chips
 	private TextureRegion[][] chipsImages;
+	// the x coordinates of the chips on the screen
 	private float[][] chipsXcoords;
 	private final int CHIP_ROWS = 4, CHIP_COLS = 6, CHIP_SCROLL_SPEED = 2;
-	// scale of the images: background, trapezoid, chips.
-	private final int SCALE = 16;
-	private final int TRAPEZOID_X = background.getRegionWidth()*SCALE/2
-			- blackTrapezoid.getRegionWidth()*SCALE/2;
+	// horizontal/vertical scale of the images: background, trapezoid, chips.
+	private int vScale, hScale;
 	private float trapezoidY, trapezoidVelocityY = -70.0f;
-	private int trapezoidTargetPositionY;
-	private float digitsYoffset = 14.0f;
+	private int trapezoidTargetPositionY, trapezoidX;
+	// space between top line of digits and the top of the trapezoid
+	private float digitsYoffset;
 	
 	// each element in the array is a line of digits
 	private String[] renderDigits;
+	// each digit is in its own cell
 	private char[][] digits;
-	private BitmapFont droidSansMono;
+	private BitmapFont titleFont;
 	private Random rand = new Random();
 	// used to slow down the randomization of the digits
 	private float deltaTimerDigits = 0.0f;
@@ -58,6 +60,16 @@ public class MainMenuGameState extends GameState{
 				assetManager.getTextureManager().getImage("startScreenBackground"),
 				0, 68, 86, 30);
 		
+		// calculate the verical and horizontal scale of the screen
+		vScale = (int)Math.ceil(Gdx.graphics.getHeight() / (double)background.getRegionHeight());
+		hScale = (int)Math.ceil(Gdx.graphics.getWidth() / (double)background.getRegionWidth());
+		
+		
+		digitsYoffset = (int)(vScale * 0.875);
+		
+		trapezoidX = Gdx.graphics.getWidth()/2
+				- blackTrapezoid.getRegionWidth()*hScale/2;
+		
 		
 		TextureRegion chipsTileset = assetManager.getTextureManager()
 				.getImage("chipBuildings");
@@ -78,11 +90,13 @@ public class MainMenuGameState extends GameState{
 		}
 		
 		//set up the black trapezoid
-		trapezoidY = background.getRegionHeight() * SCALE + 250;
-		trapezoidTargetPositionY = background.getRegionHeight() * SCALE
-				- blackTrapezoid.getRegionHeight() * SCALE - 20;
+		trapezoidY = Gdx.graphics.getHeight() + 250;
+		trapezoidTargetPositionY = Gdx.graphics.getHeight()
+				- blackTrapezoid.getRegionHeight() * vScale - (int)(vScale * 1.25);
 		
-		droidSansMono = assetManager.getFontManager().getDroidSansMono14();
+		// the font size depends on the size of the screen
+		titleFont = assetManager.getFontManager().getVeraMono(hScale - 2);
+		
 		// initialize the hard coded digits
 		setUpDigits();
 		// the 2D chars array gates the string array's contents
@@ -90,6 +104,8 @@ public class MainMenuGameState extends GameState{
 		for (int line = 0; line < digits.length; line++) {
 			digits[line] = renderDigits[line].toCharArray();
 		}
+		
+		System.out.println(vScale + " " + hScale);
 	}
 
 	@Override
@@ -133,6 +149,7 @@ public class MainMenuGameState extends GameState{
 				// change up the digits
 				if (deltaTimerDigits > 0.12) {
 					deltaTimerDigits = 0.0f;
+					// if no digits need changing then the animation is finished
 					boolean someDigitChanged = false;
 					for (int line = 0; line < digits.length; line++) {
 						for (int digit = 0; digit < digits[line].length; digit++) {
@@ -151,8 +168,8 @@ public class MainMenuGameState extends GameState{
 						// if no digits were changed then the digits animation is finished
 						digitsAnimationFinished = true;
 						// and we set up variables for the last animation phase
-						trapezoidTargetPositionY = background.getRegionHeight() * SCALE
-								- blackTrapezoid.getRegionHeight() * SCALE + 140;
+						trapezoidTargetPositionY = Gdx.graphics.getHeight()
+								- blackTrapezoid.getRegionHeight() * vScale + (int)(vScale * 8.75); // 140
 						trapezoidVelocityY = 30.0f;
 					}
 				}
@@ -169,27 +186,29 @@ public class MainMenuGameState extends GameState{
 		super.draw();
 		batch.begin();
 		batch.draw(background, 0, 0,
-				background.getRegionWidth()*SCALE, background.getRegionHeight()*SCALE);
+				background.getRegionWidth()*hScale, background.getRegionHeight()*vScale);
 		
 		for (int row = chipsXcoords.length - 1; row >= 0; row--) {
 			for (int col = 0; col < chipsXcoords[row].length; col++) {
 				// draw each chip image using its respective x coordinate
-				batch.draw(chipsImages[row][col], chipsXcoords[row][col] * SCALE, 0,
-						chipsImages[row][col].getRegionWidth() * SCALE,
-						chipsImages[row][col].getRegionHeight() * SCALE);		
+				batch.draw(chipsImages[row][col], chipsXcoords[row][col] * hScale, 0,
+						chipsImages[row][col].getRegionWidth() * hScale,
+						chipsImages[row][col].getRegionHeight() * vScale);
 			}
 		}
 		
-		batch.draw(blackTrapezoid, TRAPEZOID_X, trapezoidY,
-				blackTrapezoid.getRegionWidth() * SCALE,
-				blackTrapezoid.getRegionHeight() * SCALE);
+		batch.draw(blackTrapezoid, trapezoidX, trapezoidY,
+				blackTrapezoid.getRegionWidth() * hScale,
+				blackTrapezoid.getRegionHeight() * vScale);
 		
 		/* start drawing the digits by representing each sub-array
 		 * of the char 2D array as a string to make a line */
 		if (trapezoidAnimationFinished) {
 			for (int line = 0; line < renderDigits.length; line++) {
-				droidSansMono.draw(batch, String.copyValueOf(digits[line]), TRAPEZOID_X + 14 * SCALE,
-						trapezoidY + blackTrapezoid.getRegionHeight() * SCALE - digitsYoffset - line * SCALE);
+				titleFont.draw(batch, String.copyValueOf(digits[line]),
+						trapezoidX + 14 * hScale,
+						trapezoidY + blackTrapezoid.getRegionHeight() * vScale
+						- digitsYoffset - line * vScale);
 			}
 		}
 		batch.end();

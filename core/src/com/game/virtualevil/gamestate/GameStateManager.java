@@ -18,7 +18,7 @@ public class GameStateManager {
 	public GameStateManager(Game game) {
 		stateMap.put(StateType.PLAY, new PlayGameState(this, game));
 		stateMap.put(StateType.MAIN_MENU, new MainMenuGameState(this, game));
-		setCurrentState(StateType.PLAY);
+		setCurrentState(StateType.MAIN_MENU);
 	}
 	
 	public void setCurrentState(StateType state) {
