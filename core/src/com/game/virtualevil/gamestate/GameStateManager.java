@@ -10,21 +10,29 @@ public class GameStateManager {
 		MAIN_MENU, PLAY
 	}
 
+	private Game game;
 	// an EnumMap containing the states in the game
 	private EnumMap<StateType, GameState> stateMap = new EnumMap<>(StateType.class);
 	// a reference to the current state
 	private GameState currentState;
 	
 	public GameStateManager(Game game) {
+		this.game = game;
 		stateMap.put(StateType.PLAY, new PlayGameState(this, game));
 		stateMap.put(StateType.MAIN_MENU, new MainMenuGameState(this, game));
 		setCurrentState(StateType.MAIN_MENU);
 	}
 	
 	public void setCurrentState(StateType state) {
-		if (stateMap.containsKey(state)) {
+		if (stateMap.containsKey(state) && stateMap.get(state) != null) {
 			currentState = stateMap.get(state);			
 		}
+	}
+	
+	public void startNewGame() {
+		// replace the old playgamestate instance
+		stateMap.put(StateType.PLAY, new PlayGameState(this, game));
+		setCurrentState(StateType.PLAY);
 	}
 	
 	public void update(float delta) {

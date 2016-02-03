@@ -19,7 +19,8 @@ public class TextureManager {
 				"cyber_tileset",
 				"bat",
 				"startScreenBackground",
-				"chipBuildings"
+				"chipBuildings",
+				"mainMenuButtons"
 		};
 
 		for (int i = 0; i < imgNames.length; i++) {

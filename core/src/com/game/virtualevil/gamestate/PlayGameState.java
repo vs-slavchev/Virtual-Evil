@@ -48,7 +48,7 @@ public final class PlayGameState extends GameState{
 		// set up input handling
 		playerInputController = new InputController();
 		gameInputProcessor = new GameInputProcessor(playerInputController);
-		uiInputProcessor = new UiInputProcessor();
+		uiInputProcessor = new UiInputProcessor(gsm);
 		/* Input is sent to the first registered input processor
 		 * in the multiplexer. If it doesn't handle it, then 
 		 * the input is forwarded to the second one: the one 

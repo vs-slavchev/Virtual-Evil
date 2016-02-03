@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.game.virtualevil.Game;
+import com.game.virtualevil.gamestate.GameStateManager;
+import com.game.virtualevil.gamestate.GameStateManager.StateType;
 import com.badlogic.gdx.Input.Keys;
 
 /**
@@ -18,12 +20,18 @@ import com.badlogic.gdx.Input.Keys;
 public class UiInputProcessor  implements InputProcessor{
 
 	private static int screenShotCounter = 1;
+	private GameStateManager gsm;
+	
+	public UiInputProcessor(GameStateManager gsm) {
+		super();
+		this.gsm = gsm;
+	}
 	
 	@Override
 	public boolean keyDown(int keycode) {
 		switch (keycode) {
 		case Keys.ESCAPE:
-			Gdx.app.exit();
+			gsm.setCurrentState(StateType.MAIN_MENU);
 			return true;
 		case Keys.F10:
 			saveScreenshot();

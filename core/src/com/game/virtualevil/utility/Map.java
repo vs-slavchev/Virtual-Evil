@@ -19,7 +19,7 @@ public class Map {
 	private byte[][] map;
 
 	// drawing on the screen
-	private int tileSize = 32;
+	private final int tileSize = 32;
 	private final int numTilesPerRow = 10;
 	private Sprite tileSet;
 	private TextureRegion tileTexture;
@@ -27,7 +27,7 @@ public class Map {
 	 * measured in map indices. Distance depends
 	 * on the screen width. */
 	private final int renderDistanceInIndices =
-			(Gdx.graphics.getWidth()/2)/(2*tileSize) + 1;
+			(Gdx.graphics.getWidth()/2)/(2*tileSize) + 2;
 
 	/**
 	 * The mapName shouldn't contain '.bin' */
