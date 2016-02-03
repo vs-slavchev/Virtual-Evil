@@ -27,7 +27,7 @@ public class Map {
 	 * measured in map indices. Distance depends
 	 * on the screen width. */
 	private final int renderDistanceInIndices =
-			(Gdx.graphics.getWidth()/2)/(2*tileSize) + 1;
+			(Gdx.graphics.getWidth()/2)/(2*tileSize) + 2;
 
 	/**
 	 * The mapName shouldn't contain '.bin' */

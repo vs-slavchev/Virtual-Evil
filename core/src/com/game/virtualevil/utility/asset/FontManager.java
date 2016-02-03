@@ -1,7 +1,5 @@
 package com.game.virtualevil.utility.asset;
 
-import java.awt.Color;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -14,7 +12,7 @@ public class FontManager {
 
 	private final String path = "fonts/", format = ".ttf";
 	private BitmapFont debugFont;
-	private BitmapFont veraMono;
+	private BitmapFont startScreenDigits;
 	
 	public FontManager() {
 		debugFont = new BitmapFont();
@@ -24,21 +22,21 @@ public class FontManager {
 		return debugFont;
 	}
 	
-	public BitmapFont getVeraMono(int fontSize) {
-		if (veraMono == null) {
+	public BitmapFont getStartScreenDigits(int fontSize) {
+		if (startScreenDigits == null) {
 			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(path + "VeraMono" + format));
 			FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 			parameter.size = fontSize;
 			parameter.color = com.badlogic.gdx.graphics.Color.GREEN;
 			parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
-			veraMono = generator.generateFont(parameter);
+			startScreenDigits = generator.generateFont(parameter);
 			generator.dispose();
 		}
-		return veraMono;
+		return startScreenDigits;
 	}
 	
 	public void disposeAllFonts() {
 		debugFont.dispose();
-		veraMono.dispose();
+		startScreenDigits.dispose();
 	}
 }

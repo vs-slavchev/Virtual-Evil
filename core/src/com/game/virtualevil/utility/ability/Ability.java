@@ -56,8 +56,9 @@ public abstract class Ability {
 	}
 	
 	public void drawIcon(SpriteBatch batch) {
+		// TODO
 		// draw icon on interface
 		// draw cooldown animation
-		// reuse some code from here in subclasses
+		// reuse some code from here in subclasses if needed
 	}
 }

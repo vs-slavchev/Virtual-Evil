@@ -11,6 +11,8 @@ import com.game.virtualevil.Game;
 
 public class MainMenuGameState extends GameState{
 	
+	// use the buttons only after digitsAnimationFinished is true
+	private MenuButtons buttons;
 	private TextureRegion background, blackTrapezoid;
 	// 2D array of the images of the chips
 	private TextureRegion[][] chipsImages;
@@ -23,7 +25,6 @@ public class MainMenuGameState extends GameState{
 	private int trapezoidTargetPositionY, trapezoidX;
 	// space between top line of digits and the top of the trapezoid
 	private float digitsYoffset;
-	
 	// each element in the array is a line of digits
 	private String[] renderDigits;
 	// each digit is in its own cell
@@ -40,7 +41,7 @@ public class MainMenuGameState extends GameState{
 	}
 
 	@Override
-	public void initialize() {
+	public void initialize() {		
 		camera = new OrthographicCamera(
 				Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
@@ -53,6 +54,7 @@ public class MainMenuGameState extends GameState{
 		camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
 		camera.update();
 		
+		buttons = new MenuButtons(game);
 		
 		background = assetManager.getTextureManager().getImage("startScreenBackground");
 		background.setRegion(0, 0, 120, 68);
@@ -60,7 +62,7 @@ public class MainMenuGameState extends GameState{
 				assetManager.getTextureManager().getImage("startScreenBackground"),
 				0, 68, 86, 30);
 		
-		// calculate the verical and horizontal scale of the screen
+		// calculate the vertical and horizontal scale of the screen
 		vScale = (int)Math.ceil(Gdx.graphics.getHeight() / (double)background.getRegionHeight());
 		hScale = (int)Math.ceil(Gdx.graphics.getWidth() / (double)background.getRegionWidth());
 		
@@ -95,7 +97,7 @@ public class MainMenuGameState extends GameState{
 				- blackTrapezoid.getRegionHeight() * vScale - (int)(vScale * 1.25);
 		
 		// the font size depends on the size of the screen
-		titleFont = assetManager.getFontManager().getVeraMono(hScale - 2);
+		titleFont = assetManager.getFontManager().getStartScreenDigits(hScale - 2);
 		
 		// initialize the hard coded digits
 		setUpDigits();
@@ -104,12 +106,15 @@ public class MainMenuGameState extends GameState{
 		for (int line = 0; line < digits.length; line++) {
 			digits[line] = renderDigits[line].toCharArray();
 		}
-		
-		System.out.println(vScale + " " + hScale);
 	}
 
 	@Override
 	public void update(float delta) {
+		
+		if (digitsAnimationFinished) {
+			buttons.checkClicks();
+		}
+		
 		for (int row = 0; row < chipsXcoords.length; row++) {
 			for (int col = 0; col < chipsXcoords[row].length; col++) {
 				/* move right and check if out of screen. In that case
@@ -169,7 +174,7 @@ public class MainMenuGameState extends GameState{
 						digitsAnimationFinished = true;
 						// and we set up variables for the last animation phase
 						trapezoidTargetPositionY = Gdx.graphics.getHeight()
-								- blackTrapezoid.getRegionHeight() * vScale + (int)(vScale * 8.75); // 140
+								- blackTrapezoid.getRegionHeight() * vScale + (int)(vScale * 8.75);
 						trapezoidVelocityY = 30.0f;
 					}
 				}
@@ -210,6 +215,9 @@ public class MainMenuGameState extends GameState{
 						trapezoidY + blackTrapezoid.getRegionHeight() * vScale
 						- digitsYoffset - line * vScale);
 			}
+		}
+		if (digitsAnimationFinished) {
+			buttons.drawButtons(batch);
 		}
 		batch.end();
 	}
