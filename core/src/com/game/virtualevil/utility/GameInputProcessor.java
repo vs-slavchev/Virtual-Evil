@@ -1,5 +1,6 @@
 package com.game.virtualevil.utility;
 
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 
@@ -99,26 +100,37 @@ public class GameInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
+		switch (button) {
+		case Buttons.LEFT:
+			inputController.setMousePosition(screenX, screenY);
+			inputController.setMouseLeft(true);
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
+		switch (button) {
+		case Buttons.LEFT:
+			inputController.setMouseLeft(false);
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
+		inputController.setMousePosition(screenX, screenY);
+		return true;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
+		inputController.setMousePosition(screenX, screenY);
+		return true;
 	}
 
 	@Override
