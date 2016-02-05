@@ -15,6 +15,9 @@ public class TextureManager {
 	
 	public TextureManager() {
 		String[] imgNames = {
+				"crosshair1",
+				"crosshair3",
+				"HPETileSet",
 				"hero",
 				"cyber_tileset",
 				"bat",
