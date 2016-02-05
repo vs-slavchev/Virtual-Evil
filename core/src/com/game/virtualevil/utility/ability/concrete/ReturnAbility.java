@@ -31,8 +31,8 @@ public class ReturnAbility extends Ability{
 			remainingCooldown = AbilityConstants.RETURN_CD;
 			/* TODO: 1. remove the indication;
 			 * 2. maybe forbid returning if the location is very far
-			 * away for balance purposes, and give indication to the
-			 * player why they are not allowed back
+			 * away for balance purposes, and tell the player why
+			 * they are not allowed back;
 			 * 3. check if going back will put the player into another
 			 * entity or solid terrain */
 		}

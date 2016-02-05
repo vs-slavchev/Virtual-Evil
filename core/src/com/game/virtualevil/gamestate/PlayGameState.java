@@ -3,8 +3,6 @@ package com.game.virtualevil.gamestate;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -79,6 +77,7 @@ public final class PlayGameState extends GameState{
 	@Override
 	public void draw() {
 		super.draw();
+		DebugInfo.start();
 		batch.begin();
 		map.drawMap(batch, camera.position);
 		entityManager.drawEntities(batch);
@@ -88,7 +87,7 @@ public final class PlayGameState extends GameState{
 		// draw using the UI camera
 		batch.setProjectionMatrix(uiCamera.combined);
 		batch.begin();
-		drawUI(batch, entityManager.getPlayer());
+		drawUI(entityManager.getPlayer());
 		batch.end();
 	}
 	
@@ -101,9 +100,8 @@ public final class PlayGameState extends GameState{
 				&& mapIndicesNpc.y <= cameraView.y;
 	}
 	
-	private void drawUI(SpriteBatch batch, PlayerCharacter player) {
+	private void drawUI(PlayerCharacter player) {
 		// draw debugging info top left
-		DebugInfo.start();
 		DebugInfo.draw("x: " + (int) player.getPosition().x + "; y: " + (int) player.getPosition().y);
 		DebugInfo.draw("FPS: " + Gdx.graphics.getFramesPerSecond());
 		DebugInfo.draw("dir: " + player.getSpriteDirection());
@@ -115,23 +113,23 @@ public final class PlayGameState extends GameState{
 		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeft());
 
 		// draw the actual UI
-		batch.draw(userInterface.getHealthAndEnergyInterface(), Gdx.graphics.getWidth() - 400, Gdx.graphics.getHeight() - 200);
-		batch.draw(assetManager.getTextureManager().getImage("crosshair1"), playerInputController.getMousePosition().x - 30,
-				 															Gdx.graphics.getHeight() - (playerInputController.getMousePosition().y + 30)); 
+		batch.draw(userInterface.getHealthAndEnergyInterface(), Gdx.graphics.getWidth() - 400,
+				Gdx.graphics.getHeight() - 200);
 	}
 	
+	/**
+	 * Returns the cursor coordinates in the game world. */
 	public Vector2 getMouseWorldCoords() {
 		return screenToWorldCoords(playerInputController.getMousePosition());
 	}
 	
+	/** Converts screen coordinates to world ones. */
 	public Vector2 screenToWorldCoords(Vector2 screenPosition) {
 		Vector2 worldPosition = new Vector2();
 		worldPosition.x = screenPosition.x + camera.position.x - Gdx.graphics.getWidth()/2;
 		worldPosition.y = screenPosition.y + camera.position.y - Gdx.graphics.getHeight()/2;
 		return worldPosition;
 	}
-
-	
 	
 	@Override
 	public void dispose() {
