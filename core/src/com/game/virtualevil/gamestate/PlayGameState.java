@@ -112,9 +112,13 @@ public final class PlayGameState extends GameState{
 		// draw the actual UI
 	}
 	
+	public Vector2 getMouseWorldCoords() {
+		return screenToWorldCoords(playerInputController.getMousePosition());
+	}
+	
 	public Vector2 screenToWorldCoords(Vector2 screenPosition) {
 		Vector2 worldPosition = new Vector2();
-		worldPosition.x = screenPosition.x + + camera.position.x - Gdx.graphics.getWidth()/2;
+		worldPosition.x = screenPosition.x + camera.position.x - Gdx.graphics.getWidth()/2;
 		worldPosition.y = screenPosition.y + camera.position.y - Gdx.graphics.getHeight()/2;
 		return worldPosition;
 	}

@@ -5,10 +5,10 @@ import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
 import com.game.virtualevil.utility.ability.concrete.SprintAbility;
 import com.game.virtualevil.utility.weapon.Weapon;
+import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
 public final class PlayerCharacter extends GameCharacter {
-	public Weapon Pistol;
-
+	private Weapon weapon;
 	public PlayerCharacter(PlayGameState playGameState) {
 		super(playGameState);
 		inputController = playGameState.getInputContrller();
@@ -19,8 +19,8 @@ public final class PlayerCharacter extends GameCharacter {
 
 		abilities.add(0, new SprintAbility(this));
 		abilities.add(1, new ReturnAbility(this));
-		Pistol = new Weapon("Makarov", 15, 90, 8, 8, 45);
-	
+		
+	weapon = new Weapon(WeaponType.MachineGun, playGameState);
 	}
 
 	/**
