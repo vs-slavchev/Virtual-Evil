@@ -39,6 +39,9 @@ public class UiInputProcessor  implements InputProcessor{
 		case Keys.Z:
 			Game.TESTING = !Game.TESTING;
 			return true;
+		case Keys.X:
+			Gdx.app.exit();
+			return true;
 			
 		//examples
 		case Keys.TAB:
@@ -48,7 +51,7 @@ public class UiInputProcessor  implements InputProcessor{
 			//open talents
 			return true;
 		case Keys.L:
-			//open quest/tasks log
+			//open mission/quest/tasks log
 			return true;
 		default:
 			return false;

@@ -55,4 +55,8 @@ public abstract class GameState {
 	public AssetManager getAssetManager() {
 		return assetManager;
 	}
+	
+	public SpriteBatch getBatch() {
+		return batch;
+	}
 }

@@ -1,6 +1,7 @@
 package com.game.virtualevil.utility;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.utility.ability.AbilityConstants;
 
 /**
@@ -10,21 +11,25 @@ import com.game.virtualevil.utility.ability.AbilityConstants;
 public class InputController {
 
 	private boolean left, right, up, down,
-					switchWeapon, weaponAbility;
-	
+					switchWeapon, weaponAbility,
+					mouseLeft;
 	private boolean[] numberKeys = new boolean[AbilityConstants.ABILITIES_COUNT];
+	private Vector2 mousePosition = new Vector2();
 	
 	/** Used to avoid glitches when going back to 
 	 * a state and input information is outdated. */
 	public void reset() {
 		left = right = up = down =
-		switchWeapon = weaponAbility = false;
+		switchWeapon = weaponAbility = 
+		mouseLeft = false;
+		mousePosition.x = mousePosition.y = -1;
+		
 		for (int i = 0; i < numberKeys.length; i++) {
 			numberKeys[i] = false;
 		}
 	}
 	
-	/* game crashing is ok, invalid array indexing error
+	/* TODO: throw ex, invalid array indexing error
 	 * should not happen in production */
 	public void setNumberKey(int keyNum, boolean value) {
 		if (keyNum - 1  >= numberKeys.length) {
@@ -88,6 +93,23 @@ public class InputController {
 
 	public void setWeaponAbility(boolean weaponAbility) {
 		this.weaponAbility = weaponAbility;
+	}
+	
+	public void setMousePosition(int x, int y) {
+		mousePosition.x = x;
+		mousePosition.y = y;
+	}
+	
+	public Vector2 getMousePosition() {
+		return mousePosition;
+	}
+
+	public boolean isMouseLeft() {
+		return mouseLeft;
+	}
+
+	public void setMouseLeft(boolean mouseLeft) {
+		this.mouseLeft = mouseLeft;
 	}
 
 }

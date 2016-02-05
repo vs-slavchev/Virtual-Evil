@@ -12,6 +12,7 @@ import com.game.virtualevil.Game;
 import com.game.virtualevil.entity.EntityManager;
 import com.game.virtualevil.entity.NonPlayerCharacter;
 import com.game.virtualevil.entity.PlayerCharacter;
+import com.game.virtualevil.utility.DebugInfo;
 import com.game.virtualevil.utility.GameInputProcessor;
 import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.Map;
@@ -37,6 +38,7 @@ public final class PlayGameState extends GameState{
 				Gdx.graphics.getWidth()/2,
 				Gdx.graphics.getHeight()/2);
 		camera.update();
+		
 		// set up ui camera
 		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		ScreenViewport viewport = new ScreenViewport(uiCamera);
@@ -58,6 +60,8 @@ public final class PlayGameState extends GameState{
 		multiplexer.addProcessor(gameInputProcessor);
 		multiplexer.addProcessor(uiInputProcessor);
 		Gdx.input.setInputProcessor(multiplexer);
+		
+		DebugInfo.setUp(this);
 		
 		entityManager = new EntityManager(this);
 	}
@@ -94,18 +98,29 @@ public final class PlayGameState extends GameState{
 	
 	private void drawUI(SpriteBatch batch, PlayerCharacter player) {
 		// draw debugging info top left
-		if (Game.TESTING) {
-			BitmapFont debugFont = assetManager.getFontManager().getDebugFont();
+		DebugInfo.start();
+		DebugInfo.draw("x: " + (int) player.getPosition().x + "; y: " + (int) player.getPosition().y);
+		DebugInfo.draw("FPS: " + Gdx.graphics.getFramesPerSecond());
+		DebugInfo.draw("dir: " + player.getSpriteDirection());
+		DebugInfo.draw("Screen: mouseX: " + (int) playerInputController.getMousePosition().x
+				+ "; mouseY: " + (int) playerInputController.getMousePosition().y);
+		DebugInfo.draw("World: mouseX: " + (int) screenToWorldCoords(playerInputController.getMousePosition()).x
+				+ "; mouseY: "
+				+ (int) screenToWorldCoords(playerInputController.getMousePosition()).y);
+		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeft());
 
-			debugFont.draw(batch, "x: " + (int) player.getPosition().x + "; y: " + (int) player.getPosition().y,
-					5f, Gdx.graphics.getHeight() - 5f);
-			debugFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 5f, Gdx.graphics.getHeight() - 20f);
-			debugFont.draw(batch, "dir: " + player.getSpriteDirection(), 5f, Gdx.graphics.getHeight() - 35f);
-		}
-		
-		//draw the actual UI
+		// draw the actual UI
+	}
+	
+	public Vector2 screenToWorldCoords(Vector2 screenPosition) {
+		Vector2 worldPosition = new Vector2();
+		worldPosition.x = screenPosition.x + + camera.position.x - Gdx.graphics.getWidth()/2;
+		worldPosition.y = screenPosition.y + camera.position.y - Gdx.graphics.getHeight()/2;
+		return worldPosition;
 	}
 
+	
+	
 	@Override
 	public void dispose() {
 		super.dispose();
