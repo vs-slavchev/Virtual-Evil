@@ -17,6 +17,7 @@ import com.game.virtualevil.utility.GameInputProcessor;
 import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.Map;
 import com.game.virtualevil.utility.UiInputProcessor;
+import com.game.virtualevil.utility.UserInterface;
 
 public final class PlayGameState extends GameState{
 
@@ -26,6 +27,7 @@ public final class PlayGameState extends GameState{
 	private InputController playerInputController;
 	private GameInputProcessor gameInputProcessor;
 	private UiInputProcessor uiInputProcessor;
+	private UserInterface userInterface;
 	
 	public PlayGameState(GameStateManager gsm, Game game) {
 		super(gsm, game);
@@ -46,6 +48,9 @@ public final class PlayGameState extends GameState{
 		viewport.apply();
 		uiCamera.position.set(uiCamera.viewportWidth / 2, uiCamera.viewportHeight / 2, 0);
 		uiCamera.update();
+		
+		//user interface initialization
+		userInterface = new UserInterface(assetManager.getTextureManager());
 		
 		// set up input handling
 		playerInputController = new InputController();
@@ -110,6 +115,9 @@ public final class PlayGameState extends GameState{
 		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeft());
 
 		// draw the actual UI
+		batch.draw(userInterface.getHealthAndEnergyInterface(), Gdx.graphics.getWidth() - 400, Gdx.graphics.getHeight() - 200);
+		batch.draw(assetManager.getTextureManager().getImage("crosshair1"), playerInputController.getMousePosition().x - 30,
+				 															Gdx.graphics.getHeight() - (playerInputController.getMousePosition().y + 30)); 
 	}
 	
 	public Vector2 getMouseWorldCoords() {
