@@ -12,22 +12,23 @@ public class Bullet {
 	public float speed;
 	TextureRegion img;
 
-	public Bullet(Vector2 start, Vector2 delta, WeaponType weaponType) {
+	public Bullet(Vector2 start, Vector2 mousePosition, WeaponType weaponType, TextureRegion img) {
 
-		this.position = start;
-		this.delta = delta;
+		float distance = (float) Math.sqrt((mousePosition.x - start.x) * (mousePosition.x - start.x)
+				+ (mousePosition.y - start.y) * (mousePosition.y - start.y));
+		delta = new Vector2((mousePosition.x - start.x) / distance, (start.y - mousePosition.y) / distance);
+		this.position = new Vector2(start);
+		this.img = img;
 
 		switch (weaponType) {
 		case PISTOL:
-			this.img = null;
+
 			this.speed = 20;
 			break;
 		case MACHINE_GUN:
-			this.img = null;
-			this.speed = 20;
+			this.speed = 50;
 			break;
 		case RPG:
-			this.img = null;
 			this.speed = 20;
 			break;
 		}
