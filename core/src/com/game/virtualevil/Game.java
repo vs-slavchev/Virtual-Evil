@@ -2,6 +2,8 @@ package com.game.virtualevil;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.game.virtualevil.gamestate.GameStateManager;
 import com.game.virtualevil.utility.asset.AssetManager;
 
@@ -18,6 +20,11 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width,
 				Gdx.graphics.getDesktopDisplayMode().height, true);
 		Gdx.graphics.setVSync(true);
+		
+		// change the cursor; last 2 params are the cursor hotspot
+		Cursor customCursor = Gdx.graphics.newCursor(
+				new Pixmap(Gdx.files.internal("images/crosshair1.png")), 32, 32);
+		Gdx.graphics.setCursor(customCursor);
 		
 		assetManager = new AssetManager();
 		gsm = new GameStateManager(this);

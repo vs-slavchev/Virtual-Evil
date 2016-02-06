@@ -12,17 +12,17 @@ public class Bullet {
 	public float speed;
 	TextureRegion img;
 
-	public Bullet(Vector2 Start, Vector2 Delta, WeaponType weaponType) {
+	public Bullet(Vector2 start, Vector2 delta, WeaponType weaponType) {
 
-		this.position = Start;
-		this.delta = Delta;
+		this.position = start;
+		this.delta = delta;
 
 		switch (weaponType) {
-		case Pistol:
+		case PISTOL:
 			this.img = null;
-			this.speed = 20f;
+			this.speed = 20;
 			break;
-		case MachineGun:
+		case MACHINE_GUN:
 			this.img = null;
 			this.speed = 20;
 			break;

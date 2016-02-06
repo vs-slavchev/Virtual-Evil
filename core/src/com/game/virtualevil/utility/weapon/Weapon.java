@@ -1,49 +1,42 @@
 package com.game.virtualevil.utility.weapon;
 
 import com.badlogic.gdx.math.Vector2;
-import com.game.virtualevil.entity.EntityManager;
-import com.game.virtualevil.entity.PlayerCharacter;
 import com.game.virtualevil.gamestate.PlayGameState;
-import com.sun.javafx.scene.EnteredExitedHandler;
 
 public class Weapon {
 	public enum WeaponType {
-		Pistol, MachineGun, RPG
+		PISTOL, MACHINE_GUN, RPG
 	}
 
 	private WeaponType weaponType;
 	private String name;
-	private int dMG;
-	private int ammonition, maxMagazine, curMagazine;
-	private PlayGameState playGameState;
+	private int ammonition, maxMagazine, curMagazine, damage;
 	private float rateOfFire;
+	private PlayGameState playGameState;
 
-	public Weapon(WeaponType cWeapon, PlayGameState x) {
-		this.playGameState = x;
+	public Weapon(WeaponType cWeapon, PlayGameState playState) {
+		this.playGameState = playState;
+		
 		switch (cWeapon) {
-
-		case Pistol:
-
+		case PISTOL:
 			this.name = "Makarov";
-			this.dMG = 2;
+			this.damage = 2;
 			this.ammonition = 45;
 			this.curMagazine = 8;
 			this.maxMagazine = 8;
 			this.rateOfFire = 15;
 			break;
-
-		case MachineGun:
+		case MACHINE_GUN:
 			this.name = "AK - 47";
-			this.dMG = 8;
+			this.damage = 8;
 			this.ammonition = 90;
 			this.curMagazine = 30;
 			this.maxMagazine = 30;
 			this.rateOfFire = 100;
 			break;
-
 		case RPG:
 			this.name = "CG";
-			this.dMG = 50;
+			this.damage = 50;
 			this.ammonition = 5;
 			this.curMagazine = 1;
 			this.maxMagazine = 1;
