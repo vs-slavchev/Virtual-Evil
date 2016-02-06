@@ -8,9 +8,9 @@ import com.game.virtualevil.utility.weapon.Weapon;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
 public final class PlayerCharacter extends GameCharacter {
-	
+
 	private Weapon weapon;
-	
+
 	public PlayerCharacter(PlayGameState playGameState) {
 		super(playGameState);
 		inputController = playGameState.getInputContrller();
@@ -21,7 +21,7 @@ public final class PlayerCharacter extends GameCharacter {
 
 		abilities.add(0, new SprintAbility(this));
 		abilities.add(1, new ReturnAbility(this));
-		
+
 		weapon = new Weapon(WeaponType.MACHINE_GUN, playGameState);
 	}
 
@@ -51,12 +51,16 @@ public final class PlayerCharacter extends GameCharacter {
 				abilities.get(i).attemptToUse();
 			}
 		}
-		
-		// weapon shooting; use input controller
+		weapon.TimerUppdate();
+		if (inputController.isMouseLeft()) {
+
+			weapon.Fire();
+		}
 	}
 
 	/**
-	 * Overridden because the camera needs to be on the player. */
+	 * Overridden because the camera needs to be on the player.
+	 */
 	@Override
 	protected void updateAnimation(float delta) {
 		if (characterMoved) {

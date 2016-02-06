@@ -21,7 +21,8 @@ public class TextureManager {
 				"bat",
 				"startScreenBackground",
 				"chipBuildings",
-				"mainMenuButtons"
+				"mainMenuButtons",
+		        "Projectile"
 		};
 
 		for (int i = 0; i < imgNames.length; i++) {

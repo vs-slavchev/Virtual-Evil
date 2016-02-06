@@ -1,5 +1,6 @@
 package com.game.virtualevil.utility.weapon;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
 
@@ -11,12 +12,13 @@ public class Weapon {
 	private WeaponType weaponType;
 	private String name;
 	private int ammonition, maxMagazine, curMagazine, damage;
-	private float rateOfFire;
+	private float rateOfFire, timer;
+	
 	private PlayGameState playGameState;
 
 	public Weapon(WeaponType cWeapon, PlayGameState playState) {
 		this.playGameState = playState;
-		
+		this.weaponType = cWeapon;
 		switch (cWeapon) {
 		case PISTOL:
 			this.name = "Makarov";
@@ -24,7 +26,7 @@ public class Weapon {
 			this.ammonition = 45;
 			this.curMagazine = 8;
 			this.maxMagazine = 8;
-			this.rateOfFire = 15;
+			this.rateOfFire = 0.8f;
 			break;
 		case MACHINE_GUN:
 			this.name = "AK - 47";
@@ -32,7 +34,7 @@ public class Weapon {
 			this.ammonition = 90;
 			this.curMagazine = 30;
 			this.maxMagazine = 30;
-			this.rateOfFire = 100;
+			this.rateOfFire = 0.2f;
 			break;
 		case RPG:
 			this.name = "CG";
@@ -40,21 +42,28 @@ public class Weapon {
 			this.ammonition = 5;
 			this.curMagazine = 1;
 			this.maxMagazine = 1;
-			this.rateOfFire = 1;
+			this.rateOfFire = 5;
 			break;
 		}
 	}
 
 	public void Fire() {
-		if (ammonition >= 1) {
+		
+		if (ammonition >= 1 && timer > rateOfFire) {
+			timer = 0;
 			Vector2 playerPosition = playGameState.getEntityManager().getPlayer().getPosition();
 			Vector2 mousePosition = playGameState.getMouseWorldCoords();
-			Bullet Go6u = new Bullet(playerPosition, mousePosition, weaponType);
+			Bullet Go6u = new Bullet(playerPosition, mousePosition, weaponType,
+					playGameState.getAssetManager().getTextureManager().getImage("Projectile"));
 			playGameState.getEntityManager().AddBullet(Go6u);
+		
 		}
 
 	}
 
+	public void TimerUppdate(){
+		timer += Gdx.graphics.getDeltaTime();
+	}
 	public void Reload() {
 		if (curMagazine != maxMagazine) {
 			int toAdd = maxMagazine - curMagazine;
