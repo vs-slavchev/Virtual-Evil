@@ -27,8 +27,7 @@ public final class PlayerCharacter extends GameCharacter {
 
 	/**
 	 * Sets the player and camera positions as the player should always be in
-	 * the center of the camera.
-	 */
+	 * the center of the camera. */
 	@Override
 	public void setPosition(Vector2 position) {
 		this.position.x = position.x;
@@ -51,16 +50,16 @@ public final class PlayerCharacter extends GameCharacter {
 				abilities.get(i).attemptToUse();
 			}
 		}
-		weapon.TimerUppdate();
+		
+		weapon.updateTimer();
 		if (inputController.isMouseLeft()) {
 
-			weapon.Fire();
+			weapon.fire();
 		}
 	}
 
 	/**
-	 * Overridden because the camera needs to be on the player.
-	 */
+	 * Overridden because the camera needs to be on the player. */
 	@Override
 	protected void updateAnimation(float delta) {
 		if (characterMoved) {

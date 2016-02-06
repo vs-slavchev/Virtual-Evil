@@ -25,7 +25,7 @@ public class EntityManager {
 			enemy.update(delta);
 		}
 		for (Bullet i : BulletOnField) {
-			i.Move();
+			i.move();
 		}
 	}
 
@@ -35,7 +35,7 @@ public class EntityManager {
 			enemy.draw(batch);
 		}
 		for (Bullet i : BulletOnField) {
-			i.Draw(batch);
+			i.draw(batch);
 		}
 	}
 	public void AddBullet(Bullet NewBullet)
