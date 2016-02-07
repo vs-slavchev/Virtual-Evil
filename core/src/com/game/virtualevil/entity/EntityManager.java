@@ -11,10 +11,8 @@ public class EntityManager {
 	private PlayerCharacter pc;
 	private ArrayList<EnemyCharacter> enemiesList = new ArrayList<>();
 	private ArrayList<Bullet> BulletOnField = new ArrayList<>();
-	// private PlayGameState playGameState;
 
 	public EntityManager(PlayGameState playGameState) {
-		// this.playGameState = playGameState;
 		pc = new PlayerCharacter(playGameState);
 		enemiesList.add(new EnemyCharacter(playGameState, 1000, 3000));
 	}

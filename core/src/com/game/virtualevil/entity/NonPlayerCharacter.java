@@ -58,7 +58,10 @@ public class NonPlayerCharacter extends GameCharacter{
 					break;
 				}
 			}
-			//TODO change to attach when player is near
+			/* TODO change to attack when player is near:
+			 * use the playGameState to access the entity manager and get
+			 * a player reference to get player position...
+			 */
 			break;
 		case ATTACK:
 			// go towards player/attack

@@ -3,8 +3,13 @@ package com.game.virtualevil.utility.asset;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.game.virtualevil.utility.VirtualEvilException;
 
 public class TextureManager {
 
@@ -42,9 +47,13 @@ public class TextureManager {
 	}
 
 	public TextureRegion getImage(String s) {
-		if (!texRegions.containsKey(s)) {
-			// throw error
-			System.out.println(" Image not found in hashmap. key=\"" + s + "\"");
+		try {
+			if (!texRegions.containsKey(s)) {
+				throw new VirtualEvilException("Image not found in hashmap. key=\""
+						+ s + "\"");
+			}
+		} catch (VirtualEvilException e) {
+			VirtualEvilException.showException(e);
 		}
 		return texRegions.get(s);
 	}

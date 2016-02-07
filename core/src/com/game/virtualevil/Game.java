@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.game.virtualevil.gamestate.GameStateManager;
+import com.game.virtualevil.utility.VirtualEvilException;
 import com.game.virtualevil.utility.asset.AssetManager;
 
 public class Game extends ApplicationAdapter {
