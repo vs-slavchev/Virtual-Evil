@@ -14,12 +14,15 @@ public class NonPlayerCharacter extends GameCharacter{
 	}
 
 	protected AI_State aiState = AI_State.IDLE;
+	protected float timer;
 	
 	public NonPlayerCharacter(PlayGameState playGameState, int x, int y) {
 		super(playGameState);
 		inputController = new InputController();
 		position.x = x;
 		position.y = y;
+		inputController.setDown(true);
+		aiState = AI_State.PATROL;
 	}
 
 	public void update(float delta) {
@@ -34,8 +37,39 @@ public class NonPlayerCharacter extends GameCharacter{
 	@Override
 	protected void applyAction(float delta) {
 		super.applyAction(delta);
-		/* transfer here some ai logic applicable
-		 * for all npcs */
+		switch (aiState) {
+		case PATROL:
+			timer += delta;
+			if (timer > 1.0) {
+				timer = 0.0f;
+				inputController.reset();
+				switch ((int) (Math.random() * 4)) {
+				case 0:
+					inputController.setDown(true);
+					break;
+				case 1:
+					inputController.setLeft(true);
+					break;
+				case 2:
+					inputController.setRight(true);
+					break;
+				default:
+					inputController.setUp(true);
+					break;
+				}
+			}
+			//TODO change to attach when player is near
+			break;
+		case ATTACK:
+			// go towards player/attack
+			break;
+		case FLEE:
+			// leg it
+			break;
+		default:
+			// intentionally left empty
+			break;
+		}
 	}
 
 	public boolean isActive() {

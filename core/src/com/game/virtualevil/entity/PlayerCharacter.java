@@ -8,7 +8,9 @@ import com.game.virtualevil.utility.weapon.Weapon;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
 public final class PlayerCharacter extends GameCharacter {
+
 	private Weapon weapon;
+
 	public PlayerCharacter(PlayGameState playGameState) {
 		super(playGameState);
 		inputController = playGameState.getInputContrller();
@@ -19,14 +21,13 @@ public final class PlayerCharacter extends GameCharacter {
 
 		abilities.add(0, new SprintAbility(this));
 		abilities.add(1, new ReturnAbility(this));
-		
-	weapon = new Weapon(WeaponType.MachineGun, playGameState);
+
+		weapon = new Weapon(WeaponType.MACHINE_GUN, playGameState);
 	}
 
 	/**
 	 * Sets the player and camera positions as the player should always be in
-	 * the center of the camera.
-	 */
+	 * the center of the camera. */
 	@Override
 	public void setPosition(Vector2 position) {
 		this.position.x = position.x;
@@ -49,11 +50,16 @@ public final class PlayerCharacter extends GameCharacter {
 				abilities.get(i).attemptToUse();
 			}
 		}
+		
+		weapon.updateTimer();
+		if (inputController.isMouseLeft()) {
+
+			weapon.fire();
+		}
 	}
 
 	/**
-	 * Overriden because the camera needs to be on the player.
-	 */
+	 * Overridden because the camera needs to be on the player. */
 	@Override
 	protected void updateAnimation(float delta) {
 		if (characterMoved) {

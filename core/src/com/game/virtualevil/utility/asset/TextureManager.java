@@ -15,15 +15,14 @@ public class TextureManager {
 	
 	public TextureManager() {
 		String[] imgNames = {
-				"crosshair1",
-				"crosshair3",
 				"HPETileSet",
 				"hero",
 				"cyber_tileset",
 				"bat",
 				"startScreenBackground",
 				"chipBuildings",
-				"mainMenuButtons"
+				"mainMenuButtons",
+		        "Projectile"
 		};
 
 		for (int i = 0; i < imgNames.length; i++) {
@@ -36,15 +35,7 @@ public class TextureManager {
 
 	@SuppressWarnings("null")
 	public void loadTexture(String fname) {
-		TextureRegion textureRegion = new TextureRegion(new Texture(path + fname + ext));
-		/*try {
-			texture = new Texture(path + fname + ext);
-		} catch (GdxRuntimeException e) {
-			JOptionPane.showMessageDialog(null, "Error: \n" + path + fname + ext + "\nmissing!", "Error loading image!",
-					JOptionPane.ERROR_MESSAGE);
-			System.exit(0);
-		}*/
-		
+		TextureRegion textureRegion = new TextureRegion(new Texture(path + fname + ext));		
 		if (textureRegion != null) {
 			texRegions.put(fname, textureRegion);
 		}

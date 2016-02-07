@@ -1,68 +1,79 @@
 package com.game.virtualevil.utility.weapon;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.game.virtualevil.entity.EntityManager;
-import com.game.virtualevil.entity.PlayerCharacter;
 import com.game.virtualevil.gamestate.PlayGameState;
-import com.sun.javafx.scene.EnteredExitedHandler;
+
+/* TODO:
+ * 1. lose ammo when shooting
+ * 2. use reloading method
+ * 3. delete bullets when off-screen
+ * 4. draw weapon/ammo info in interface 
+ * 5. throw exception in default case
+ */
 
 public class Weapon {
 	public enum WeaponType {
-		Pistol, MachineGun, RPG
+		PISTOL, MACHINE_GUN, RPG
 	}
 
 	private WeaponType weaponType;
 	private String name;
-	private int dMG;
-	private int ammonition, maxMagazine, curMagazine;
+	private int ammonition, maxMagazine, curMagazine, damage;
+	private float rateOfFire, timer;
+	
 	private PlayGameState playGameState;
-	private float rateOfFire;
 
-	public Weapon(WeaponType cWeapon, PlayGameState x) {
-		this.playGameState = x;
+	public Weapon(WeaponType cWeapon, PlayGameState playState) {
+		this.playGameState = playState;
+		this.weaponType = cWeapon;
+
 		switch (cWeapon) {
-
-		case Pistol:
-
+		case PISTOL:
 			this.name = "Makarov";
-			this.dMG = 2;
+			this.damage = 2;
 			this.ammonition = 45;
 			this.curMagazine = 8;
 			this.maxMagazine = 8;
-			this.rateOfFire = 15;
+			this.rateOfFire = 0.8f;
 			break;
-
-		case MachineGun:
+		case MACHINE_GUN:
 			this.name = "AK - 47";
-			this.dMG = 8;
+			this.damage = 8;
 			this.ammonition = 90;
 			this.curMagazine = 30;
 			this.maxMagazine = 30;
-			this.rateOfFire = 100;
+			this.rateOfFire = 0.2f;
 			break;
-
 		case RPG:
 			this.name = "CG";
-			this.dMG = 50;
+			this.damage = 50;
 			this.ammonition = 5;
 			this.curMagazine = 1;
 			this.maxMagazine = 1;
-			this.rateOfFire = 1;
+			this.rateOfFire = 5;
+			break;
+		default:
 			break;
 		}
 	}
 
-	public void Fire() {
-		if (ammonition >= 1) {
+	public void fire() {
+		if (ammonition >= 1 && timer > rateOfFire) {
+			timer = 0;
 			Vector2 playerPosition = playGameState.getEntityManager().getPlayer().getPosition();
 			Vector2 mousePosition = playGameState.getMouseWorldCoords();
-			Bullet Go6u = new Bullet(playerPosition, mousePosition, weaponType);
+			Bullet Go6u = new Bullet(playerPosition, mousePosition, weaponType,
+					playGameState.getAssetManager().getTextureManager().getImage("Projectile"));
 			playGameState.getEntityManager().AddBullet(Go6u);
 		}
-
 	}
 
-	public void Reload() {
+	public void updateTimer(){
+		timer += Gdx.graphics.getDeltaTime();
+	}
+	
+	public void reload() {
 		if (curMagazine != maxMagazine) {
 			int toAdd = maxMagazine - curMagazine;
 			ammonition -= toAdd;
