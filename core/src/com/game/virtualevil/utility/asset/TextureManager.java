@@ -20,6 +20,7 @@ public class TextureManager {
 	
 	public TextureManager() {
 		String[] imgNames = {
+				"weaponsTileSet",
 				"HPETileSet",
 				"hero",
 				"cyber_tileset",

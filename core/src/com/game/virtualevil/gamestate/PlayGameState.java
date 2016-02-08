@@ -134,6 +134,17 @@ public final class PlayGameState extends GameState {
 		//draws the current hp as LCD digits on the HUD
 		assetManager.getFontManager().getHUDHealthFont(36).draw(batch, Integer.toString( entityManager.getPlayer().getCurrentHealth()),
 				Gdx.graphics.getWidth() - 365, Gdx.graphics.getHeight() - 45);
+		
+		//draws the weapons interface in the bottom right corner
+		batch.draw(userInterface.getWeaponsInterface(), Gdx.graphics.getWidth() - userInterface.getWeaponsInterface().getRegionWidth()- 210,
+				Gdx.graphics.getHeight() - userInterface.getWeaponsInterface().getRegionHeight() - 980, 414, 192);
+		
+		//draws the currently equipped weapons - firearm and melee
+		batch.draw(userInterface.getAk47(), Gdx.graphics.getWidth() - userInterface.getAk47().getRegionWidth()- 310, 
+				Gdx.graphics.getHeight() - userInterface.getAk47().getRegionHeight() - 970,128,128);
+		
+		batch.draw(userInterface.getKatana(), Gdx.graphics.getWidth() - userInterface.getKatana().getRegionWidth()- 115, 
+				Gdx.graphics.getHeight() - userInterface.getKatana().getRegionHeight() - 950, 128, 128);
 	}
 
 	/**
