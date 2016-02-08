@@ -221,6 +221,9 @@ public class Map {
 		return mapIndices;
 	}
 
+	/**
+	 * Use for debugging to print the map to the console.
+	 */
 	@SuppressWarnings("unused")
 	private void printMap() {
 		System.out.println(width + " " + height);
@@ -240,8 +243,12 @@ public class Map {
 	 */
 	public int getTileID(int x, int y) {
 		if (x < 0 || x >= map[0].length || y < 0 || y >= map.length) {
-			System.out.println("invalid map indexing: x: "
-					+ x + "; y: " + y);
+			try {
+				throw new VirtualEvilException("Invalid map indexing: x: "
+								+ x + "; y: " + y);
+			} catch (VirtualEvilException e) {
+				VirtualEvilException.showException(e);
+			}
 		}
 		return map[y][x] + 127;
 	}
@@ -253,7 +260,12 @@ public class Map {
 	public void setTileID(int xIndex, int yIndex, int tileID) {
 		if (xIndex < 0 || xIndex >= map[0].length
 				|| yIndex < 0 || yIndex >= map.length) {
-			return;
+			try {
+				throw new VirtualEvilException("Invalid map indexing: x: "
+								+ xIndex + "; y: " + yIndex);
+			} catch (VirtualEvilException e) {
+				VirtualEvilException.showException(e);
+			}
 		}
 		map[yIndex][xIndex] = toSignedByte(tileID);
 	}
@@ -267,7 +279,12 @@ public class Map {
 	@SuppressWarnings("static-method")
 	private byte toSignedByte(int value) {
 		if (value < 0 || value > 255) {
-			System.out.println("Cannot convert " + value + " to signed byte!");
+			try {
+				throw new VirtualEvilException(
+						"Cannot convert " + value + " to signed byte!");
+			} catch (VirtualEvilException e) {
+				VirtualEvilException.showException(e);
+			}
 		}
 		return (byte) (value - 127);
 	}

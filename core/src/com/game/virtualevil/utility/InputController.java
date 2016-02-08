@@ -32,17 +32,27 @@ public class InputController {
 	/* TODO: throw ex, invalid array indexing error
 	 * should not happen in production */
 	public void setNumberKey(int keyNum, boolean value) {
-		if (keyNum - 1  >= numberKeys.length) {
-			Gdx.app.log("InputController error", "setNumberKey() parameter is invalid: "
-					+ keyNum + " > " + numberKeys.length);
+		if (keyNum >= numberKeys.length) {
+			try {
+				throw new VirtualEvilException(
+						"Inputcontroller's setNumberKey() parameter is invalid: "
+						+ keyNum + " > " + numberKeys.length);
+			} catch (VirtualEvilException e) {
+				VirtualEvilException.showException(e);
+			}
 		}
 		this.numberKeys[keyNum-1] = value;
 	}
 	
 	public boolean getNumberKey(int keyNum) {
-		if (keyNum - 1  >= numberKeys.length) {
-			Gdx.app.log("InputController error", "setNumberKey() parameter is invalid: "
-					+ keyNum + " > " + numberKeys.length);
+		if (keyNum >= numberKeys.length) {
+			try {
+				throw new VirtualEvilException(
+						"Inputcontroller's getNumberKey() parameter is invalid: "
+						+ keyNum + " > " + numberKeys.length);
+			} catch (VirtualEvilException e) {
+				VirtualEvilException.showException(e);
+			}
 		}
 		return numberKeys[keyNum-1];
 	}

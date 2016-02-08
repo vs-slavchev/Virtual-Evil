@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.game.virtualevil.utility.VirtualEvilException;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
 public class Bullet {
@@ -32,7 +33,11 @@ public class Bullet {
 			this.speed = 50;
 			break;
 		default:
-			// empty
+			try {
+				throw new VirtualEvilException("Creating bullet from unknown weapon!");
+			} catch (VirtualEvilException e) {
+				VirtualEvilException.showException(e);
+			}
 			break;
 		}
 	}

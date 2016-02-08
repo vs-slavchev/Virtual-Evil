@@ -65,7 +65,6 @@ public final class PlayerCharacter extends GameCharacter {
 		
 		weapon.updateTimer();
 		if (inputController.isMouseLeft()) {
-
 			weapon.fire();
 		}
 	}
