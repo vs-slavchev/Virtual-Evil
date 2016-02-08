@@ -46,6 +46,7 @@ project(":desktop") {
 
     compileJava {
         sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 }
 
@@ -66,6 +67,7 @@ project(":core") {
 
     compileJava {
         sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 }
 
