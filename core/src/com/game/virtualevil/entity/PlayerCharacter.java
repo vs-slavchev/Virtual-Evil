@@ -3,6 +3,7 @@ package com.game.virtualevil.entity;
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
+import com.game.virtualevil.utility.ability.concrete.SoulRipAbility;
 import com.game.virtualevil.utility.ability.concrete.SprintAbility;
 import com.game.virtualevil.utility.weapon.Weapon;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
@@ -10,9 +11,15 @@ import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 public final class PlayerCharacter extends GameCharacter {
 
 	private Weapon weapon;
-
+	private final int maxEnergy;
+	private int currentEnergy = 90;
+	private float healthXCoordianteVisual;
+	
 	public PlayerCharacter(PlayGameState playGameState) {
 		super(playGameState);
+		this.healthXCoordianteVisual = currentHealth;
+		this.maxEnergy = 100;
+		
 		inputController = playGameState.getInputContrller();
 		setPosition(new Vector2(200, playGameState.getMap().getTotalHeight() - 250));
 		spriteSheet = playGameState.getAssetManager().getTextureManager().getImage("hero");
@@ -21,6 +28,7 @@ public final class PlayerCharacter extends GameCharacter {
 
 		abilities.add(0, new SprintAbility(this));
 		abilities.add(1, new ReturnAbility(this));
+		abilities.add(2, new SoulRipAbility(this));
 
 		weapon = new Weapon(WeaponType.MACHINE_GUN, playGameState);
 	}
@@ -51,11 +59,19 @@ public final class PlayerCharacter extends GameCharacter {
 			}
 		}
 		
+		if(currentHealth != healthXCoordianteVisual){
+			healthXCoordianteVisual += (currentHealth - healthXCoordianteVisual)/20.0;
+		}
+		
 		weapon.updateTimer();
 		if (inputController.isMouseLeft()) {
 
 			weapon.fire();
 		}
+	}
+
+	public float getHealthXCoordianteVisual() {
+		return healthXCoordianteVisual;
 	}
 
 	/**
@@ -67,4 +83,13 @@ public final class PlayerCharacter extends GameCharacter {
 			frameTime += delta;
 		}
 	}
+	
+	public int getMaxEnergy() {
+		return maxEnergy;
+	}
+
+	public int getCurrentEnergy() {
+		return currentEnergy;
+	}
+
 }

@@ -19,6 +19,7 @@ import com.game.virtualevil.utility.ability.statuseffects.StatusEffect;
  * abilities and generally act in the game world should
  * inherit from this class.
  * @author vs */
+
 public abstract class GameCharacter {
 
 	public enum Direction {
@@ -26,14 +27,19 @@ public abstract class GameCharacter {
 	}
 	
 	// entity related fields
+	protected final int maxHealth;
+	protected int currentHealth = 75;
 	protected boolean isActive = false;
 	protected float moveSpeed = 100f;
+
+
 	protected Vector2 position, collisionBoxVector;
 	protected CopyOnWriteArrayList<StatusEffect> statusEffects =
 			new CopyOnWriteArrayList<>();
 	protected ArrayList<Ability> abilities =
 			new ArrayList<>(AbilityConstants.ABILITIES_COUNT);
 	
+
 	// animation related fields
 	protected Direction prevDirection, spriteDirection;
 	protected Animation animation;
@@ -47,6 +53,7 @@ public abstract class GameCharacter {
 	protected InputController inputController;
 	
 	public GameCharacter(PlayGameState playGameState) {
+		this.maxHealth = 100;
 		this.playGameState = playGameState;
 		position = new Vector2();
 		spriteDirection = Direction.DOWN;
@@ -149,6 +156,10 @@ public abstract class GameCharacter {
 		moveSpeed += amount;
 	}
 	
+	public void modifyHealth(int amount){
+		currentHealth += amount;
+	}
+	
 	public void addStatusEffect(StatusEffect statusEffect) {
 		statusEffects.add(statusEffect);
 	}
@@ -167,5 +178,29 @@ public abstract class GameCharacter {
 
 	public Direction getSpriteDirection() {
 		return spriteDirection;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+
+	public int getCurrentHealth() {
+			if(currentHealth < 0){
+				currentHealth = 0;
+			}
+			if(currentHealth > maxHealth){
+				currentHealth = maxHealth;
+			}
+		return currentHealth;
+	}
+	
+	public void setCurrentHealth(int currentHealth) {
+		if(currentHealth < 0){
+			currentHealth = 0;
+		}
+		if(currentHealth > maxHealth){
+			currentHealth = maxHealth;
+		}
+		this.currentHealth = currentHealth;
 	}
 }
