@@ -5,7 +5,8 @@ import com.game.virtualevil.utility.asset.TextureManager;
 
 public class UserInterface {
 	
-	private TextureRegion healthAndEnergyInterface, piston, pistonArm, healthBar, energyBar;
+	private TextureRegion healthAndEnergyInterface, piston, pistonArm, healthBar, energyBar,
+							weaponsInterface, pistol, shotgun, ak47, minigun, katana, lightSabre, axe;
 	public UserInterface (TextureManager tm){
 		healthAndEnergyInterface = new TextureRegion(tm.getImage("HPETileSet"),
 				0, 0, 384, 191);
@@ -17,11 +18,17 @@ public class UserInterface {
 				0, 265, 3, 7);
 		energyBar = new TextureRegion(tm.getImage("HPETileSet"),
 				0, 329, 294, 78);
+		
+		weaponsInterface = new TextureRegion(tm.getImage("HPETileSet"),
+				0, 411, 207, 96 );
+		
+		ak47 = new TextureRegion(tm.getImage("weaponsTileSet"),
+				0, 128, 64, 64 );
+		katana = new TextureRegion(tm.getImage("weaponsTileSet"),
+				0, 256, 64, 64);
 	}
 	
 
-	
-	
 
 	public TextureRegion getHealthAndEnergyInterface() {
 		return healthAndEnergyInterface;
@@ -49,5 +56,19 @@ public class UserInterface {
 		return new TextureRegion(energyBar,
 				0, 0, (int) (294*((double)current/max)), 78);
 	}
+	
+	public TextureRegion getWeaponsInterface() {
+		return weaponsInterface;
+	}
+
+	public TextureRegion getAk47() {
+		return ak47;
+	}
+
+	public TextureRegion getKatana() {
+		return katana;
+	}
+	
+	
 	
 }
