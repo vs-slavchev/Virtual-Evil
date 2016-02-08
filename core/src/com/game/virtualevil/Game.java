@@ -23,9 +23,9 @@ public class Game extends ApplicationAdapter {
 		Gdx.graphics.setVSync(true);
 		
 		// change the cursor; last 2 params are the cursor hotspot
-		Cursor customCursor = Gdx.graphics.newCursor(
+		/*Cursor customCursor = Gdx.graphics.newCursor(
 				new Pixmap(Gdx.files.internal("images/crosshair1.png")), 32, 32);
-		Gdx.graphics.setCursor(customCursor);
+		Gdx.graphics.setCursor(customCursor);*/
 		
 		assetManager = new AssetManager();
 		gsm = new GameStateManager(this);
