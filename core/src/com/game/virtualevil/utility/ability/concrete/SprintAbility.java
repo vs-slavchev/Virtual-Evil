@@ -19,6 +19,7 @@ public class SprintAbility extends Ability{
 	@Override
 	public void useAbility() {
 		character.addStatusEffect(new SprintStatusEffect(character));
+		character.modifyHealth(-20);
 		remainingCooldown = AbilityConstants.SPRINT_CD;
 	}
 }
