@@ -43,6 +43,10 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
     }
+
+    compileJava {
+        sourceCompatability = '1.8'
+    }
 }
 
 project(":core") {
@@ -58,6 +62,10 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+    }
+
+    compileJava {
+        sourceCompatability = '1.8'
     }
 }
 
