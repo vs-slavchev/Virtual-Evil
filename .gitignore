@@ -64,3 +64,5 @@ build/
 .DS_Store
 *.txt~
 *.md~
+*.*~
+screenshots/
