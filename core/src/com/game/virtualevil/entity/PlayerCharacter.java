@@ -21,7 +21,7 @@ public final class PlayerCharacter extends GameCharacter {
 		this.maxEnergy = 100;
 		
 		inputController = playGameState.getInputContrller();
-		setPosition(new Vector2(200, playGameState.getMap().getTotalHeight() - 250));
+		setPosition(new Vector2(3200, 1300));
 		spriteSheet = playGameState.getAssetManager().getTextureManager().getImage("hero");
 		setUpAnimation();
 		isActive = true;

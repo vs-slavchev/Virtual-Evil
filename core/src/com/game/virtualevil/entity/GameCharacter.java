@@ -196,10 +196,10 @@ public abstract class GameCharacter {
 	
 	public void setCurrentHealth(int currentHealth) {
 		if(currentHealth < 0){
-			currentHealth = 0;
+			this.currentHealth = 0;
 		}
 		if(currentHealth > maxHealth){
-			currentHealth = maxHealth;
+			this.currentHealth = maxHealth;
 		}
 		this.currentHealth = currentHealth;
 	}
