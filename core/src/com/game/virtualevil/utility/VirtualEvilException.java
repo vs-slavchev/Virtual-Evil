@@ -1,7 +1,6 @@
 package com.game.virtualevil.utility;
 
 import javax.swing.JOptionPane;
-
 import com.badlogic.gdx.Gdx;
 
 public class VirtualEvilException extends Exception{

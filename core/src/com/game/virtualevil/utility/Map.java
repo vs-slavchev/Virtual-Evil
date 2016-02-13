@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -14,28 +15,34 @@ import com.game.virtualevil.gamestate.PlayGameState;
 public class Map {
 
 	// map
-	private String tilesetName;
 	private int width, height;
 	private byte[][] map;
 
 	// drawing on the screen
-	private final int tileSize = 32;
+	private final int tileSize, minimapTileSize;
 	private final int numTilesPerRow = 10;
-	private Sprite tileSet;
+	private Sprite tileSet, minimapTileset;
 	private TextureRegion tileTexture;
 	/* rendering distance from the camera center;
 	 * measured in map indices. Distance depends
 	 * on the screen width. */
-	private final int renderDistanceInIndices =
-			(Gdx.graphics.getWidth()/2)/(2*tileSize) + 2;
+	private final int renderDistanceInIndices, minimapViewDistance = 20;
+	
+	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	/**
 	 * The mapName shouldn't contain '.bin' */
 	public Map(PlayGameState playGameState, String mapName) {
 		readMap(mapName);
-		tilesetName = "cyber_tileset";
 		tileSet = new Sprite(playGameState.getAssetManager()
-				.getTextureManager().getImage(tilesetName));
+				.getTextureManager().getImage("cyber_tileset"));
+		minimapTileset = new Sprite(playGameState.getAssetManager()
+				.getTextureManager().getImage("cyber_minimap"));
+		
+		tileSize = tileSet.getRegionWidth() / numTilesPerRow;
+		minimapTileSize = minimapTileset.getRegionWidth() / numTilesPerRow;
+		renderDistanceInIndices =
+				(Gdx.graphics.getWidth()/2)/(2*tileSize) + 2;
 	}
 
 	/**
@@ -187,6 +194,7 @@ public class Map {
 	 * as the width and height fields do not contain what they are supposed to
 	 * (they are absolute, not relative as they should be). 
 	 * @param cameraPosition the center of the camera
+	 * @param distanceOffset by how many indices should the render distance be offset in this method call
 	 * @return the 4 indices for the game map, in which rendering occurs */
 	public Rectangle calculateRenderRectIndices(Vector3 cameraPosition) {
 		
@@ -219,6 +227,51 @@ public class Map {
 		mapIndices.x = (int) (position.x / tileSize);
 		mapIndices.y = (int) ((height * tileSize - position.y) / tileSize);
 		return mapIndices;
+	}
+	
+	/**
+	 * 
+	 * @param batch
+	 * @param cameraPosition the position of the camera is the center of the minimap
+	 * @param xOffset distance from the left of the screen to the left of the minimap
+	 * @param yOffset distance from the right of the screen to the right of the minimap
+	 */
+	public void drawMiniMap(SpriteBatch batch, Vector3 cameraPosition, int xOffset, int yOffset) {
+		
+		int distanceInIndices = renderDistanceInIndices + minimapViewDistance;
+
+		// calculate on which indices of the map the camera is
+		Vector2 cameraIndices = positionToMapIndices(new Vector2(cameraPosition.x, cameraPosition.y));
+
+		int leftDrawBoundaryIndex = (int) (cameraIndices.x - distanceInIndices);
+		int rightDrawBoundaryIndex = (int) (cameraIndices.x + distanceInIndices);
+		int upDrawBoundaryIndex = (int) (cameraIndices.y - distanceInIndices);
+		int downDrawBoundaryIndex = (int) (cameraIndices.y + distanceInIndices);
+
+		Rectangle renderRectIndices =  new Rectangle(leftDrawBoundaryIndex, downDrawBoundaryIndex,
+				rightDrawBoundaryIndex, upDrawBoundaryIndex);
+				
+		int initX = (int) renderRectIndices.x, initY = (int) renderRectIndices.height;
+		
+		// go trough the on-screen map and render the corresponding minimap tile
+		for (int y = initY; y < renderRectIndices.y; y++) {
+			for (int x = initX; x < renderRectIndices.width; x++) {
+				
+				// don't render if the tile is not in the map array
+				if (x < 0 || y < 0 || x >= width || y >= height) {
+					continue;
+				}
+				
+				tileTexture = new TextureRegion(minimapTileset,
+						(getTileID(x, y) % numTilesPerRow) * minimapTileSize,
+						(getTileID(x, y) / numTilesPerRow) * minimapTileSize,
+						minimapTileSize, minimapTileSize);
+				
+				batch.draw(tileTexture,
+						xOffset + (x - initX) * minimapTileSize,
+						yOffset + (renderRectIndices.y - y) * minimapTileSize);
+			}
+		}
 	}
 
 	/**
@@ -256,7 +309,7 @@ public class Map {
 	/**
 	 * @param xIndex the x index of the tile
 	 * @param yIndex the y index of the tile
-	 * @param tileID the ID to set the tile ID to*/
+	 * @param tileID the ID to set the tile ID to */
 	public void setTileID(int xIndex, int yIndex, int tileID) {
 		if (xIndex < 0 || xIndex >= map[0].length
 				|| yIndex < 0 || yIndex >= map.length) {
@@ -299,6 +352,10 @@ public class Map {
 	
 	public int getTotalHeight() {
 		return height * tileSize;
+	}
+	
+	public void dispose() {
+		shapeRenderer.dispose();
 	}
 
 }

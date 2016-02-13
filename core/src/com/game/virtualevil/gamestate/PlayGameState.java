@@ -114,6 +114,9 @@ public final class PlayGameState extends GameState {
 				+ (int) screenToWorldCoords(playerInputController.getMousePosition()).y);
 		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeft());
 
+		// draw minimap
+		map.drawMiniMap(batch, camera.position, 20, 20);
+		
 		// draw the actual UI
 		double missingHealthRatio = (double)(entityManager.getPlayer().getHealthXCoordianteVisual())/entityManager.getPlayer().getMaxHealth();
 		//draw piston arm
@@ -167,6 +170,7 @@ public final class PlayGameState extends GameState {
 	@Override
 	public void dispose() {
 		super.dispose();
+		map.dispose();
 	}
 
 	public EntityManager getEntityManager() {

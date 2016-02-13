@@ -2,13 +2,8 @@ package com.game.virtualevil.utility.asset;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
-
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.game.virtualevil.utility.VirtualEvilException;
 
 public class TextureManager {
@@ -24,6 +19,7 @@ public class TextureManager {
 				"HPETileSet",
 				"hero",
 				"cyber_tileset",
+				"cyber_minimap",
 				"bat",
 				"startScreenBackground",
 				"chipBuildings",
