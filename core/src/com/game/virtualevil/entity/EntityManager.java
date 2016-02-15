@@ -10,20 +10,20 @@ public class EntityManager {
 
 	private PlayerCharacter pc;
 	private ArrayList<EnemyCharacter> enemiesList = new ArrayList<>();
-	private ArrayList<Bullet> BulletOnField = new ArrayList<>();
+	private ArrayList<Bullet> bullets = new ArrayList<>();
 
 	public EntityManager(PlayGameState playGameState) {
 		pc = new PlayerCharacter(playGameState);
 		enemiesList.add(new EnemyCharacter(playGameState, 1000, 3000));
 	}
 
-	public void updateEntities(float delta) {
+	public void updateEntities(final float delta) {
 		pc.update(delta);
 		for (EnemyCharacter enemy : enemiesList) {
 			enemy.update(delta);
 		}
-		for (Bullet i : BulletOnField) {
-			i.move();
+		for (Bullet b : bullets) {
+			b.move();
 		}
 	}
 
@@ -32,13 +32,13 @@ public class EntityManager {
 		for (EnemyCharacter enemy : enemiesList) {
 			enemy.draw(batch);
 		}
-		for (Bullet i : BulletOnField) {
-			i.draw(batch);
+		for (Bullet b : bullets) {
+			b.draw(batch);
 		}
 	}
-	public void AddBullet(Bullet NewBullet)
+	public void addBullet(Bullet newBullet)
 	{
-		BulletOnField.add(NewBullet);
+		bullets.add(newBullet);
 	}
 
 	public PlayerCharacter getPlayer() {

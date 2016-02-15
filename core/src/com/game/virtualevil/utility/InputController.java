@@ -11,16 +11,16 @@ public class InputController {
 
 	private boolean left, right, up, down,
 					switchWeapon, weaponAbility,
-					mouseLeft;
+					mouseLeftPressed;
 	private boolean[] numberKeys = new boolean[AbilityConstants.ABILITIES_COUNT];
 	private Vector2 mousePosition = new Vector2();
 	
-	/** Used to avoid glitches when going back to 
-	 * a state and input information is outdated. */
+	/** Use to when going back to a state and input
+	 * information is outdated. */
 	public void reset() {
 		left = right = up = down =
 		switchWeapon = weaponAbility = 
-		mouseLeft = false;
+		mouseLeftPressed = false;
 		mousePosition.x = mousePosition.y = -1;
 		
 		for (int i = 0; i < numberKeys.length; i++) {
@@ -28,30 +28,18 @@ public class InputController {
 		}
 	}
 	
-	/* TODO: throw ex, invalid array indexing error
-	 * should not happen in production */
-	public void setNumberKey(int keyNum, boolean value) {
-		if (keyNum >= numberKeys.length) {
-			try {
-				throw new VirtualEvilException(
-						"Inputcontroller's setNumberKey() parameter is invalid: "
-						+ keyNum + " > " + numberKeys.length);
-			} catch (VirtualEvilException e) {
-				VirtualEvilException.showException(e);
-			}
+	public void setNumberKey(final int keyNum, final boolean value) {
+		if (keyNum >= numberKeys.length || keyNum < 0) {
+			VirtualEvilError.show("Inputcontroller's setNumberKey() parameter is invalid:\n"
+					+ keyNum);
 		}
 		this.numberKeys[keyNum-1] = value;
 	}
 	
-	public boolean getNumberKey(int keyNum) {
-		if (keyNum >= numberKeys.length) {
-			try {
-				throw new VirtualEvilException(
-						"Inputcontroller's getNumberKey() parameter is invalid: "
-						+ keyNum + " > " + numberKeys.length);
-			} catch (VirtualEvilException e) {
-				VirtualEvilException.showException(e);
-			}
+	public boolean getNumberKey(final int keyNum) {
+		if (keyNum >= numberKeys.length || keyNum < 0) {
+			VirtualEvilError.show("Inputcontroller's getNumberKey() parameter is invalid:\n"
+					+ keyNum);
 		}
 		return numberKeys[keyNum-1];
 	}
@@ -113,12 +101,12 @@ public class InputController {
 		return mousePosition;
 	}
 
-	public boolean isMouseLeft() {
-		return mouseLeft;
+	public boolean isMouseLeftPressed() {
+		return mouseLeftPressed;
 	}
 
-	public void setMouseLeft(boolean mouseLeft) {
-		this.mouseLeft = mouseLeft;
+	public void setMouseLeftPressed(boolean mouseLeft) {
+		this.mouseLeftPressed = mouseLeft;
 	}
 
 }

@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 /* The FontManager class contains all the fonts.
- * If there are more fonts: create a hashmap
- * and access them by a string. */
+ * TODO If there are more fonts: create a hashmap? and access them by a key.
+ * TODO store fonts in a collection and check if they are null when disposing them;
+ * - a font should have more than 1 size?
+ * - maybe put ttf loading boilerplate into a method? */
 public class FontManager {
-
+	
 	private final String PATH = "fonts/", FORMAT = ".ttf";
 	private BitmapFont debugFont;
 	private BitmapFont startScreenDigits;
@@ -35,7 +37,8 @@ public class FontManager {
 		}
 		return startScreenDigits;
 	}
-		//LCD style font used for HP display on the HUD
+	
+	//LCD style font used for HP display on the HUD
 	public BitmapFont getHUDHealthFont(int fontSize) {
 		if (HUDHealthFont == null) {
 			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(PATH + "24Display" + FORMAT));
@@ -52,6 +55,5 @@ public class FontManager {
 	public void disposeAllFonts() {
 		debugFont.dispose();
 		startScreenDigits.dispose();
-		HUDHealthFont.dispose();
 	}
 }

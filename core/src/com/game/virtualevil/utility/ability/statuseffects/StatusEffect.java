@@ -1,12 +1,10 @@
 package com.game.virtualevil.utility.ability.statuseffects;
 
-import com.badlogic.gdx.Gdx;
 import com.game.virtualevil.entity.GameCharacter;
 
 /**
- * The main status effect class. The ConcreteAbility
- * class covers the more basic status effects. For
- * more complex implementations extend this class.
+ * The main status effect class. Extend it to implement
+ * concrete status effects.
  * @author vs */
 public abstract class StatusEffect {
 
@@ -16,7 +14,7 @@ public abstract class StatusEffect {
 	// the unique name should describe a process
 	protected final String statusEffectName;
 
-	public StatusEffect(String statusEffectName, GameCharacter character) {
+	public StatusEffect(final String statusEffectName, GameCharacter character) {
 		this.statusEffectName = statusEffectName;
 		this.character = character;
 	}
@@ -39,9 +37,9 @@ public abstract class StatusEffect {
 	protected abstract void expire();
 	
 	/** Every effect is updated every frame */
-	public void update() {
+	public void update(final float delta) {
 		if (remainingDuration >= 0) {
-			remainingDuration -= Gdx.graphics.getDeltaTime();
+			remainingDuration -= delta;
 			if (remainingDuration < 0) {
 				// remove the status effect from the character
 				character.removeStatusEffect(this);

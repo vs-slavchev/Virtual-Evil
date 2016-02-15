@@ -103,7 +103,7 @@ public class GameInputProcessor implements InputProcessor {
 		switch (button) {
 		case Buttons.LEFT:
 			inputController.setMousePosition(screenX, screenY);
-			inputController.setMouseLeft(true);
+			inputController.setMouseLeftPressed(true);
 			return true;
 		default:
 			return false;
@@ -114,7 +114,7 @@ public class GameInputProcessor implements InputProcessor {
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		switch (button) {
 		case Buttons.LEFT:
-			inputController.setMouseLeft(false);
+			inputController.setMouseLeftPressed(false);
 			return true;
 		default:
 			return false;

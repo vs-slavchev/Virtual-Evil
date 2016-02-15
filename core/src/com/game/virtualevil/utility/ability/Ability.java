@@ -1,26 +1,45 @@
 package com.game.virtualevil.utility.ability;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.virtualevil.entity.GameCharacter;
+import com.game.virtualevil.utility.VirtualEvilError;
+import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
+import com.game.virtualevil.utility.ability.concrete.SoulRipAbility;
+import com.game.virtualevil.utility.ability.concrete.SprintAbility;
 
 /**
- * The main ability class. It uses the Factory
- * design pattern. Use createAbility() statically
- * to create an Ability instance; attemptToUse()
- * when trying to use an Ability and the update()
+ * The main ability class. Concrete implementations are in the
+ * ability.concrete package.
+ * Use attemptToUse() when trying to use an Ability and the update()
  * method to tick the cooldown.
  * @author vs */
 public abstract class Ability {
 	
 	// time is measured in seconds
 	protected float remainingCooldown;
+	protected final float cooldown;
 	protected final String abilityName;
 	protected final GameCharacter character;
 	
-	public Ability(String abilityName, GameCharacter character) {
+	public Ability(String abilityName, GameCharacter character, float cooldown) {
 		this.abilityName = abilityName;
 		this.character = character;
+		this.cooldown = cooldown;
+	}
+	
+	public static Ability create(final String abilityName, GameCharacter character) {
+		switch (abilityName) {
+		case "Sprint":
+			return new SprintAbility(abilityName, character);
+		case "Soul Rip":
+			return new SoulRipAbility(abilityName, character);
+		case "Return":
+			return new ReturnAbility(abilityName, character);
+		default:
+			VirtualEvilError.show("creating an unknown ability:\n" + abilityName);
+			// unreachable code
+			return null;
+		}
 	}
 	
 	/**
@@ -28,6 +47,7 @@ public abstract class Ability {
 	 * <em>should<em> be used. */
 	public final void attemptToUse() {
 		if (isOffCooldown()) {
+			remainingCooldown = cooldown;
 			useAbility();
 		}
 	}
@@ -39,15 +59,12 @@ public abstract class Ability {
 	
 	/**
 	 *  This method is called every frame. */
-	public final void update() {
+	public final void update(final  float delta) {
 		if (remainingCooldown > 0) {
-			remainingCooldown -= Gdx.graphics.getDeltaTime();
+			remainingCooldown -= delta;
 		}
 	}
 	
-	/**
-	 * Checks whether the ability is not on cooldown.
-	 * @return true - off cooldown; false - on cooldown. */
 	public final boolean isOffCooldown() {
 		if (remainingCooldown > 0) {
 			return false;
@@ -59,6 +76,7 @@ public abstract class Ability {
 		// TODO
 		// draw icon on interface
 		// draw cooldown animation
+		// draw a tooltip on mouseover? player should know what the ability does
 		// reuse some code from here in subclasses if needed
 	}
 }

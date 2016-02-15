@@ -2,9 +2,7 @@ package com.game.virtualevil.entity;
 
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
-import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
-import com.game.virtualevil.utility.ability.concrete.SoulRipAbility;
-import com.game.virtualevil.utility.ability.concrete.SprintAbility;
+import com.game.virtualevil.utility.ability.Ability;
 import com.game.virtualevil.utility.weapon.Weapon;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
@@ -26,9 +24,9 @@ public final class PlayerCharacter extends GameCharacter {
 		setUpAnimation();
 		isActive = true;
 
-		abilities.add(0, new SprintAbility(this));
-		abilities.add(1, new ReturnAbility(this));
-		abilities.add(2, new SoulRipAbility(this));
+		abilities.add(0, Ability.create("Sprint", this));
+		abilities.add(1, Ability.create("Return", this));
+		abilities.add(2, Ability.create("Soul Rip", this));
 
 		weapon = new Weapon(WeaponType.MACHINE_GUN, playGameState);
 	}
@@ -37,7 +35,7 @@ public final class PlayerCharacter extends GameCharacter {
 	 * Sets the player and camera positions as the player should always be in
 	 * the center of the camera. */
 	@Override
-	public void setPosition(Vector2 position) {
+	public void setPosition(final Vector2 position) {
 		this.position.x = position.x;
 		this.position.y = position.y;
 		centerCameraOnPlayer();
@@ -49,7 +47,7 @@ public final class PlayerCharacter extends GameCharacter {
 	}
 
 	@Override
-	public void applyAction(float delta) {
+	public void applyAction(final float delta) {
 		super.applyAction(delta);
 
 		// check the ability related input
@@ -64,7 +62,7 @@ public final class PlayerCharacter extends GameCharacter {
 		}
 		
 		weapon.updateTimer();
-		if (inputController.isMouseLeft()) {
+		if (inputController.isMouseLeftPressed()) {
 			weapon.fire();
 		}
 	}
@@ -76,7 +74,7 @@ public final class PlayerCharacter extends GameCharacter {
 	/**
 	 * Overridden because the camera needs to be on the player. */
 	@Override
-	protected void updateAnimation(float delta) {
+	protected void updateAnimation(final float delta) {
 		if (characterMoved) {
 			centerCameraOnPlayer();
 			frameTime += delta;

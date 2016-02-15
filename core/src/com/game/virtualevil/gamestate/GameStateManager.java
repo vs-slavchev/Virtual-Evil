@@ -10,9 +10,9 @@ public class GameStateManager {
 		MAIN_MENU, PLAY
 	}
 
-	private Game game;
+	private final Game game;
 	// an EnumMap containing the states in the game
-	private EnumMap<StateType, GameState> stateMap = new EnumMap<>(StateType.class);
+	private final EnumMap<StateType, GameState> stateMap = new EnumMap<>(StateType.class);
 	// a reference to the current state
 	private GameState currentState;
 	
@@ -35,7 +35,7 @@ public class GameStateManager {
 		setCurrentState(StateType.PLAY);
 	}
 	
-	public void update(float delta) {
+	public void update(final float delta) {
 		currentState.update(delta);
 	}
 	
