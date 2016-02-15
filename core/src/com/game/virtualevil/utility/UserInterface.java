@@ -6,28 +6,35 @@ import com.game.virtualevil.utility.asset.TextureManager;
 public class UserInterface {
 	
 	private TextureRegion healthAndEnergyInterface, piston, pistonArm, healthBar, energyBar,
-							weaponsInterface, pistol, shotgun, ak47, minigun, katana, lightSabre, axe;
+							weaponsInterface, pistol, shotgun, ak47, minigun, katana, lightSabre, axe,
+							minimapInterface;
 	public UserInterface (TextureManager tm){
 		healthAndEnergyInterface = new TextureRegion(tm.getImage("HPETileSet"),
 				0, 0, 384, 191);
-		healthBar = new TextureRegion(tm.getImage("HPETileSet"),
-				0, 281, 3, 39 );
-		piston = new TextureRegion(tm.getImage("HPETileSet"),
-				0, 217, 29, 39);
-		pistonArm = new TextureRegion(tm.getImage("HPETileSet"),
-				0, 265, 3, 7);
-		energyBar = new TextureRegion(tm.getImage("HPETileSet"),
-				0, 329, 294, 78);
-		
-		weaponsInterface = new TextureRegion(tm.getImage("HPETileSet"),
-				0, 411, 207, 96 );
-		
-		ak47 = new TextureRegion(tm.getImage("weaponsTileSet"),
-				0, 128, 64, 64 );
-		katana = new TextureRegion(tm.getImage("weaponsTileSet"),
-				0, 256, 64, 64);
+		healthBar = new TextureRegion(tm.getImage("HPETileSet"), 0, 281, 3, 39);
+		piston = new TextureRegion(tm.getImage("HPETileSet"), 0, 217, 29, 39);
+		pistonArm = new TextureRegion(tm.getImage("HPETileSet"), 0, 265, 3, 7);
+		energyBar = new TextureRegion(tm.getImage("HPETileSet"), 0, 329, 294,
+				78);
+
+		weaponsInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 411,
+				207, 96);
+
+		ak47 = new TextureRegion(tm.getImage("weaponsTileSet"), 0, 128, 64, 64);
+		katana = new TextureRegion(tm.getImage("weaponsTileSet"), 0, 256, 64,
+				64);
+
+		minimapInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 518,
+				120, 120);
+
 	}
 	
+
+
+	public TextureRegion getMinimapInterface() {
+		return minimapInterface;
+	}
+
 
 
 	public TextureRegion getHealthAndEnergyInterface() {

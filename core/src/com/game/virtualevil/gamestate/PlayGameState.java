@@ -115,7 +115,10 @@ public final class PlayGameState extends GameState {
 		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeftPressed());
 
 		// draw minimap
-		map.drawMiniMap(batch, camera.position, 20, 20);
+		map.drawMiniMap(batch, camera.position, 65, 65);
+		
+		//draw minimap frame
+		batch.draw(userInterface.getMinimapInterface(), 5, 7, 240, 240);
 		
 		// draw the actual UI
 		double missingHealthRatio = (double)(entityManager.getPlayer().getHealthXCoordianteVisual())/entityManager.getPlayer().getMaxHealth();

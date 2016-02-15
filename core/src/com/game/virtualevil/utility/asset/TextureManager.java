@@ -15,6 +15,7 @@ public class TextureManager {
 	
 	public TextureManager() {
 		String[] imgNames = {
+				"minimapInterface",
 				"weaponsTileSet",
 				"HPETileSet",
 				"hero",
