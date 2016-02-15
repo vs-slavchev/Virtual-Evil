@@ -66,7 +66,7 @@ public abstract class GameCharacter {
 				spriteSheet.getRegionHeight()/4 - 16);
 	}
 	
-	public void update(float delta) {
+	public void update(final float delta) {
 		if (isActive) {
 			prevDirection = spriteDirection;
 			applyAction(delta);
@@ -76,15 +76,15 @@ public abstract class GameCharacter {
 			}
 			
 			for (StatusEffect effect : statusEffects) {
-				effect.update();
+				effect.update(delta);
 			}
 			for (Ability ability : abilities) {
-				ability.update();
+				ability.update(delta);
 			}
 		}
 	}
 	
-	protected void updateAnimation(float delta) {
+	protected void updateAnimation(final float delta) {
 		if (characterMoved) {
 			frameTime += delta;
 		}
@@ -97,7 +97,7 @@ public abstract class GameCharacter {
 	/** Contains the character actions implementation.
 	 * Extend to add action logic for AI or player input processing.
 	 * @param delta the time delta */
-	protected void applyAction(float delta) {
+	protected void applyAction(final float delta) {
 		/* check if moving in the desired direction is possible;
 		 * if it is - do move, else don't. The boolean is used
 		 * to advance the animation of the player. */
@@ -116,7 +116,7 @@ public abstract class GameCharacter {
 		updateAnimation(delta);
 	}
 	
-	protected void performVerticalMovement(Direction dir, float delta) {
+	protected void performVerticalMovement(Direction dir, final float delta) {
 		float futureYoffset = moveSpeed * delta;
 		if (dir == Direction.DOWN) {
 			futureYoffset *= -1;
@@ -129,7 +129,7 @@ public abstract class GameCharacter {
 		}
 	}
 	
-	protected void performHorizontalMovement(Direction dir, float delta) {
+	protected void performHorizontalMovement(Direction dir, final float delta) {
 		float futureXoffset = moveSpeed * delta;
 		if (dir == Direction.LEFT) {
 			futureXoffset *= -1;
@@ -147,7 +147,7 @@ public abstract class GameCharacter {
 	 * @param x left x coordinate
 	 * @param y bottom y coordinate
 	 * @return the collision rectangle */
-	protected Rectangle createColRect(float x, float y) {
+	protected Rectangle createColRect(final float x, final float y) {
 		return new Rectangle(x + 4, y - 20,
 				collisionBoxVector.x, collisionBoxVector.y);
 	}
@@ -185,20 +185,20 @@ public abstract class GameCharacter {
 	}
 
 	public int getCurrentHealth() {
-			if(currentHealth < 0){
-				currentHealth = 0;
-			}
-			if(currentHealth > maxHealth){
-				currentHealth = maxHealth;
-			}
+		if (currentHealth < 0) {
+			currentHealth = 0;
+		}
+		if (currentHealth > maxHealth) {
+			currentHealth = maxHealth;
+		}
 		return currentHealth;
 	}
 	
-	public void setCurrentHealth(int currentHealth) {
-		if(currentHealth < 0){
+	public void setCurrentHealth(final int currentHealth) {
+		if (currentHealth < 0) {
 			this.currentHealth = 0;
 		}
-		if(currentHealth > maxHealth){
+		if (currentHealth > maxHealth) {
 			this.currentHealth = maxHealth;
 		}
 		this.currentHealth = currentHealth;

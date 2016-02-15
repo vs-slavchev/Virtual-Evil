@@ -16,7 +16,7 @@ public class NonPlayerCharacter extends GameCharacter{
 	protected AI_State aiState = AI_State.IDLE;
 	protected float timer;
 	
-	public NonPlayerCharacter(PlayGameState playGameState, int x, int y) {
+	public NonPlayerCharacter(PlayGameState playGameState, final int x, final int y) {
 		super(playGameState);
 		inputController = new InputController();
 		position.x = x;
@@ -25,7 +25,7 @@ public class NonPlayerCharacter extends GameCharacter{
 		aiState = AI_State.PATROL;
 	}
 
-	public void update(float delta) {
+	public void update(final float delta) {
 		/* toggle isActive according to whether character is in view.
 		 * Here != works as XOR */
 		if (isActive != playGameState.isCharacterInView(this)){
@@ -35,7 +35,7 @@ public class NonPlayerCharacter extends GameCharacter{
 	}
 	
 	@Override
-	protected void applyAction(float delta) {
+	protected void applyAction(final float delta) {
 		super.applyAction(delta);
 		switch (aiState) {
 		case PATROL:

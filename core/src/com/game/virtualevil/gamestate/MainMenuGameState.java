@@ -109,7 +109,7 @@ public class MainMenuGameState extends GameState{
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(final float delta) {
 		
 		if (digitsAnimationFinished) {
 			buttons.checkClicks();

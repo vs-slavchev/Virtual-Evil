@@ -72,7 +72,7 @@ public final class PlayGameState extends GameState {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(final float delta) {
 		entityManager.updateEntities(delta);
 	}
 
@@ -112,7 +112,7 @@ public final class PlayGameState extends GameState {
 		DebugInfo.draw("World: mouseX: " + (int) screenToWorldCoords(playerInputController.getMousePosition()).x
 				+ "; mouseY: "
 				+ (int) screenToWorldCoords(playerInputController.getMousePosition()).y);
-		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeft());
+		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeftPressed());
 
 		// draw minimap
 		map.drawMiniMap(batch, camera.position, 20, 20);
@@ -170,7 +170,6 @@ public final class PlayGameState extends GameState {
 	@Override
 	public void dispose() {
 		super.dispose();
-		map.dispose();
 	}
 
 	public EntityManager getEntityManager() {

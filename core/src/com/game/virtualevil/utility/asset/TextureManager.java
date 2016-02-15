@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.game.virtualevil.utility.VirtualEvilException;
+import com.game.virtualevil.utility.VirtualEvilError;
 
 public class TextureManager {
 
@@ -44,13 +44,8 @@ public class TextureManager {
 	}
 
 	public TextureRegion getImage(String s) {
-		try {
-			if (!texRegions.containsKey(s)) {
-				throw new VirtualEvilException("Image not found in hashmap. key=\""
-						+ s + "\"");
-			}
-		} catch (VirtualEvilException e) {
-			VirtualEvilException.showException(e);
+		if (!texRegions.containsKey(s)) {
+			VirtualEvilError.show("Image not found in hashmap. key =\n"	+ s);			
 		}
 		return texRegions.get(s);
 	}

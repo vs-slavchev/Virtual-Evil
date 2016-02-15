@@ -5,7 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -26,10 +25,8 @@ public class Map {
 	/* rendering distance from the camera center;
 	 * measured in map indices. Distance depends
 	 * on the screen width. */
-	private final int renderDistanceInIndices, minimapViewDistance = 20;
+	private final int renderDistanceInIndices, minimapViewDistance = 30;
 	
-	private ShapeRenderer shapeRenderer = new ShapeRenderer();
-
 	/**
 	 * The mapName shouldn't contain '.bin' */
 	public Map(PlayGameState playGameState, String mapName) {
@@ -51,7 +48,7 @@ public class Map {
 	 * and the rectangle is checked for collision against the nearest tiles.
 	 * @param characterCollisionRectangle the rectangle of the entity to be checked
 	 * @return true - collision detected, false - no collision */
-	public boolean collidesWithTerrain(Rectangle characterCollisionRectangle) {
+	public boolean collidesWithTerrain(final Rectangle characterCollisionRectangle) {
 		/* map[0][0] is top left, but player 0,0 is bottom left, so we flip the
 		 * player y to match the map layout */
 		characterCollisionRectangle.y = height * tileSize - characterCollisionRectangle.y;
@@ -82,7 +79,8 @@ public class Map {
 	 * @param mapXindex the x index of the map 2D array
 	 * @param mapYindex the y index of the map 2D array
 	 * @return true - collision detected, false - no collision */
-	private boolean collidesWithTile(Rectangle characterCollisionRectangle, int mapXindex, int mapYindex) {
+	private boolean collidesWithTile(final Rectangle characterCollisionRectangle,
+			final int mapXindex, final int mapYindex) {
 		/* tileID -> collisionPercent
 		 * 0-80 -> 0%
 		 * 80-130 -> 50%
@@ -108,7 +106,7 @@ public class Map {
 		return false;
 	}
 
-	public void readMap(String mapName) {
+	public void readMap(final String mapName) {
 		FileHandle file2 = Gdx.files.internal(mapName + ".bin");
 
 		byte[] bytes;
@@ -139,7 +137,7 @@ public class Map {
 		map = map2;
 	}
 
-	public void drawMap(SpriteBatch batch, Vector3 cameraPosition) {
+	public void drawMap(SpriteBatch batch, final Vector3 cameraPosition) {
 		Rectangle renderRectIndices = calculateRenderRectIndices(cameraPosition);
 		// go trough the on-screen map and render the corresponding tile
 		for (int y = (int) renderRectIndices.height; y < renderRectIndices.y; y++) {
@@ -153,7 +151,7 @@ public class Map {
 	 * Draws the upper layer (2nd layer) of the game-world.
 	 * Objects drawn here depend on the tiles in the game map.
 	 * Method is similar to the drawMap() one. */
-	public void drawLayer2Map(SpriteBatch batch, Vector3 cameraPosition) {
+	public void drawLayer2Map(SpriteBatch batch, final Vector3 cameraPosition) {
 		
 		Rectangle renderRectIndices = calculateRenderRectIndices(cameraPosition);
 		// go trough the on-screen map and render the corresponding layer 2 tile
@@ -180,7 +178,7 @@ public class Map {
 	 * @param x the x index in the game map
 	 * @param y the y index in the game map
 	 * @param tileID the ID of the tile to be drawn */
-	private void drawTile(SpriteBatch batch, int x, int y, int tileID) {
+	private void drawTile(SpriteBatch batch, final int x, final int y, final int tileID) {
 		tileTexture = new TextureRegion(tileSet, (tileID % numTilesPerRow) * tileSize,
 				(tileID / numTilesPerRow) * tileSize, tileSize, tileSize);
 		batch.draw(tileTexture, x * tileSize, height * tileSize - ((y + 1) * tileSize),
@@ -194,9 +192,8 @@ public class Map {
 	 * as the width and height fields do not contain what they are supposed to
 	 * (they are absolute, not relative as they should be). 
 	 * @param cameraPosition the center of the camera
-	 * @param distanceOffset by how many indices should the render distance be offset in this method call
 	 * @return the 4 indices for the game map, in which rendering occurs */
-	public Rectangle calculateRenderRectIndices(Vector3 cameraPosition) {
+	public Rectangle calculateRenderRectIndices(final Vector3 cameraPosition) {
 		
 		// calculate on which indices of the map the camera is
 		Vector2 cameraIndices = positionToMapIndices(new Vector2(
@@ -222,7 +219,7 @@ public class Map {
 	 *  Calculate on which indices of the map the position is.
 	 * @param position character or camera position vector
 	 * @return a vector containing the map indices */
-	public Vector2 positionToMapIndices(Vector2 position) {
+	public Vector2 positionToMapIndices(final Vector2 position) {
 		Vector2 mapIndices = new Vector2();
 		mapIndices.x = (int) (position.x / tileSize);
 		mapIndices.y = (int) ((height * tileSize - position.y) / tileSize);
@@ -230,23 +227,21 @@ public class Map {
 	}
 	
 	/**
-	 * 
 	 * @param batch
 	 * @param cameraPosition the position of the camera is the center of the minimap
 	 * @param xOffset distance from the left of the screen to the left of the minimap
 	 * @param yOffset distance from the right of the screen to the right of the minimap
 	 */
-	public void drawMiniMap(SpriteBatch batch, Vector3 cameraPosition, int xOffset, int yOffset) {
+	public void drawMiniMap(SpriteBatch batch, Vector3 cameraPosition,
+			final int xOffset, final int yOffset) {
 		
-		int distanceInIndices = renderDistanceInIndices + minimapViewDistance;
-
 		// calculate on which indices of the map the camera is
 		Vector2 cameraIndices = positionToMapIndices(new Vector2(cameraPosition.x, cameraPosition.y));
 
-		int leftDrawBoundaryIndex = (int) (cameraIndices.x - distanceInIndices);
-		int rightDrawBoundaryIndex = (int) (cameraIndices.x + distanceInIndices);
-		int upDrawBoundaryIndex = (int) (cameraIndices.y - distanceInIndices);
-		int downDrawBoundaryIndex = (int) (cameraIndices.y + distanceInIndices);
+		int leftDrawBoundaryIndex = (int) (cameraIndices.x - minimapViewDistance);
+		int rightDrawBoundaryIndex = (int) (cameraIndices.x + minimapViewDistance);
+		int upDrawBoundaryIndex = (int) (cameraIndices.y - minimapViewDistance);
+		int downDrawBoundaryIndex = (int) (cameraIndices.y + minimapViewDistance);
 
 		Rectangle renderRectIndices =  new Rectangle(leftDrawBoundaryIndex, downDrawBoundaryIndex,
 				rightDrawBoundaryIndex, upDrawBoundaryIndex);
@@ -290,35 +285,27 @@ public class Map {
 	}
 
 	/**
-	 * @param x the x index of the tile
-	 * @param y the y index of the tile
+	 * @param xIndex the x index of the tile
+	 * @param yIndex the y index of the tile
 	 * @return the ID of the tile
 	 */
-	public int getTileID(int x, int y) {
-		if (x < 0 || x >= map[0].length || y < 0 || y >= map.length) {
-			try {
-				throw new VirtualEvilException("Invalid map indexing: x: "
-								+ x + "; y: " + y);
-			} catch (VirtualEvilException e) {
-				VirtualEvilException.showException(e);
-			}
+	public int getTileID(final int xIndex, final int yIndex) {
+		if (xIndex < 0 || xIndex >= map[0].length || yIndex < 0 || yIndex >= map.length) {
+			VirtualEvilError.show("Invalid map indexing: x: "
+					+ xIndex + "; y: " + yIndex);
 		}
-		return map[y][x] + 127;
+		return map[yIndex][xIndex] + 127;
 	}
 	
 	/**
 	 * @param xIndex the x index of the tile
 	 * @param yIndex the y index of the tile
 	 * @param tileID the ID to set the tile ID to */
-	public void setTileID(int xIndex, int yIndex, int tileID) {
+	public void setTileID(final int xIndex, final int yIndex, final int tileID) {
 		if (xIndex < 0 || xIndex >= map[0].length
 				|| yIndex < 0 || yIndex >= map.length) {
-			try {
-				throw new VirtualEvilException("Invalid map indexing: x: "
-								+ xIndex + "; y: " + yIndex);
-			} catch (VirtualEvilException e) {
-				VirtualEvilException.showException(e);
-			}
+			VirtualEvilError.show("Invalid map indexing: x: "
+					+ xIndex + "; y: " + yIndex);
 		}
 		map[yIndex][xIndex] = toSignedByte(tileID);
 	}
@@ -330,14 +317,9 @@ public class Map {
 	 * @return the converted signed byte
 	 */
 	@SuppressWarnings("static-method")
-	private byte toSignedByte(int value) {
+	private byte toSignedByte(final int value) {
 		if (value < 0 || value > 255) {
-			try {
-				throw new VirtualEvilException(
-						"Cannot convert " + value + " to signed byte!");
-			} catch (VirtualEvilException e) {
-				VirtualEvilException.showException(e);
-			}
+			VirtualEvilError.show("Cannot convert " + value + " to signed byte!");
 		}
 		return (byte) (value - 127);
 	}
@@ -353,9 +335,4 @@ public class Map {
 	public int getTotalHeight() {
 		return height * tileSize;
 	}
-	
-	public void dispose() {
-		shapeRenderer.dispose();
-	}
-
 }

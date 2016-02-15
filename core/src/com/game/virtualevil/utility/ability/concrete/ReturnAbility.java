@@ -14,15 +14,20 @@ public class ReturnAbility extends Ability{
 	
 	private Vector2 position;
 
-	public ReturnAbility(GameCharacter character) {
-		super("Return", character);
+	public ReturnAbility(String abilityName, GameCharacter character) {
+		super(abilityName, character, 0);
 	}
 	
+	/**
+	 * remaining cooldown is set here, because we need to have
+	 * 2 different cooldowns for the different elements
+	 * of the ability.
+	 */
 	@Override
 	public void useAbility() {
 		if (position == null) {
 			position = new Vector2(character.getPosition());
-			remainingCooldown = AbilityConstants.INIT_RETURN_CD;
+			remainingCooldown = AbilityConstants.INITIAL_RETURN_CD;
 			/* TODO: add an indication on the ground where the char
 			 * will be returned to */
 		} else {
@@ -34,7 +39,11 @@ public class ReturnAbility extends Ability{
 			 * away for balance purposes, and tell the player why
 			 * they are not allowed back;
 			 * 3. check if going back will put the player into another
-			 * entity or solid terrain */
+			 * entity or solid terrain;
+			 * 4. is this ability too complex? it has 2 CDs and maybe
+			 * 2 different images/tooltip texts? maybe we need to
+			 * separate it in two abilities and swap them? would the
+			 * solution be more complex and error prone?*/
 		}
 	}
 

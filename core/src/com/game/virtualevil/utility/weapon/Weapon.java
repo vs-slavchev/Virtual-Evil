@@ -3,7 +3,7 @@ package com.game.virtualevil.utility.weapon;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
-import com.game.virtualevil.utility.VirtualEvilException;
+import com.game.virtualevil.utility.VirtualEvilError;
 
 /* TODO:
  * 1. lose ammo when shooting
@@ -55,11 +55,7 @@ public class Weapon {
 			this.rateOfFire = 5;
 			break;
 		default:
-			try {
-				throw new VirtualEvilException("Creating an unknown weapon!");
-			} catch (VirtualEvilException e) {
-				VirtualEvilException.showException(e);
-			}
+			VirtualEvilError.show("Creating an unknown weapon:\n" + cWeapon);
 			break;
 		}
 	}
@@ -71,7 +67,7 @@ public class Weapon {
 			Vector2 mousePosition = playGameState.getMouseWorldCoords();
 			Bullet Go6u = new Bullet(playerPosition, mousePosition, weaponType,
 					playGameState.getAssetManager().getTextureManager().getImage("Projectile"));
-			playGameState.getEntityManager().AddBullet(Go6u);
+			playGameState.getEntityManager().addBullet(Go6u);
 		}
 	}
 

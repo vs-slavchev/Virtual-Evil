@@ -6,13 +6,12 @@ import com.game.virtualevil.utility.ability.AbilityConstants;
 
 public class SoulRipAbility extends Ability {
 
-	public SoulRipAbility(GameCharacter character) {
-		super("SoulRip", character);
+	public SoulRipAbility(String abilityName, GameCharacter character) {
+		super(abilityName, character, AbilityConstants.SOUL_RIP_CD);
 	}
 
 	@Override
 	public void useAbility() {
-		character.modifyHealth(20);
-		remainingCooldown = AbilityConstants.SPRINT_CD;
+		character.modifyHealth(AbilityConstants.SOUL_RIP_HEAL_AMOUNT);
 	}
 }

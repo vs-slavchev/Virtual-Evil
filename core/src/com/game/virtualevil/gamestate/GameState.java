@@ -9,8 +9,8 @@ import com.game.virtualevil.utility.asset.AssetManager;
 
 public abstract class GameState {
 
-	protected Game game;
-	protected GameStateManager gsm;
+	protected final Game game;
+	protected final GameStateManager gsm;
 	protected AssetManager assetManager;
 	
 	protected OrthographicCamera camera;
@@ -30,7 +30,7 @@ public abstract class GameState {
 	 * in superclass constructor. Only override. */
 	public abstract void initialize();
 	
-	public abstract void update(float delta);
+	public abstract void update(final float delta);
 	
 	/**
 	 * Implements the screen clearing and

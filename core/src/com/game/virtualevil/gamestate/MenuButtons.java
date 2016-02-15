@@ -14,8 +14,8 @@ import com.game.virtualevil.utility.asset.TextureManager;
  * @author vs */
 public class MenuButtons {
 
-	private Game game;
-	private TextureManager tm;
+	private final Game game;
+	private final TextureManager tm;
 	private TextureRegion[] textures;
 	public final static int NUM_BUTTONS = 4, BUTTON_HEIGHT = 70,
 			SPACING = Gdx.graphics.getHeight() / 10;
@@ -75,8 +75,9 @@ public class MenuButtons {
 	/* Check whether the cursor is inside the button
 	 * bounding box established by the button's
 	 * texture region dimensions. */
-	private boolean isCursorOnButton(int id) {
-		int mouseX = Gdx.input.getX(), mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+	private boolean isCursorOnButton(final int id) {
+		int mouseX = Gdx.input.getX(),
+				mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 		if (getX(id) < mouseX
 				&& getX(id) + textures[id].getRegionWidth() > mouseX
 				&& getY(id) < mouseY
@@ -86,12 +87,20 @@ public class MenuButtons {
 		return false;
 	}
 
-	private int getX(int id) {
+	/**
+	 * @param id of the button
+	 * @return the left boundary of a button corresponding to that id
+	 */
+	private int getX(final int id) {
 		return Gdx.graphics.getWidth()/2 - textures[id].getRegionWidth()/2;
 	}
 	
+	/**
+	 * @param id of the button
+	 * @return the lower boundary of a button corresponding to that id
+	 */
 	@SuppressWarnings("static-method")
-	private int getY(int id) {
+	private int getY(final int id) {
 		return (NUM_BUTTONS - id) * SPACING
 				+ (Gdx.graphics.getHeight() - 768) / 10;
 		// 768 is the minimum supported screen height
