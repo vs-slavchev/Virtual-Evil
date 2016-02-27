@@ -3,7 +3,9 @@ package com.game.virtualevil.utility.ability;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.game.virtualevil.entity.GameCharacter;
 import com.game.virtualevil.utility.VirtualEvilError;
+import com.game.virtualevil.utility.ability.concrete.InvulnerabilityAbility;
 import com.game.virtualevil.utility.ability.concrete.ReturnAbility;
+import com.game.virtualevil.utility.ability.concrete.RobotAbility;
 import com.game.virtualevil.utility.ability.concrete.SoulRipAbility;
 import com.game.virtualevil.utility.ability.concrete.SprintAbility;
 
@@ -19,6 +21,7 @@ public abstract class Ability {
 	protected float remainingCooldown;
 	protected final float cooldown;
 	protected final String abilityName;
+
 	protected final GameCharacter character;
 	
 	public Ability(String abilityName, GameCharacter character, float cooldown) {
@@ -35,6 +38,10 @@ public abstract class Ability {
 			return new SoulRipAbility(abilityName, character);
 		case "Return":
 			return new ReturnAbility(abilityName, character);
+		case"Invulnerability":
+			return new InvulnerabilityAbility(abilityName, character);
+		case"Robot":
+			return new RobotAbility(abilityName, character);
 		default:
 			VirtualEvilError.show("creating an unknown ability:\n" + abilityName);
 			// unreachable code
@@ -78,5 +85,9 @@ public abstract class Ability {
 		// draw cooldown animation
 		// draw a tooltip on mouseover? player should know what the ability does
 		// reuse some code from here in subclasses if needed
+	}
+	
+	public String getAbilityName() {
+		return abilityName;
 	}
 }

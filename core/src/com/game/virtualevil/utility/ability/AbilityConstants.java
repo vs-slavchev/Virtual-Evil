@@ -23,4 +23,10 @@ public class AbilityConstants {
 	// Soul Rip
 	public static final float SOUL_RIP_CD = 5f;
 	public static final int SOUL_RIP_HEAL_AMOUNT = 20;
+	
+	//Invulnerability
+	public static final float INVUL_CD = 20f;
+	
+	//Robot
+	public static final float ROBOT_CD = 60f;
 }

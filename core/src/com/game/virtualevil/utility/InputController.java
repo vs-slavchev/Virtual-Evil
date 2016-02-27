@@ -29,7 +29,7 @@ public class InputController {
 	}
 	
 	public void setNumberKey(final int keyNum, final boolean value) {
-		if (keyNum >= numberKeys.length || keyNum < 0) {
+		if (keyNum > numberKeys.length || keyNum < 0) {
 			VirtualEvilError.show("Inputcontroller's setNumberKey() parameter is invalid:\n"
 					+ keyNum);
 		}
@@ -37,7 +37,7 @@ public class InputController {
 	}
 	
 	public boolean getNumberKey(final int keyNum) {
-		if (keyNum >= numberKeys.length || keyNum < 0) {
+		if (keyNum > numberKeys.length || keyNum < 0) {
 			VirtualEvilError.show("Inputcontroller's getNumberKey() parameter is invalid:\n"
 					+ keyNum);
 		}
