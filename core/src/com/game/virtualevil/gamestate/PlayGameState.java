@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.game.virtualevil.Game;
 import com.game.virtualevil.entity.EntityManager;
+import com.game.virtualevil.entity.GameCharacter;
 import com.game.virtualevil.entity.NonPlayerCharacter;
 import com.game.virtualevil.entity.PlayerCharacter;
 import com.game.virtualevil.utility.DebugInfo;
@@ -114,13 +115,22 @@ public final class PlayGameState extends GameState {
 				+ (int) screenToWorldCoords(playerInputController.getMousePosition()).y);
 		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeftPressed());
 
-		// draw minimap
-		map.drawMiniMap(batch, camera.position, 65, 65);
-		
 		//draw minimap frame
 		batch.draw(userInterface.getMinimapInterface(), 5, 7, 240, 240);
 		
-		// draw the actual UI
+		// draw minimap
+		map.drawMiniMap(batch, camera.position, 65, 65);
+		
+		//draw abilities frame
+		batch.draw(userInterface.getAbilitiesInterface(), Gdx.graphics.getWidth()/2 - userInterface.getAbilitiesInterface().getRegionWidth(),
+				7, 596, 224);
+		
+		//draw the actual abilities
+		for(int i = 0; i < entityManager.getPlayer().getAbilities().size();i++ ){
+			batch.draw(userInterface.getAbilitiesMap().get(entityManager.getPlayer().getAbilities().get(i).getAbilityName()), 
+					Gdx.graphics.getWidth()/2 - 109*2 + i * 62*2, 87, 64, 64);
+		}
+		
 		double missingHealthRatio = (double)(entityManager.getPlayer().getHealthXCoordianteVisual())/entityManager.getPlayer().getMaxHealth();
 		//draw piston arm
 		batch.draw(userInterface.getPistonArm(),  Gdx.graphics.getWidth() - 304, Gdx.graphics.getHeight() - 68,
@@ -134,6 +144,7 @@ public final class PlayGameState extends GameState {
 		batch.draw(userInterface.getEnergyBar(entityManager.getPlayer().getCurrentEnergy(), entityManager.getPlayer().getMaxEnergy()),
 				Gdx.graphics.getWidth() - 347, Gdx.graphics.getHeight() - 186);
 		
+		// draw the actual UI
 		batch.draw(userInterface.getHealthAndEnergyInterface(), Gdx.graphics.getWidth() - userInterface.getHealthAndEnergyInterface().getRegionWidth()- 10,
 				Gdx.graphics.getHeight() - userInterface.getHealthAndEnergyInterface().getRegionHeight() - 10);
 		

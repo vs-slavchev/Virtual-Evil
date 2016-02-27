@@ -26,8 +26,9 @@ public final class PlayerCharacter extends GameCharacter {
 
 		abilities.add(0, Ability.create("Sprint", this));
 		abilities.add(1, Ability.create("Return", this));
-		abilities.add(2, Ability.create("Soul Rip", this));
-
+		abilities.add(2, Ability.create("Invulnerability", this));
+		abilities.add(3, Ability.create("Robot", this));
+		
 		weapon = new Weapon(WeaponType.MACHINE_GUN, playGameState);
 	}
 

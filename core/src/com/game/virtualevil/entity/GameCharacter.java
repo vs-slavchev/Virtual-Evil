@@ -194,6 +194,10 @@ public abstract class GameCharacter {
 		return currentHealth;
 	}
 	
+	public ArrayList<Ability> getAbilities() {
+		return abilities;
+	}
+
 	public void setCurrentHealth(final int currentHealth) {
 		if (currentHealth < 0) {
 			this.currentHealth = 0;
