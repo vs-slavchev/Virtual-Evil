@@ -2,7 +2,7 @@
 A LibGDX 2D action game in a cyber setting.
 
 In-Game screenshot:
-![alt tag](https://cloud.githubusercontent.com/assets/11488023/13366996/ef1f41e2-dcd6-11e5-963d-3d172a4fa442.png)
+![alt tag](https://cloud.githubusercontent.com/assets/11488023/13382994/47c56ba2-de79-11e5-8d0f-8d10b4e3ab95.png)
 
 Main Menu screenshot
 ![alt tag](https://cloud.githubusercontent.com/assets/11488023/13367042/35eefd2e-dcd7-11e5-8828-ecf1fb88fcdf.png)
