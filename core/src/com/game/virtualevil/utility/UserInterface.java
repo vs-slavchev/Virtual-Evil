@@ -16,7 +16,7 @@ public class UserInterface {
 	
 	public UserInterface (TextureManager tm){
 		healthAndEnergyInterface = new TextureRegion(tm.getImage("HPETileSet"),
-				0, 0, 384, 191);
+				0, 0, 384, 196);
 		healthBar = new TextureRegion(tm.getImage("HPETileSet"), 0, 281, 3, 39);
 		piston = new TextureRegion(tm.getImage("HPETileSet"), 0, 217, 29, 39);
 		pistonArm = new TextureRegion(tm.getImage("HPETileSet"), 0, 265, 3, 7);
@@ -43,8 +43,6 @@ public class UserInterface {
 		abilitiesMap.put("Invulnerability", invulnerability);
 		abilitiesMap.put("Robot", robot);
 	}
-	
-
 
 	
 	public TextureRegion getAbilitiesInterface() {
@@ -52,11 +50,9 @@ public class UserInterface {
 	}
 
 
-
 	public TextureRegion getMinimapInterface() {
 		return minimapInterface;
 	}
-
 
 
 	public TextureRegion getHealthAndEnergyInterface() {

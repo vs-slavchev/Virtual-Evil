@@ -17,6 +17,7 @@ import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.Map;
 import com.game.virtualevil.utility.UiInputProcessor;
 import com.game.virtualevil.utility.UserInterface;
+import com.game.virtualevil.utility.asset.MusicManager;
 
 public final class PlayGameState extends GameState {
 
@@ -27,6 +28,7 @@ public final class PlayGameState extends GameState {
 	private GameInputProcessor gameInputProcessor;
 	private UiInputProcessor uiInputProcessor;
 	private UserInterface userInterface;
+	private MusicManager musicManager;
 
 	public PlayGameState(GameStateManager gsm, Game game) {
 		super(gsm, game);
@@ -70,6 +72,9 @@ public final class PlayGameState extends GameState {
 		DebugInfo.setUp(this);
 
 		entityManager = new EntityManager(this);
+		musicManager = new MusicManager();
+		musicManager.create();
+		
 	}
 
 	@Override
@@ -154,11 +159,11 @@ public final class PlayGameState extends GameState {
 		
 		//draws the weapons interface in the bottom right corner
 		batch.draw(userInterface.getWeaponsInterface(), Gdx.graphics.getWidth() - userInterface.getWeaponsInterface().getRegionWidth()- 210,
-				Gdx.graphics.getHeight() - userInterface.getWeaponsInterface().getRegionHeight() - 980, 414, 192);
+				Gdx.graphics.getHeight() - userInterface.getWeaponsInterface().getRegionHeight() - 980, 414, 192); //980
 		
-		//draws the currently equipped weapons - firearm and melee
+		//draws the currently equipped weapons - firearm and melee weapon
 		batch.draw(userInterface.getAk47(), Gdx.graphics.getWidth() - userInterface.getAk47().getRegionWidth()- 310, 
-				Gdx.graphics.getHeight() - userInterface.getAk47().getRegionHeight() - 970,128,128);
+				Gdx.graphics.getHeight() - userInterface.getAk47().getRegionHeight() - 970, 128, 128);
 		
 		batch.draw(userInterface.getKatana(), Gdx.graphics.getWidth() - userInterface.getKatana().getRegionWidth()- 115, 
 				Gdx.graphics.getHeight() - userInterface.getKatana().getRegionHeight() - 950, 128, 128);

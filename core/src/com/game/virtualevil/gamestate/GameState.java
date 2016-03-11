@@ -12,7 +12,6 @@ public abstract class GameState {
 	protected final Game game;
 	protected final GameStateManager gsm;
 	protected AssetManager assetManager;
-	
 	protected OrthographicCamera camera;
 	protected SpriteBatch batch;
 	
@@ -22,6 +21,7 @@ public abstract class GameState {
 		batch = new SpriteBatch();
 		assetManager = game.getAssetManager();
 		initialize();
+		
 	}
 	
 	/**
