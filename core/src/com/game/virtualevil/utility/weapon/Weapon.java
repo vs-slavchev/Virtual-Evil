@@ -2,6 +2,7 @@ package com.game.virtualevil.utility.weapon;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.game.virtualevil.entity.GameCharacter;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.VirtualEvilError;
 
@@ -19,16 +20,19 @@ public class Weapon {
 	}
 
 	private WeaponType weaponType;
+
 	private String name;
 	private int ammonition, maxMagazine, curMagazine, damage;
 	private float rateOfFire, timer;
 	
+	private GameCharacter gameCharacter;
 	private PlayGameState playGameState;
 
-	public Weapon(WeaponType cWeapon, PlayGameState playState) {
-		this.playGameState = playState;
+	public Weapon(WeaponType cWeapon, GameCharacter character, PlayGameState playState) {
+		this.gameCharacter = character;
 		this.weaponType = cWeapon;
-
+		this.playGameState = playState;
+		
 		switch (cWeapon) {
 		case PISTOL:
 			this.name = "Makarov";
@@ -60,12 +64,10 @@ public class Weapon {
 		}
 	}
 
-	public void fire() {
+	public void fire(Vector2 target) {
 		if (ammonition >= 1 && timer > rateOfFire) {
 			timer = 0;
-			Vector2 playerPosition = playGameState.getEntityManager().getPlayer().getPosition();
-			Vector2 mousePosition = playGameState.getMouseWorldCoords();
-			Bullet Go6u = new Bullet(playerPosition, mousePosition, weaponType,
+			Bullet Go6u = new Bullet(gameCharacter.getPosition(), new Vector2(target), weaponType,
 					playGameState.getAssetManager().getTextureManager().getImage("Projectile"));
 			playGameState.getEntityManager().addBullet(Go6u);
 		}
@@ -81,5 +83,9 @@ public class Weapon {
 			ammonition -= toAdd;
 			curMagazine += toAdd;
 		}
+	}
+	
+	public WeaponType getWeaponType() {
+		return weaponType;
 	}
 }

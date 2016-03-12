@@ -13,14 +13,14 @@ public class Bullet {
 	private float speed;
 	private TextureRegion img;
 
-	public Bullet(Vector2 start, Vector2 mousePosition, WeaponType weaponType, TextureRegion img) {
+	public Bullet(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion img) {
 		this.position = new Vector2(start);
 		this.img = img;
-
+		System.out.println("Bullet from: " + start + "Bullet target: " + target);
 		float distance = (float) Math.sqrt(
-				  (mousePosition.x - start.x) * (mousePosition.x - start.x)
-				+ (mousePosition.y - start.y) * (mousePosition.y - start.y));
-		delta = new Vector2((mousePosition.x - start.x) / distance, (start.y - mousePosition.y) / distance);		
+				  (target.x - start.x) * (target.x - start.x)
+				+ (target.y - start.y) * (target.y - start.y));
+		delta = new Vector2((target.x - start.x) / distance, (start.y - target.y) / distance);		
 
 		switch (weaponType) {
 		case PISTOL:

@@ -1,5 +1,6 @@
 package com.game.virtualevil.entity;
 
+import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.InputController;
 
@@ -22,7 +23,7 @@ public class NonPlayerCharacter extends GameCharacter{
 		position.x = x;
 		position.y = y;
 		inputController.setDown(true);
-		aiState = AI_State.PATROL;
+		aiState = AI_State.ATTACK;
 	}
 
 	public void update(final float delta) {
@@ -64,7 +65,11 @@ public class NonPlayerCharacter extends GameCharacter{
 			 */
 			break;
 		case ATTACK:
-			// go towards player/attack
+			//if(playGameState.isCharacterInView(this)){
+				this.weapon.fire(new Vector2(playGameState.getEntityManager().getPlayer().getPosition().x ,
+						playGameState.getMap().getTotalHeight() - 
+						playGameState.getEntityManager().getPlayer().getPosition().y));
+			//}
 			break;
 		case FLEE:
 			// leg it

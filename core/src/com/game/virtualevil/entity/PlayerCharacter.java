@@ -8,19 +8,19 @@ import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
 public final class PlayerCharacter extends GameCharacter {
 
-	private Weapon weapon;
 	private final int maxEnergy;
 	private int currentEnergy = 90;
 	private float healthXCoordianteVisual;
-	
+
 	public PlayerCharacter(PlayGameState playGameState) {
 		super(playGameState);
 		this.healthXCoordianteVisual = currentHealth;
 		this.maxEnergy = 100;
-		
+
 		inputController = playGameState.getInputContrller();
 		setPosition(new Vector2(3200, 1300));
-		spriteSheet = playGameState.getAssetManager().getTextureManager().getImage("hero");
+		spriteSheet = playGameState.getAssetManager().getTextureManager()
+				.getImage("hero");
 		setUpAnimation();
 		isActive = true;
 
@@ -28,13 +28,14 @@ public final class PlayerCharacter extends GameCharacter {
 		abilities.add(1, Ability.create("Return", this));
 		abilities.add(2, Ability.create("Invulnerability", this));
 		abilities.add(3, Ability.create("Robot", this));
-		
-		weapon = new Weapon(WeaponType.MACHINE_GUN, playGameState);
+
+		weapon = new Weapon(WeaponType.MACHINE_GUN, this, playGameState);
 	}
 
 	/**
 	 * Sets the player and camera positions as the player should always be in
-	 * the center of the camera. */
+	 * the center of the camera.
+	 */
 	@Override
 	public void setPosition(final Vector2 position) {
 		this.position.x = position.x;
@@ -43,7 +44,8 @@ public final class PlayerCharacter extends GameCharacter {
 	}
 
 	private void centerCameraOnPlayer() {
-		playGameState.getCamera().position.set(this.position.x, this.position.y, 0);
+		playGameState.getCamera().position.set(this.position.x,
+				this.position.y, 0);
 		playGameState.getCamera().update();
 	}
 
@@ -57,14 +59,13 @@ public final class PlayerCharacter extends GameCharacter {
 				abilities.get(i).attemptToUse();
 			}
 		}
-		
-		if(currentHealth != healthXCoordianteVisual){
-			healthXCoordianteVisual += (currentHealth - healthXCoordianteVisual)/20.0;
+
+		if (currentHealth != healthXCoordianteVisual) {
+			healthXCoordianteVisual += (currentHealth - healthXCoordianteVisual) / 20.0;
 		}
-		
-		weapon.updateTimer();
+
 		if (inputController.isMouseLeftPressed()) {
-			weapon.fire();
+			weapon.fire(new Vector2(playGameState.getMouseWorldCoords()));
 		}
 	}
 
@@ -73,7 +74,8 @@ public final class PlayerCharacter extends GameCharacter {
 	}
 
 	/**
-	 * Overridden because the camera needs to be on the player. */
+	 * Overridden because the camera needs to be on the player.
+	 */
 	@Override
 	protected void updateAnimation(final float delta) {
 		if (characterMoved) {
@@ -81,7 +83,7 @@ public final class PlayerCharacter extends GameCharacter {
 			frameTime += delta;
 		}
 	}
-	
+
 	public int getMaxEnergy() {
 		return maxEnergy;
 	}

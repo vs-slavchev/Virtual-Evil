@@ -73,7 +73,7 @@ public final class PlayGameState extends GameState {
 
 		entityManager = new EntityManager(this);
 		musicManager = new MusicManager();
-		musicManager.create();
+		musicManager.initialize();
 		
 	}
 
@@ -189,6 +189,7 @@ public final class PlayGameState extends GameState {
 	@Override
 	public void dispose() {
 		super.dispose();
+		musicManager.dispose();
 	}
 
 	public EntityManager getEntityManager() {

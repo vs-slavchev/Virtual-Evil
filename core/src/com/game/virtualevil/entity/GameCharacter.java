@@ -2,6 +2,7 @@ package com.game.virtualevil.entity;
 
 import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,6 +13,8 @@ import com.game.virtualevil.utility.InputController;
 import com.game.virtualevil.utility.ability.Ability;
 import com.game.virtualevil.utility.ability.AbilityConstants;
 import com.game.virtualevil.utility.ability.statuseffects.StatusEffect;
+import com.game.virtualevil.utility.weapon.Weapon;
+import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
 /**
  * The basic Character class. Entities which can move,
@@ -31,14 +34,14 @@ public abstract class GameCharacter {
 	protected int currentHealth = 75;
 	protected boolean isActive = false;
 	protected float moveSpeed = 100f;
-
-
 	protected Vector2 position, collisionBoxVector;
 	protected CopyOnWriteArrayList<StatusEffect> statusEffects =
 			new CopyOnWriteArrayList<>();
 	protected ArrayList<Ability> abilities =
 			new ArrayList<>(AbilityConstants.ABILITIES_COUNT);
 	
+
+	protected Weapon weapon;
 
 	// animation related fields
 	protected Direction prevDirection, spriteDirection;
@@ -112,7 +115,7 @@ public abstract class GameCharacter {
 		} else if (inputController.isRight()) {
 			performHorizontalMovement(Direction.RIGHT, delta);
 		}
-		
+		weapon.updateTimer();
 		updateAnimation(delta);
 	}
 	

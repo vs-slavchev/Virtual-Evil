@@ -15,6 +15,11 @@ public class TextureManager {
 	
 	public TextureManager() {
 		String[] imgNames = {
+				"enemy1",
+				"enemy2",
+				"enemy3",
+				"enemy4",
+				"slime",
 				"abilitiesTileSet",
 				"weaponsTileSet",
 				"HPETileSet",
