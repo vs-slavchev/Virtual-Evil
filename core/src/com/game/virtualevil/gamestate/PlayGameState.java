@@ -181,8 +181,8 @@ public final class PlayGameState extends GameState {
 		Vector2 worldPosition = new Vector2();
 		worldPosition.x = screenPosition.x + camera.position.x
 				- Gdx.graphics.getWidth() / 2;
-		worldPosition.y = screenPosition.y + camera.position.y
-				- Gdx.graphics.getHeight() / 2;
+		worldPosition.y = -screenPosition.y + map.getTotalHeight() - camera.position.y
+				- Gdx.graphics.getHeight() / 2 -160;
 		return worldPosition;
 	}
 

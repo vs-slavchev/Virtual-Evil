@@ -15,7 +15,7 @@ public class EntityManager {
 	public EntityManager(PlayGameState playGameState) {
 		pc = new PlayerCharacter(playGameState);
 		enemiesList.add(new EnemyCharacter(playGameState, 1000, 3000));
-		enemiesList.add(new EnemyCharacter(playGameState, 4300, 1800));
+		enemiesList.add(new EnemyCharacter(playGameState, 4300, 1300));
 	}
 
 	public void updateEntities(final float delta) {

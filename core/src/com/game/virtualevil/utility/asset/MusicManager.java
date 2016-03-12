@@ -14,7 +14,7 @@ public class MusicManager  {
 		song2 = Gdx.audio.newMusic(Gdx.files.internal("Rose the Wraith.mp3"));
 		song3 = Gdx.audio.newMusic(Gdx.files.internal("ABIIISMO - Machine Uprising.mp3"));
 
-		song3.play();
+		//song3.play();
 		song1.setVolume(0.2f);
 
 		// This makes song2 play after song1 finishes

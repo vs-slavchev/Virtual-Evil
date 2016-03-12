@@ -22,7 +22,6 @@ public class NonPlayerCharacter extends GameCharacter{
 		inputController = new InputController();
 		position.x = x;
 		position.y = y;
-		inputController.setDown(true);
 		aiState = AI_State.ATTACK;
 	}
 
@@ -65,10 +64,11 @@ public class NonPlayerCharacter extends GameCharacter{
 			 */
 			break;
 		case ATTACK:
+			weapon.fire(playGameState.getEntityManager().getPlayer().getPosition());
 			//if(playGameState.isCharacterInView(this)){
-				this.weapon.fire(new Vector2(playGameState.getEntityManager().getPlayer().getPosition().x ,
+				/*this.weapon.fire(new Vector2(playGameState.getEntityManager().getPlayer().getPosition().x ,
 						playGameState.getMap().getTotalHeight() - 
-						playGameState.getEntityManager().getPlayer().getPosition().y));
+						playGameState.getEntityManager().getPlayer().getPosition().y));*/
 			//}
 			break;
 		case FLEE:

@@ -20,7 +20,7 @@ public class Bullet {
 		float distance = (float) Math.sqrt(
 				  (target.x - start.x) * (target.x - start.x)
 				+ (target.y - start.y) * (target.y - start.y));
-		delta = new Vector2((target.x - start.x) / distance, (start.y - target.y) / distance);		
+		delta = new Vector2((target.x - start.x) / distance, (target.y - start.y) / distance);		
 
 		switch (weaponType) {
 		case PISTOL:
