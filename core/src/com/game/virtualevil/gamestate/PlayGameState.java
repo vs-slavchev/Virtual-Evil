@@ -1,6 +1,7 @@
 package com.game.virtualevil.gamestate;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.game.virtualevil.Game;
 import com.game.virtualevil.entity.EntityManager;
-import com.game.virtualevil.entity.GameCharacter;
 import com.game.virtualevil.entity.NonPlayerCharacter;
 import com.game.virtualevil.entity.PlayerCharacter;
 import com.game.virtualevil.utility.DebugInfo;
@@ -179,10 +179,9 @@ public final class PlayGameState extends GameState {
 	/** Converts screen coordinates to world ones. */
 	public Vector2 screenToWorldCoords(Vector2 screenPosition) {
 		Vector2 worldPosition = new Vector2();
-		worldPosition.x = screenPosition.x + camera.position.x
-				- Gdx.graphics.getWidth() / 2;
-		worldPosition.y = -screenPosition.y + map.getTotalHeight() - camera.position.y
-				- Gdx.graphics.getHeight() / 2 -160;
+		worldPosition.x = camera.position.x - Gdx.graphics.getWidth() / 2 + screenPosition.x;
+		worldPosition.y = camera.position.y - Gdx.graphics.getHeight() / 2 + (Gdx.graphics.getHeight() - screenPosition.y);
+		
 		return worldPosition;
 	}
 

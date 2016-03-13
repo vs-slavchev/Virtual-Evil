@@ -1,6 +1,5 @@
 package com.game.virtualevil.entity;
 
-import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.InputController;
 

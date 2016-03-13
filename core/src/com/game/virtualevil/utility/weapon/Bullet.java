@@ -16,7 +16,7 @@ public class Bullet {
 	public Bullet(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion img) {
 		this.position = new Vector2(start);
 		this.img = img;
-		System.out.println("Bullet from: " + start + "Bullet target: " + target);
+		//System.out.println("Bullet from: " + start + "Bullet target: " + target);
 		float distance = (float) Math.sqrt(
 				  (target.x - start.x) * (target.x - start.x)
 				+ (target.y - start.y) * (target.y - start.y));

@@ -14,7 +14,6 @@ import com.game.virtualevil.utility.ability.Ability;
 import com.game.virtualevil.utility.ability.AbilityConstants;
 import com.game.virtualevil.utility.ability.statuseffects.StatusEffect;
 import com.game.virtualevil.utility.weapon.Weapon;
-import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
 /**
  * The basic Character class. Entities which can move,

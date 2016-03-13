@@ -1,6 +1,5 @@
 package com.game.virtualevil.utility.asset;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
