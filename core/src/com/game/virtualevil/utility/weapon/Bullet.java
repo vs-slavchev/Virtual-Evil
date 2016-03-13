@@ -12,11 +12,29 @@ public class Bullet {
 	private Vector2 position, delta;
 	private float speed;
 	private TextureRegion img;
+	
+	private boolean isActive;
 
-	public Bullet(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion img) {
+	public Bullet() {
+		isActive = false;
+		
+	}
+
+	public void move() {
+		position.x += delta.x * speed * Gdx.graphics.getDeltaTime();
+		position.y += delta.y * speed * Gdx.graphics.getDeltaTime();
+	}
+
+	public void draw(SpriteBatch sb) {
+		sb.draw(img, position.x - img.getRegionWidth()/2, position.y - img.getRegionHeight()/2);
+	}
+	
+	public void activate(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion img){
+		isActive = true;
+		
 		this.position = new Vector2(start);
 		this.img = img;
-		//System.out.println("Bullet from: " + start + "Bullet target: " + target);
+
 		float distance = (float) Math.sqrt(
 				  (target.x - start.x) * (target.x - start.x)
 				+ (target.y - start.y) * (target.y - start.y));
@@ -38,12 +56,16 @@ public class Bullet {
 		}
 	}
 
-	public void move() {
-		position.x += delta.x * speed * Gdx.graphics.getDeltaTime();
-		position.y += delta.y * speed * Gdx.graphics.getDeltaTime();
+	public boolean isActive() {
+		return isActive;
+	}
+	
+	public void deactivate(){
+		isActive = false;		
 	}
 
-	public void draw(SpriteBatch sb) {
-		sb.draw(img, position.x - img.getRegionWidth()/2, position.y - img.getRegionHeight()/2);
+	public Vector2 getPosition() {
+		return position;
 	}
+	
 }

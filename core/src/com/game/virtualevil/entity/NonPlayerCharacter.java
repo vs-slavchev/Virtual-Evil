@@ -27,7 +27,7 @@ public class NonPlayerCharacter extends GameCharacter{
 	public void update(final float delta) {
 		/* toggle isActive according to whether character is in view.
 		 * Here != works as XOR */
-		if (isActive != playGameState.isCharacterInView(this)){
+		if (isActive != playGameState.isObjectInView(position)){
 			isActive = !isActive;
 		}
 		super.update(delta);

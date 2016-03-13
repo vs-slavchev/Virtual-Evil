@@ -99,13 +99,13 @@ public final class PlayGameState extends GameState {
 		batch.end();
 	}
 
-	public boolean isCharacterInView(NonPlayerCharacter npc) {
+	public boolean isObjectInView(Vector2 position) {
 		Rectangle cameraView = map.calculateRenderRectIndices(camera.position);
-		Vector2 npcMapIndices = map.positionToMapIndices(npc.getPosition());
-		return npcMapIndices.x >= cameraView.x
-				&& npcMapIndices.x <= cameraView.width
-				&& npcMapIndices.y >= cameraView.height
-				&& npcMapIndices.y <= cameraView.y;
+		Vector2 positionInMapIndices = map.positionToMapIndices(position);
+		return positionInMapIndices.x >= cameraView.x
+				&& positionInMapIndices.x <= cameraView.width
+				&& positionInMapIndices.y >= cameraView.height
+				&& positionInMapIndices.y <= cameraView.y;
 	}
 
 	private void drawUI(PlayerCharacter player) {

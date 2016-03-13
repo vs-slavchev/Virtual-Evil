@@ -40,7 +40,7 @@ public class Weapon {
 			this.ammonition = 45;
 			this.curMagazine = 8;
 			this.maxMagazine = 8;
-			this.rateOfFire = 0.8f;
+			this.rateOfFire = 0.7f;
 			break;
 		case MACHINE_GUN:
 			this.name = "AK - 47";
@@ -67,9 +67,9 @@ public class Weapon {
 	public void fire(Vector2 target) {
 		if (ammonition >= 1 && timer > rateOfFire) {
 			timer = 0;
-			Bullet Go6u = new Bullet(gameCharacter.getPosition(), new Vector2(target), weaponType,
-					playGameState.getAssetManager().getTextureManager().getImage("Projectile"));
-			playGameState.getEntityManager().addBullet(Go6u);
+			playGameState.getEntityManager().getBulletPool().activateBullet(gameCharacter.getPosition(), new Vector2(target), weaponType,
+			playGameState.getAssetManager().getTextureManager().getImage("Projectile"));
+			
 		}
 	}
 
