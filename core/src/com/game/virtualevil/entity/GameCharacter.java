@@ -30,7 +30,7 @@ public abstract class GameCharacter {
 	
 	// entity related fields
 	protected final int maxHealth;
-	protected int currentHealth = 75;
+	protected int currentHealth = 100;
 	protected boolean isActive = false;
 	protected float moveSpeed = 100f;
 	protected Vector2 position, collisionBoxVector;

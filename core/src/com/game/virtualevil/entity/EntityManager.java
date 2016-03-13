@@ -14,8 +14,9 @@ public class EntityManager {
 
 	public EntityManager(PlayGameState playGameState) {
 		pc = new PlayerCharacter(playGameState);
-		enemiesList.add(new EnemyCharacter(playGameState, 1000, 3000));
-		enemiesList.add(new EnemyCharacter(playGameState, 4300, 1300));
+		EnemyFactory enemy1 = new EnemyFactory();
+		enemiesList.add(enemy1.createEnemy(playGameState, "Soldier", 3650, 1825));
+		enemiesList.add(enemy1.createEnemy(playGameState, "Soldier", 4300, 1300));
 	}
 
 	public void updateEntities(final float delta) {
@@ -45,4 +46,9 @@ public class EntityManager {
 	public PlayerCharacter getPlayer() {
 		return pc;
 	}
+
+	public ArrayList<EnemyCharacter> getEnemiesList() {
+		return enemiesList;
+	}
+	
 }
