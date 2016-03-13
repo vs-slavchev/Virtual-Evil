@@ -74,7 +74,6 @@ public final class PlayGameState extends GameState {
 		entityManager = new EntityManager(this);
 		musicManager = new MusicManager();
 		musicManager.initialize();
-		
 	}
 
 	@Override

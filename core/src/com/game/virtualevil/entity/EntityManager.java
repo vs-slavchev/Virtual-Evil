@@ -15,9 +15,10 @@ public class EntityManager {
 	public EntityManager(PlayGameState playGameState) {
 		pc = new PlayerCharacter(playGameState);
 		bulletPool = new BulletPool(100, playGameState);
-		EnemyFactory enemy1 = new EnemyFactory();
-		enemiesList.add(enemy1.createEnemy(playGameState, "Soldier", 3650, 1825));
-		enemiesList.add(enemy1.createEnemy(playGameState, "Soldier", 4300, 1300));
+		EnemyFactory enemyFactory = new EnemyFactory();
+		//EnemyFactory enemy2 = new EnemyFactory();
+		enemiesList.add(enemyFactory.createEnemy(playGameState, "Heavy", 3650, 1825));
+		enemiesList.add(enemyFactory.createEnemy(playGameState, "Soldier", 4300, 1300));
 	}
 
 	public void updateEntities(final float delta) {
