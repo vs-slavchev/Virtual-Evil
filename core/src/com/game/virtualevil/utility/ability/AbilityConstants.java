@@ -14,7 +14,7 @@ public class AbilityConstants {
 	public static final float SPRINT_BONUS = 200f;
 	public static final float SPRINT_DURATION = 5f;
 	public static final float SPRINT_CD = 7f;
-	public static final int SPRINT_HEALTH_COST = 20;
+	public static final int SPRINT_HEALTH_COST = 5;
 	
 	// Return
 	public static final float INITIAL_RETURN_CD = 2f;

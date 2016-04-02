@@ -10,22 +10,24 @@ public class EntityManager {
 
 	private PlayerCharacter pc;
 	private ArrayList<EnemyCharacter> enemiesList = new ArrayList<>();
-	private ArrayList<Bullet> bullets = new ArrayList<>();
+	private BulletPool bulletPool;
 
 	public EntityManager(PlayGameState playGameState) {
 		pc = new PlayerCharacter(playGameState);
-		enemiesList.add(new EnemyCharacter(playGameState, 1000, 3000));
-		enemiesList.add(new EnemyCharacter(playGameState, 4300, 1300));
+		bulletPool = new BulletPool(100, playGameState);
+		EnemyFactory enemyFactory = new EnemyFactory();
+		//EnemyFactory enemy2 = new EnemyFactory();
+		enemiesList.add(enemyFactory.createEnemy(playGameState, "Heavy", 3650, 1825));
+		enemiesList.add(enemyFactory.createEnemy(playGameState, "Soldier", 4300, 1300));
 	}
 
 	public void updateEntities(final float delta) {
 		pc.update(delta);
+		bulletPool.deactivateBullet();
 		for (EnemyCharacter enemy : enemiesList) {
 			enemy.update(delta);
 		}
-		for (Bullet b : bullets) {
-			b.move();
-		}
+		bulletPool.moveBullets();
 	}
 
 	public void drawEntities(SpriteBatch batch) {
@@ -33,16 +35,21 @@ public class EntityManager {
 		for (EnemyCharacter enemy : enemiesList) {
 			enemy.draw(batch);
 		}
-		for (Bullet b : bullets) {
-			b.draw(batch);
-		}
-	}
-	public void addBullet(Bullet newBullet)
-	{
-		bullets.add(newBullet);
+		
+		bulletPool.drawBullets(batch);
 	}
 
 	public PlayerCharacter getPlayer() {
 		return pc;
 	}
+
+	public ArrayList<EnemyCharacter> getEnemiesList() {
+		return enemiesList;
+	}
+
+	public BulletPool getBulletPool() {
+		return bulletPool;
+	}
+	
+	
 }
