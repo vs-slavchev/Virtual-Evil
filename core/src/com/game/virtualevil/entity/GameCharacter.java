@@ -34,12 +34,8 @@ public abstract class GameCharacter {
 	protected boolean isActive = false;
 	protected float moveSpeed = 100f;
 	protected Vector2 position, collisionBoxVector;
-	protected CopyOnWriteArrayList<StatusEffect> statusEffects =
-			new CopyOnWriteArrayList<>();
-	protected ArrayList<Ability> abilities =
-			new ArrayList<>(AbilityConstants.ABILITIES_COUNT);
-	
-
+	protected CopyOnWriteArrayList<StatusEffect> statusEffects = new CopyOnWriteArrayList<>();
+	protected ArrayList<Ability> abilities = new ArrayList<>(AbilityConstants.ABILITIES_COUNT);
 	protected Weapon weapon;
 
 	// animation related fields
@@ -62,7 +58,8 @@ public abstract class GameCharacter {
 	}
 
 	protected void setUpAnimation() {
-		frames = spriteSheet.split(spriteSheet.getRegionWidth() / 3, spriteSheet.getRegionHeight() / 4);
+		frames = spriteSheet.split(spriteSheet.getRegionWidth() / 3,
+				 spriteSheet.getRegionHeight() / 4);
 		animation = new Animation(0.15f, frames[0]);
 		collisionBoxVector = new Vector2(spriteSheet.getRegionWidth()/3 - 8,
 				spriteSheet.getRegionHeight()/4 - 16);
@@ -101,44 +98,41 @@ public abstract class GameCharacter {
 	 * @param delta the time delta */
 	protected void applyAction(final float delta) {
 		/* check if moving in the desired direction is possible;
-		 * if it is - do move, else don't. The boolean is used
+		 * if it is - do move. The characterMoved boolean is used
 		 * to advance the animation of the player. */
 		characterMoved = false;
 		if (inputController.isUp()) {
-			performVerticalMovement(Direction.UP, delta);
+			performMovement(Direction.UP, delta);
 		} else if (inputController.isDown()) {
-			performVerticalMovement(Direction.DOWN, delta);
+			performMovement(Direction.DOWN, delta);
 		}
 		if (inputController.isLeft()) {
-			performHorizontalMovement(Direction.LEFT, delta);
+			performMovement(Direction.LEFT, delta);
 		} else if (inputController.isRight()) {
-			performHorizontalMovement(Direction.RIGHT, delta);
+			performMovement(Direction.RIGHT, delta);
 		}
 		weapon.updateTimer();
 		updateAnimation(delta);
 	}
 	
-	protected void performVerticalMovement(Direction dir, final float delta) {
-		float futureYoffset = moveSpeed * delta;
-		if (dir == Direction.DOWN) {
-			futureYoffset *= -1;
+	protected void performMovement(Direction dir, final float delta){
+		boolean vertical = false;
+		if (dir == Direction.DOWN || dir == Direction.UP){
+			vertical = true;
 		}
-		Rectangle colRect = createColRect(position.x, position.y + futureYoffset);
+		float offset = moveSpeed * delta;
+		if (dir == Direction.DOWN || dir == Direction.LEFT){
+			offset = -offset;
+		}
+		Rectangle colRect = createColRect(position.x + (vertical ? 0 : offset),
+										  position.y + (vertical ? offset : 0));
 		if (!playGameState.getMap().collidesWithTerrain(colRect)) {
-			position.y += futureYoffset;
-			characterMoved = true;
-			spriteDirection = dir;
-		}
-	}
-	
-	protected void performHorizontalMovement(Direction dir, final float delta) {
-		float futureXoffset = moveSpeed * delta;
-		if (dir == Direction.LEFT) {
-			futureXoffset *= -1;
-		}
-		Rectangle colRect = createColRect(position.x + futureXoffset, position.y);
-		if (!playGameState.getMap().collidesWithTerrain(colRect)) {
-			position.x += futureXoffset;
+			if (vertical) {
+				position.y += offset;
+			}
+			else {
+				position.x += offset;
+			}
 			characterMoved = true;
 			spriteDirection = dir;
 		}
