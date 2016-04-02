@@ -13,16 +13,16 @@ public class MusicManager  {
 		song2 = Gdx.audio.newMusic(Gdx.files.internal("Rose the Wraith.mp3"));
 		song3 = Gdx.audio.newMusic(Gdx.files.internal("ABIIISMO - Machine Uprising.mp3"));
 
-		song3.play();
-		song3.setVolume(0.8f);
+		song2.play();
+		song2.setVolume(1.0f);
 
 		// This makes song2 play after song1 finishes
-		song3.setOnCompletionListener(new Music.OnCompletionListener() {
+		song2.setOnCompletionListener(new Music.OnCompletionListener() {
 
 			@Override
 			public void onCompletion(Music music) {
-				song1.play();
-				song1.setVolume(0.5f);
+				song3.play();
+				song3.setVolume(1.0f);
 			}
 		});
 	}

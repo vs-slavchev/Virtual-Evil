@@ -48,7 +48,7 @@ public class NonPlayerCharacter extends GameCharacter {
 			switch (aiState) {	
 			case PATROL:
 			if (Math.sqrt(Math.pow(position.x - playerX, 2)
-					+ Math.pow(position.y - playerY, 2)) < 350.0) {
+					+ Math.pow(position.y - playerY, 2)) < 250.0) {
 				aiState = AI_State.ATTACK;
 			}
 			timer += delta;
@@ -69,13 +69,6 @@ public class NonPlayerCharacter extends GameCharacter {
 					inputController.setUp(true);
 					break;
 				}
-
-				/*
-				 * TODO change to attack when player is near: use the
-				 * playGameState to access the entity manager and get a player
-				 * reference to get player position...
-				 */
-
 			}
 			break;
 		case ATTACK:
