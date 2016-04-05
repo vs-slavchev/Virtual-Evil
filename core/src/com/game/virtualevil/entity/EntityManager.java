@@ -9,37 +9,54 @@ import com.game.virtualevil.utility.weapon.Bullet;
 public class EntityManager {
 
 	private PlayerCharacter pc;
-	private ArrayList<EnemyCharacter> enemiesList = new ArrayList<>();
+	private ArrayList<GameCharacter> characterList = new ArrayList<>();
 	private BulletPool bulletPool;
 
 	public EntityManager(PlayGameState playGameState) {
 		pc = new PlayerCharacter(playGameState);
 		bulletPool = new BulletPool(100, playGameState);
 		EnemyFactory enemyFactory = new EnemyFactory();
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Soldier", 3650, 1825));
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Suit", 4300, 1300));
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Heavy", 3962, 2768));
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Mecha", 4176, 3630));
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Mecha", 730, 2959));
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Soldier", 590, 3549));
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Suit", 2252, 2206));
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Soldier", 1578, 590));
-		enemiesList.add(enemyFactory.createEnemy(playGameState, "Heavy", 1477, 1443));
+		characterList.add(pc);
+		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 3650, 1825));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Suit", 4300, 1300));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Heavy", 3962, 2768));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Mecha", 4176, 3630));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Mecha", 730, 2959));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 590, 3549));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Suit", 2252, 2206));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 1578, 590));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Heavy", 1477, 1443));
 	}
 
 	public void updateEntities(final float delta) {
-		pc.update(delta);
+		
 		bulletPool.deactivateBullet();
-		for (EnemyCharacter enemy : enemiesList) {
-			enemy.update(delta);
+		for (GameCharacter gameCharacter : characterList) {
+			gameCharacter.update(delta);
+		}
+		
+		for (int i = 0; i < characterList.size(); i++) {
+			GameCharacter A = characterList.get(i);
+			for (int j = i + 1; j < characterList.size() - 1; j++) {
+				GameCharacter B = characterList.get(j);
+				if (A.overlap(B)) {
+					if (!A.isHasBeenHitRecently()) {
+						A.modifyCurrentHealth(-3);
+						B.modifyCurrentHealth(-3);
+						A.setHasBeenHitRecently(true);
+						B.setHasBeenHitRecently(true);
+					}
+				}
+			}
 		}
 		bulletPool.moveBullets();
 	}
+	
 
 	public void drawEntities(SpriteBatch batch) {
 		pc.draw(batch);
-		for (EnemyCharacter enemy : enemiesList) {
-			enemy.draw(batch);
+		for (GameCharacter gameCharacter : characterList) {
+			gameCharacter.draw(batch);
 		}
 		
 		bulletPool.drawBullets(batch);
@@ -49,8 +66,8 @@ public class EntityManager {
 		return pc;
 	}
 
-	public ArrayList<EnemyCharacter> getEnemiesList() {
-		return enemiesList;
+	public ArrayList<GameCharacter> getCharacterList() {
+		return characterList;
 	}
 
 	public BulletPool getBulletPool() {

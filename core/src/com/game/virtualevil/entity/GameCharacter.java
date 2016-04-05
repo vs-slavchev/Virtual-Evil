@@ -31,6 +31,9 @@ public abstract class GameCharacter {
 	// entity related fields
 	protected final int maxHealth;
 	protected int currentHealth = 100;
+	protected int radius;
+	protected float invulnerabilityTimer = 0.5f;
+	protected boolean hasBeenHitRecently = false;
 	protected boolean isActive = false;
 	protected float moveSpeed = 100f;
 	protected Vector2 position, collisionBoxVector;
@@ -51,6 +54,7 @@ public abstract class GameCharacter {
 	protected InputController inputController;
 	
 	public GameCharacter(PlayGameState playGameState) {
+		this.radius = 16;
 		this.maxHealth = 100;
 		this.playGameState = playGameState;
 		position = new Vector2();
@@ -65,6 +69,18 @@ public abstract class GameCharacter {
 				spriteSheet.getRegionHeight()/4 - 16);
 	}
 	
+	public boolean overlap(GameCharacter kek){
+		double marginX = Math.abs(kek.position.x - this.position.x);
+		double marginY = Math.abs(kek.position.y - this.position.y);
+		
+		
+		double distance = Math.sqrt(Math.pow(marginX, 2) + Math.pow(marginY, 2));
+		if(distance < this.radius + kek.radius){ //is this bollocks? 
+		return true;
+	}
+		return false;
+	}
+	
 	public void update(final float delta) {
 		if (isActive) {
 			prevDirection = spriteDirection;
@@ -72,6 +88,13 @@ public abstract class GameCharacter {
 			if (prevDirection != spriteDirection) {
 				animation = new Animation(0.15f, frames[spriteDirection.ordinal()]);
 				frameTime = 0.0f;
+			}
+			
+			if(hasBeenHitRecently){
+				invulnerabilityTimer -= delta;
+				if(invulnerabilityTimer == 0){
+					hasBeenHitRecently = false;
+				}
 			}
 			
 			for (StatusEffect effect : statusEffects) {
@@ -152,10 +175,6 @@ public abstract class GameCharacter {
 		moveSpeed += amount;
 	}
 	
-	public void modifyHealth(int amount){
-		currentHealth += amount;
-	}
-	
 	public void addStatusEffect(StatusEffect statusEffect) {
 		statusEffects.add(statusEffect);
 	}
@@ -190,8 +209,8 @@ public abstract class GameCharacter {
 		return currentHealth;
 	}
 	
-	public ArrayList<Ability> getAbilities() {
-		return abilities;
+	public void modifyCurrentHealth(final int modifyHealth){
+		setCurrentHealth(this.currentHealth + modifyHealth);
 	}
 
 	public void setCurrentHealth(final int currentHealth) {
@@ -203,4 +222,18 @@ public abstract class GameCharacter {
 		}
 		this.currentHealth = currentHealth;
 	}
+
+	public ArrayList<Ability> getAbilities() {
+		return abilities;
+	}
+
+	public boolean isHasBeenHitRecently() {
+		return hasBeenHitRecently;
+	}
+
+	public void setHasBeenHitRecently(boolean hasBeenHitRecently) {
+		this.hasBeenHitRecently = hasBeenHitRecently;
+	}
+	
+
 }

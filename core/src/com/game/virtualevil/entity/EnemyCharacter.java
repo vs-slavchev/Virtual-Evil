@@ -9,8 +9,6 @@ public abstract class  EnemyCharacter extends NonPlayerCharacter {
 	public EnemyCharacter(PlayGameState playGameState, final int x, final int y) {
 		super(playGameState, x, y);
 	}
-	
-	
 
 	@Override
 	protected void applyAction(final float delta) {
