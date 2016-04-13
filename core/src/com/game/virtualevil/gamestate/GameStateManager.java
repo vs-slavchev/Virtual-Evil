@@ -48,4 +48,9 @@ public class GameStateManager {
 			state.dispose();
 		}
 	}
+
+	public EnumMap<StateType, GameState> getStateMap() {
+		return stateMap;
+	}
+	
 }

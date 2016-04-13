@@ -1,7 +1,6 @@
 package com.game.virtualevil.gamestate;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.game.virtualevil.Game;
 import com.game.virtualevil.entity.EntityManager;
-import com.game.virtualevil.entity.NonPlayerCharacter;
 import com.game.virtualevil.entity.PlayerCharacter;
 import com.game.virtualevil.utility.DebugInfo;
 import com.game.virtualevil.utility.GameInputProcessor;

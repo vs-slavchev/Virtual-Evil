@@ -10,7 +10,15 @@ public final class PlayerCharacter extends GameCharacter {
 
 	private final int maxEnergy;
 	private int currentEnergy = 90;
+	/* the visual representation of the current health;
+	 * used in drawing the UI */
 	private float healthXCoordianteVisual;
+	
+	/**
+	 * Used only for testing setup. */
+	public PlayerCharacter(){
+		maxEnergy = 100;
+	}
 
 	public PlayerCharacter(PlayGameState playGameState) {
 		super(playGameState);

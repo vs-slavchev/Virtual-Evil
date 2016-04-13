@@ -18,7 +18,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void create() {
 		Gdx.graphics.setDisplayMode(Gdx.graphics.getDesktopDisplayMode().width,
-				Gdx.graphics.getDesktopDisplayMode().height, true);
+				Gdx.graphics.getDesktopDisplayMode().height, false);
 		Gdx.graphics.setVSync(true);
 		
 		// change the cursor; last 2 params are the cursor hotspot

@@ -50,6 +50,12 @@ public abstract class GameCharacter {
 	protected PlayGameState playGameState;
 	protected InputController inputController;
 	
+	/**
+	 * Used only for testing setup. */
+	public GameCharacter(){
+		maxHealth = 100;
+	}
+	
 	public GameCharacter(PlayGameState playGameState) {
 		this.maxHealth = 100;
 		this.playGameState = playGameState;
@@ -152,10 +158,6 @@ public abstract class GameCharacter {
 		moveSpeed += amount;
 	}
 	
-	public void modifyHealth(int amount){
-		currentHealth += amount;
-	}
-	
 	public void addStatusEffect(StatusEffect statusEffect) {
 		statusEffects.add(statusEffect);
 	}
@@ -176,22 +178,20 @@ public abstract class GameCharacter {
 		return spriteDirection;
 	}
 	
+	public ArrayList<Ability> getAbilities() {
+		return abilities;
+	}
+	
 	public int getMaxHealth() {
 		return maxHealth;
 	}
 
 	public int getCurrentHealth() {
-		if (currentHealth < 0) {
-			currentHealth = 0;
-		}
-		if (currentHealth > maxHealth) {
-			currentHealth = maxHealth;
-		}
 		return currentHealth;
 	}
-	
-	public ArrayList<Ability> getAbilities() {
-		return abilities;
+
+	public void modifyHealth(int amount){
+		currentHealth += amount;
 	}
 
 	public void setCurrentHealth(final int currentHealth) {
