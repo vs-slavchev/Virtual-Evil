@@ -14,6 +14,6 @@ public class SprintAbility extends Ability{
 	@Override
 	public void useAbility() {
 		character.addStatusEffect(new SprintStatusEffect(character));
-		character.modifyHealth(-AbilityConstants.SPRINT_HEALTH_COST);
+		character.modifyCurrentHealth(-AbilityConstants.SPRINT_HEALTH_COST);
 	}
 }

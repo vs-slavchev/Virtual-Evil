@@ -9,7 +9,7 @@ import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 public final class PlayerCharacter extends GameCharacter {
 
 	private final int maxEnergy;
-	private int currentEnergy = 90;
+	private int currentEnergy = 100;
 	/* the visual representation of the current health;
 	 * used in drawing the UI */
 	private float healthXCoordianteVisual;

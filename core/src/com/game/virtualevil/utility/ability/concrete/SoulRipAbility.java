@@ -12,6 +12,6 @@ public class SoulRipAbility extends Ability {
 
 	@Override
 	public void useAbility() {
-		character.modifyHealth(AbilityConstants.SOUL_RIP_HEAL_AMOUNT);
+		character.modifyCurrentHealth(AbilityConstants.SOUL_RIP_HEAL_AMOUNT);
 	}
 }

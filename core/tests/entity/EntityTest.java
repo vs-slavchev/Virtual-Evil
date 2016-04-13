@@ -36,11 +36,11 @@ public class EntityTest {
 	public void modifyingHealthShouldNotExceedLimits(){
 		
 		gc.setCurrentHealth(0);
-		gc.modifyHealth(gc.getMaxHealth() + 50);
+		gc.modifyCurrentHealth(gc.getMaxHealth() + 50);
 		assertEquals("0 + max + 50 should be max", gc.getMaxHealth(), gc.getCurrentHealth());
 		
 		gc.setCurrentHealth(0);
-		gc.modifyHealth(-50);
+		gc.modifyCurrentHealth(-50);
 		assertEquals("0 - 50 should be 0", 0, gc.getCurrentHealth());
 	}
 }

@@ -4,10 +4,15 @@ import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.weapon.Weapon;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
-public abstract class  EnemyCharacter extends NonPlayerCharacter {
+public class SuitAndTieRobot extends EnemyCharacter {
 
-	public EnemyCharacter(PlayGameState playGameState, final int x, final int y) {
+	public SuitAndTieRobot(PlayGameState playGameState, final int x, final int y) {
 		super(playGameState, x, y);
+
+		weapon = new Weapon(WeaponType.PISTOL, this, playGameState);
+		spriteSheet = playGameState.getAssetManager().getTextureManager()
+				.getImage("enemy3");
+		setUpAnimation();
 	}
 
 	@Override

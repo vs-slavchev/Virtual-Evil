@@ -8,8 +8,14 @@ public class EnemyFactory {
 		if(type.equals("Soldier")){	
 			return new SoldierRobot(playGameState, x, y);
 		}
+		else if(type.equals("Heavy")) {
+			return new HeavyRobot(playGameState, x , y);
+		}
+		else if(type.equals("Suit")) {
+			return new SuitAndTieRobot(playGameState, x , y);
+		}
 		else{
-		return new HeavyRobot(playGameState, x, y);
+		return new MechaFoxRobot(playGameState, x, y);
 
 	}
 }
