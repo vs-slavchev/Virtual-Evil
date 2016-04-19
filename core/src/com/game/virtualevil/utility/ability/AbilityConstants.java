@@ -5,7 +5,7 @@ package com.game.virtualevil.utility.ability;
  * related StatusEffects.
  * <p>
  * Duration and cooldown time is measured in seconds.
- * @author vs */
+ */
 public class AbilityConstants {
 
 	public static final int ABILITIES_COUNT = 4;

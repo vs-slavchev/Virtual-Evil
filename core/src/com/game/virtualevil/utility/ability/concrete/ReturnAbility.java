@@ -9,7 +9,7 @@ import com.game.virtualevil.utility.ability.AbilityConstants;
  * The position vector should be null before selecting the 
  * position and should be nulled after the position has been
  * used to go back to.
- * @author vs */
+ */
 public class ReturnAbility extends Ability{
 	
 	private Vector2 position;

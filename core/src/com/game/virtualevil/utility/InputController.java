@@ -6,7 +6,7 @@ import com.game.virtualevil.utility.ability.AbilityConstants;
 /**
  * Contains information about which action is currently
  * active according to the player input.
- * @author vs */
+ */
 public class InputController {
 
 	private boolean left, right, up, down,

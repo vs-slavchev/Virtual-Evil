@@ -6,7 +6,7 @@ import com.badlogic.gdx.Gdx;
 
 /**
  * Exceptions should be exceptional.
- * @author vs
+ *
  */
 public class VirtualEvilError {
 

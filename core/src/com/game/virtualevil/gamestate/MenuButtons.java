@@ -11,7 +11,7 @@ import com.game.virtualevil.utility.asset.TextureManager;
 /**
  * One instance of this class is responsible for
  * all of the main menu button management.
- * @author vs */
+*/
 public class MenuButtons {
 
 	private final Game game;

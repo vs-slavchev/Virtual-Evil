@@ -6,7 +6,6 @@ import com.game.virtualevil.utility.InputController;
 /**
  * NPCs should be controlled by changing their input controller states.
  * 
- * @author vs
  */
 public class NonPlayerCharacter extends GameCharacter {
 

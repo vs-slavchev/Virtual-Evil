@@ -7,7 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 /**
  * Responsible for handling input specific to
  * the player character only.
- * @author vs */
+ */
 public class GameInputProcessor implements InputProcessor {
 
 	private InputController inputController;

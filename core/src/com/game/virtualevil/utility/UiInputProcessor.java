@@ -16,7 +16,7 @@ import com.badlogic.gdx.Input.Keys;
 /**
  * Responsible for UI and overall game related input.
  * Does NOT deal with player character specific input.
- * @author vs */
+ */
 public class UiInputProcessor  implements InputProcessor{
 
 	private static int screenShotCounter = 1;

@@ -26,6 +26,11 @@ public class EntityManager {
 		characterList.add(enemyFactory.createEnemy(playGameState, "Suit", 2252, 2206));
 		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 1578, 590));
 		characterList.add(enemyFactory.createEnemy(playGameState, "Heavy", 1477, 1443));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 1569, 2872));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 1116, 562));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 3118, 2168));
+		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 462, 1468));
+
 	}
 
 	public void updateEntities(final float delta) {

@@ -5,7 +5,7 @@ import com.game.virtualevil.entity.GameCharacter;
 /**
  * The main status effect class. Extend it to implement
  * concrete status effects.
- * @author vs */
+ */
 public abstract class StatusEffect {
 
 	// time is measured in seconds

@@ -14,7 +14,7 @@ import com.game.virtualevil.utility.ability.concrete.SprintAbility;
  * ability.concrete package.
  * Use attemptToUse() when trying to use an Ability and the update()
  * method to tick the cooldown.
- * @author vs */
+ */
 public abstract class Ability {
 	
 	// time is measured in seconds

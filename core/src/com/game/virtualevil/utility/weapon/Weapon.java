@@ -9,7 +9,7 @@ import com.game.virtualevil.utility.VirtualEvilError;
 /* TODO:
  * 1. lose ammo when shooting
  * 2. use reloading method
- * 3. delete bullets when off-screen
+ * 3. delete bullets when off-screen - done!
  * 4. draw weapon/ammo info in interface 
  * 5. throw exception in default case
  */

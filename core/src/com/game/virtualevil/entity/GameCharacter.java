@@ -20,7 +20,7 @@ import com.game.virtualevil.utility.weapon.Weapon;
  * play a walking animation, have status effects and
  * abilities and generally act in the game world should
  * inherit from this class.
- * @author vs */
+ */
 
 public abstract class GameCharacter extends GameObject {
 
