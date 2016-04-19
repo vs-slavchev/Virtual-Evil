@@ -61,43 +61,15 @@ public class Bullet extends GameObject{
 	public Vector2 calculateStartPosition (Vector2 start, Vector2 target){
 		
 		int offset = 20;
-		float marginX = start.x - target.x;
-		float marginY = start.y - target.y;
+		float marginX = target.x - start.x;
+		float marginY = target.y - start.y;
 		
-		/*
-		System.out.println("Initial marginX: "+ marginX);
-		System.out.println("Initial marginY: "+ marginY);
-		int offsetRatio = (Math.abs(marginX) > Math.abs(marginY)) ? (int) (marginX*(radius+20)) : (int) (marginY*(radius+20));
-
-		marginX = offsetRatio / marginX;
-		marginY = offsetRatio / marginY;*/
-		
-/*		float ratio = marginX / marginY;
-		System.out.println("Ratio: " + ratio);
-		
-		if(Math.abs(marginX) > Math.abs(marginY)){
-			marginX = marginX < 0 ? (radius + 20) : ((radius + 20)*(-1));
-		
-			marginY = ratio * marginX;
-		}
-		else{
-			marginY = marginY < 0 ? (radius + 20) : ((radius + 20)*(-1));
-			marginX = ratio * marginX;
-		}
-		System.out.println("Post marginX: " + marginX);
-		System.out.println("Post marginY: " + marginY);
-		System.out.println("---------------------------------");*/
-		float ratio = 0;
-		if (Math.abs(marginX) > offset){
-			ratio = offset / marginX;
-		}
-		if (Math.abs(marginY) > offset){
-			ratio = offset / marginY;
-		}
-		marginY = marginY * ratio;
-		marginX = marginX * ratio;
-		
-		return new Vector2(start.x + marginX, start.y + marginY);
+		Vector2 vec = new Vector2(marginX, marginY).nor();
+		vec.x *= offset;
+		vec.y *= offset;
+		vec.x += start.x;
+		vec.y += start.y;
+		return vec;
 	}
 
 	public boolean isActive() {

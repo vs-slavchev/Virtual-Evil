@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
+import com.game.virtualevil.utility.VirtualEvilError;
 import com.game.virtualevil.utility.weapon.Bullet;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
@@ -66,6 +67,9 @@ public class BulletPool {
 	}
 	
 	public Bullet getBullet (int x){
+		if (x >= arrayOfBullets.length || x < 0){
+			VirtualEvilError.show("invalid bullet index from bullet pool");
+		}
 		return arrayOfBullets[x];
 	}
 
