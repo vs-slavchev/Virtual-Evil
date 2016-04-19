@@ -22,7 +22,7 @@ import com.game.virtualevil.utility.weapon.Weapon;
  * inherit from this class.
  * @author vs */
 
-public abstract class GameCharacter {
+public abstract class GameCharacter extends GameObject {
 
 	public enum Direction {
 		DOWN, LEFT, RIGHT, UP
@@ -31,12 +31,11 @@ public abstract class GameCharacter {
 	// entity related fields
 	protected final int maxHealth;
 	protected int currentHealth = 100;
-	protected int radius;
 	protected float invulnerabilityTimer = 0.5f;
 	protected boolean hasBeenHitRecently = false;
 	protected boolean isActive = false;
 	protected float moveSpeed = 100f;
-	protected Vector2 position, collisionBoxVector;
+	protected Vector2 collisionBoxVector;
 	protected CopyOnWriteArrayList<StatusEffect> statusEffects = new CopyOnWriteArrayList<>();
 	protected ArrayList<Ability> abilities = new ArrayList<>(AbilityConstants.ABILITIES_COUNT);
 	protected Weapon weapon;
@@ -75,13 +74,12 @@ public abstract class GameCharacter {
 				spriteSheet.getRegionHeight()/4 - 16);
 	}
 	
-	public boolean overlap(GameCharacter kek){
-		double marginX = Math.abs(kek.position.x - this.position.x);
-		double marginY = Math.abs(kek.position.y - this.position.y);
-		
+	public boolean overlap(GameObject otherObject){
+		double marginX = Math.abs(otherObject.position.x - this.position.x);
+		double marginY = Math.abs(otherObject.position.y - this.position.y);
 		
 		double distance = Math.sqrt(Math.pow(marginX, 2) + Math.pow(marginY, 2));
-		if(distance < this.radius + kek.radius){ //is this bollocks? 
+		if(distance < this.radius + otherObject.radius){ 
 		return true;
 	}
 		return false;

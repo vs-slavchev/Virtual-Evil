@@ -4,12 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.game.virtualevil.entity.GameObject;
 import com.game.virtualevil.utility.VirtualEvilError;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
-public class Bullet {
+public class Bullet extends GameObject{
 
-	private Vector2 position, delta;
+	private Vector2 delta;
 	private float speed;
 	private TextureRegion img;
 	
@@ -32,7 +33,7 @@ public class Bullet {
 	public void activate(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion img){
 		isActive = true;
 		
-		this.position = new Vector2(start);
+		this.position = calculateStartPosition(start, target);
 		this.img = img;
 
 		float distance = (float) Math.sqrt(
@@ -54,6 +55,49 @@ public class Bullet {
 			VirtualEvilError.show("Creating bullet from unknown weapon:\n" + weaponType);
 			break;
 		}
+	}
+	
+	// calculates and offsets the spawn position of the bullets 
+	public Vector2 calculateStartPosition (Vector2 start, Vector2 target){
+		
+		int offset = 20;
+		float marginX = start.x - target.x;
+		float marginY = start.y - target.y;
+		
+		/*
+		System.out.println("Initial marginX: "+ marginX);
+		System.out.println("Initial marginY: "+ marginY);
+		int offsetRatio = (Math.abs(marginX) > Math.abs(marginY)) ? (int) (marginX*(radius+20)) : (int) (marginY*(radius+20));
+
+		marginX = offsetRatio / marginX;
+		marginY = offsetRatio / marginY;*/
+		
+/*		float ratio = marginX / marginY;
+		System.out.println("Ratio: " + ratio);
+		
+		if(Math.abs(marginX) > Math.abs(marginY)){
+			marginX = marginX < 0 ? (radius + 20) : ((radius + 20)*(-1));
+		
+			marginY = ratio * marginX;
+		}
+		else{
+			marginY = marginY < 0 ? (radius + 20) : ((radius + 20)*(-1));
+			marginX = ratio * marginX;
+		}
+		System.out.println("Post marginX: " + marginX);
+		System.out.println("Post marginY: " + marginY);
+		System.out.println("---------------------------------");*/
+		float ratio = 0;
+		if (Math.abs(marginX) > offset){
+			ratio = offset / marginX;
+		}
+		if (Math.abs(marginY) > offset){
+			ratio = offset / marginY;
+		}
+		marginY = marginY * ratio;
+		marginX = marginX * ratio;
+		
+		return new Vector2(start.x + marginX, start.y + marginY);
 	}
 
 	public boolean isActive() {

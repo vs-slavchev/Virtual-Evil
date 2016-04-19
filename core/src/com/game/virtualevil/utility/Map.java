@@ -332,7 +332,7 @@ public class Map {
 		return height;
 	}
 	
-	public int getTotalHeight() {
+	/*public int getTotalHeight() {
 		return height * tileSize;
-	}
+	}*/
 }

@@ -72,6 +72,7 @@ public class Weapon {
 			
 		}
 	}
+	
 
 	public void updateTimer(){
 		timer += Gdx.graphics.getDeltaTime();

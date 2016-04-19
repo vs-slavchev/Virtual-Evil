@@ -34,6 +34,18 @@ public class EntityManager {
 		for (GameCharacter gameCharacter : characterList) {
 			gameCharacter.update(delta);
 		}
+
+		for (GameCharacter gameCharacter : characterList) {
+			for (int i = 0; i < bulletPool.getSize(); i++) {
+				if (!bulletPool.getBullet(i).isActive()) {
+					continue;
+				}
+				if (gameCharacter.overlap(bulletPool.getBullet(i))) {
+					gameCharacter.modifyCurrentHealth(-20);
+					bulletPool.getBullet(i).deactivate();
+				}
+			}
+		}
 		
 		for (int i = 0; i < characterList.size(); i++) {
 			GameCharacter A = characterList.get(i);
