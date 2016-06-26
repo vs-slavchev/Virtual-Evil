@@ -30,7 +30,7 @@ public abstract class GameCharacter extends GameObject {
 	
 	// entity related fields
 	protected final int maxHealth;
-	protected int currentHealth = 100;
+	protected int currentHealth;
 	protected float invulnerabilityTimer = 0.5f;
 	protected boolean hasBeenHitRecently = false;
 	protected boolean isActive = false;
@@ -52,15 +52,15 @@ public abstract class GameCharacter extends GameObject {
 	protected PlayGameState playGameState;
 	protected InputController inputController;
 	
-	/**
-	 * Used only for testing setup. */
+	/* Used only for testing setup. */
 	public GameCharacter(){
-		maxHealth = 100;
+		maxHealth = EntityConstants.CHARACTER_DEFALUT_MAX_HP;
 	}
 	
 	public GameCharacter(PlayGameState playGameState) {
 		this.radius = 16;
-		this.maxHealth = 100;
+		this.maxHealth = EntityConstants.CHARACTER_DEFALUT_MAX_HP;
+		this.currentHealth = maxHealth;
 		this.playGameState = playGameState;
 		position = new Vector2();
 		spriteDirection = Direction.DOWN;
@@ -218,9 +218,11 @@ public abstract class GameCharacter extends GameObject {
 	public void setCurrentHealth(final int currentHealth) {
 		if (currentHealth < 0) {
 			this.currentHealth = 0;
+			return;
 		}
 		if (currentHealth > maxHealth) {
 			this.currentHealth = maxHealth;
+			return;
 		}
 		this.currentHealth = currentHealth;
 	}

@@ -16,6 +16,7 @@ public class EntityManager {
 		pc = new PlayerCharacter(playGameState);
 		bulletPool = new BulletPool(100, playGameState);
 		EnemyFactory enemyFactory = new EnemyFactory();
+		
 		characterList.add(pc);
 		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 3650, 1825));
 		characterList.add(enemyFactory.createEnemy(playGameState, "Suit", 4300, 1300));
@@ -46,7 +47,7 @@ public class EntityManager {
 					continue;
 				}
 				if (gameCharacter.overlap(bulletPool.getBullet(i))) {
-					gameCharacter.modifyCurrentHealth(-20);
+					gameCharacter.modifyCurrentHealth(EntityConstants.DEFALUT_BULLET_DAMAGE);
 					bulletPool.getBullet(i).deactivate();
 				}
 			}
@@ -58,8 +59,8 @@ public class EntityManager {
 				GameCharacter B = characterList.get(j);
 				if (A.overlap(B)) {
 					if (!A.isHasBeenHitRecently()) {
-						A.modifyCurrentHealth(-3);
-						B.modifyCurrentHealth(-3);
+						A.modifyCurrentHealth(EntityConstants.DEFALUT_BUMP_DAMAGE);
+						B.modifyCurrentHealth(EntityConstants.DEFALUT_BUMP_DAMAGE);
 						A.setHasBeenHitRecently(true);
 						B.setHasBeenHitRecently(true);
 					}
