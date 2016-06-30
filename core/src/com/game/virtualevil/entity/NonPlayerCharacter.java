@@ -39,6 +39,10 @@ public class NonPlayerCharacter extends GameCharacter {
 	@Override
 	protected void applyAction(final float delta) {
 		
+		if (!isActive){
+			return;
+		}
+		
 		float playerX = playGameState.getEntityManager().getPlayer().getPosition().x;
 		float playerY = playGameState.getEntityManager().getPlayer().getPosition().y;
 		

@@ -57,6 +57,13 @@ public final class PlayerCharacter extends GameCharacter {
 		playGameState.getCamera().update();
 	}
 
+	public void update(float delta) {
+		if (currentHealth != healthXCoordianteVisual) {
+			healthXCoordianteVisual += (currentHealth - healthXCoordianteVisual) / 20.0;
+		}
+		super.update(delta);
+	}
+	
 	@Override
 	public void applyAction(final float delta) {
 		super.applyAction(delta);
@@ -68,17 +75,14 @@ public final class PlayerCharacter extends GameCharacter {
 			}
 		}
 
-		if (currentHealth != healthXCoordianteVisual) {
-			healthXCoordianteVisual += (currentHealth - healthXCoordianteVisual) / 20.0;
-		}
 
 		if (inputController.isMouseLeftPressed()) {
 			weapon.fire(new Vector2(playGameState.getMouseWorldCoords()));
 		}
 	}
 
-	public float getHealthXCoordianteVisual() {
-		return healthXCoordianteVisual;
+	public double calculateMissingHealthRatio() {
+		return healthXCoordianteVisual/maxHealth;
 	}
 
 	/**

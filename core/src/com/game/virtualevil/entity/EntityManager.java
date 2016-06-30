@@ -10,6 +10,7 @@ public class EntityManager {
 
 	private PlayerCharacter pc;
 	private ArrayList<GameCharacter> characterList = new ArrayList<>();
+	private ArrayList<GameCharacter> toRemove = new ArrayList<>();
 	private BulletPool bulletPool;
 
 	public EntityManager(PlayGameState playGameState) {
@@ -31,7 +32,6 @@ public class EntityManager {
 		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 1116, 562));
 		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 3118, 2168));
 		characterList.add(enemyFactory.createEnemy(playGameState, "Soldier", 462, 1468));
-
 	}
 
 	public void updateEntities(final float delta) {
@@ -67,6 +67,8 @@ public class EntityManager {
 				}
 			}
 		}
+		
+		characterList.removeAll(toRemove);
 		bulletPool.moveBullets();
 	}
 	
@@ -78,6 +80,10 @@ public class EntityManager {
 		}
 		
 		bulletPool.drawBullets(batch);
+	}
+	
+	public void removeCharacter(GameCharacter character){
+		toRemove.add(character);
 	}
 
 	public PlayerCharacter getPlayer() {

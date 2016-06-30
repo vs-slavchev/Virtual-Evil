@@ -18,7 +18,6 @@ public class HeavyRobot extends EnemyCharacter {
 	@Override
 	protected void applyAction(final float delta) {
 		super.applyAction(delta);
-
 	}
 
 }

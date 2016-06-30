@@ -101,6 +101,11 @@ public abstract class GameCharacter extends GameObject {
 				}
 			}
 			
+			if (currentHealth <= 0){
+				isActive = false;
+				playGameState.getEntityManager().removeCharacter(this);
+			}
+			
 			for (StatusEffect effect : statusEffects) {
 				effect.update(delta);
 			}
@@ -117,7 +122,9 @@ public abstract class GameCharacter extends GameObject {
 	}
 	
 	public void draw(SpriteBatch batch) {
-		batch.draw(animation.getKeyFrame(frameTime, true), position.x, position.y);
+		if (isActive){
+			batch.draw(animation.getKeyFrame(frameTime, true), position.x, position.y);
+		}
 	}
 	
 	/** Contains the character actions implementation.

@@ -106,64 +106,14 @@ public final class PlayGameState extends GameState {
 	}
 
 	private void drawUI(PlayerCharacter player) {
-		// draw debugging info top left
-		DebugInfo.draw("x: " + (int) player.getPosition().x + "; y: " + (int) player.getPosition().y);
-		DebugInfo.draw("FPS: " + Gdx.graphics.getFramesPerSecond());
-		DebugInfo.draw("dir: " + player.getSpriteDirection());
-		DebugInfo.draw("Screen: mouseX: " + (int) playerInputController.getMousePosition().x
-				+ "; mouseY: " + (int) playerInputController.getMousePosition().y);
-		DebugInfo.draw("World: mouseX: " + (int) screenToWorldCoords(playerInputController.getMousePosition()).x
-				+ "; mouseY: "
-				+ (int) screenToWorldCoords(playerInputController.getMousePosition()).y);
-		DebugInfo.draw("mouseLeft pressed?: " + playerInputController.isMouseLeftPressed());
-
-		//draw minimap frame
-		batch.draw(userInterface.getMinimapInterface(), 5, 7, 240, 240);
-		
-		// draw minimap
-		map.drawMiniMap(batch, camera.position, 65, 65);
-		
-		//draw abilities frame
-		batch.draw(userInterface.getAbilitiesInterface(), Gdx.graphics.getWidth()/2 - userInterface.getAbilitiesInterface().getRegionWidth(),
-				7, 596, 224);
-		
-		//draw the actual abilities
-		for(int i = 0; i < entityManager.getPlayer().getAbilities().size();i++ ){
-			batch.draw(userInterface.getAbilitiesMap().get(entityManager.getPlayer().getAbilities().get(i).getAbilityName()), 
-					Gdx.graphics.getWidth()/2 - 109*2 + i * 62*2, 87, 64, 64);
+		if (player.getCurrentHealth() <= 0){
+			return;
 		}
 		
-		double missingHealthRatio = (double)(entityManager.getPlayer().getHealthXCoordianteVisual())/entityManager.getPlayer().getMaxHealth();
-		//draw piston arm
-		batch.draw(userInterface.getPistonArm(),  Gdx.graphics.getWidth() - 304, Gdx.graphics.getHeight() - 68,
-				265, 7);
-		//draw health
-		batch.draw(userInterface.getHealthBar(), Gdx.graphics.getWidth() - 304, Gdx.graphics.getHeight() - 84,
-				(int)(missingHealthRatio*265), 39);
-		//draw piston		
-		batch.draw(userInterface.getPiston(), Gdx.graphics.getWidth() - 304 + (int)(missingHealthRatio*265), Gdx.graphics.getHeight() - 84);
-		//draw energy bar
-		batch.draw(userInterface.getEnergyBar(entityManager.getPlayer().getCurrentEnergy(), entityManager.getPlayer().getMaxEnergy()),
-				Gdx.graphics.getWidth() - 347, Gdx.graphics.getHeight() - 186);
-		
-		// draw the actual UI
-		batch.draw(userInterface.getHealthAndEnergyInterface(), Gdx.graphics.getWidth() - userInterface.getHealthAndEnergyInterface().getRegionWidth()- 10,
-				Gdx.graphics.getHeight() - userInterface.getHealthAndEnergyInterface().getRegionHeight() - 10);
-		
-		//draws the current hp as LCD digits on the HUD
-		assetManager.getFontManager().getHUDHealthFont(36).draw(batch, Integer.toString( entityManager.getPlayer().getCurrentHealth()),
-				Gdx.graphics.getWidth() - 365, Gdx.graphics.getHeight() - 45);
-		
-		//draws the weapons interface in the bottom right corner
-		batch.draw(userInterface.getWeaponsInterface(), Gdx.graphics.getWidth() - userInterface.getWeaponsInterface().getRegionWidth()- 210,
-				Gdx.graphics.getHeight() - userInterface.getWeaponsInterface().getRegionHeight() - 980, 414, 192); //980
-		
-		//draws the currently equipped weapons - firearm and melee weapon
-		batch.draw(userInterface.getAk47(), Gdx.graphics.getWidth() - userInterface.getAk47().getRegionWidth()- 310, 
-				Gdx.graphics.getHeight() - userInterface.getAk47().getRegionHeight() - 970, 128, 128);
-		
-		batch.draw(userInterface.getKatana(), Gdx.graphics.getWidth() - userInterface.getKatana().getRegionWidth()- 115, 
-				Gdx.graphics.getHeight() - userInterface.getKatana().getRegionHeight() - 950, 128, 128);
+		userInterface.draw(batch, this);
+
+		// draw minimap
+		map.drawMiniMap(batch, camera.position, 65, 65);
 	}
 
 	/**

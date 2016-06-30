@@ -13,6 +13,7 @@ public class MusicManager  {
 			"Star Eater", "Divide", "Skelletons in the attic",
 			"ABIIISMO - Machine Uprising", "Video Stalker" };
 	private int currentSongIndex = 0;
+	private float VOLUME = 0.0f;
 
 	public void initialize() {
 		for (String name : songNames){
@@ -20,7 +21,7 @@ public class MusicManager  {
 		}
 		
 		for (int i = 0; i < songs.size(); i++){
-			songs.get(i).setVolume(0.5f);
+			songs.get(i).setVolume(VOLUME);
 			songs.get(i).setOnCompletionListener(music -> playNextSong());
 		}
 		

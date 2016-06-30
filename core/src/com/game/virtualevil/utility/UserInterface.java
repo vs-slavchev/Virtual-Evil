@@ -2,19 +2,37 @@ package com.game.virtualevil.utility;
 
 import java.util.HashMap;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.game.virtualevil.entity.PlayerCharacter;
+import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.asset.TextureManager;
 
 public class UserInterface {
 	
 	private TextureRegion healthAndEnergyInterface, piston, pistonArm, healthBar, energyBar,
-							weaponsInterface, pistol, shotgun, ak47, minigun, katana, lightSabre, axe,
-							minimapInterface, 
-							abilitiesInterface, BoT, remnants, invulnerability, robot;
-
+							weaponsInterface, minimapInterface, abilitiesInterface,
+							pistol, shotgun, ak47, minigun, katana, lightSabre, axe;
 	private HashMap<String, TextureRegion> abilitiesMap = new HashMap<>();
+	private int width;
+	private int height;
 	
 	public UserInterface (TextureManager tm){
+		width = Gdx.graphics.getWidth();
+		height = Gdx.graphics.getHeight();
+		
+		cropInterfaceRegions(tm);
+		
+		String[] abilityNames = {"Sprint", "Return", "Invulnerability", "Robot" };
+		for (int i = 0; i < abilityNames.length; i++){
+			TextureRegion image = new TextureRegion(tm.getImage("abilitiesTileSet"),0 ,i * 32 ,32, 32);
+			abilitiesMap.put(abilityNames[i], image);
+		}
+	}
+
+	private void cropInterfaceRegions(TextureManager tm) {
 		healthAndEnergyInterface = new TextureRegion(tm.getImage("HPETileSet"),
 				0, 0, 384, 196);
 		healthBar = new TextureRegion(tm.getImage("HPETileSet"), 0, 281, 3, 39);
@@ -33,70 +51,80 @@ public class UserInterface {
 		
 		abilitiesInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 657,
 				298, 112);
-		BoT = new TextureRegion(tm.getImage("abilitiesTileSet"),0 ,0 ,32, 32);
-		remnants = new TextureRegion(tm.getImage("abilitiesTileSet"),0 ,32 ,32, 32);
-		invulnerability = new TextureRegion(tm.getImage("abilitiesTileSet"),0 ,64 ,32, 32);
-		robot = new TextureRegion(tm.getImage("abilitiesTileSet"),0 ,96 ,32, 32);
-		
-		abilitiesMap.put("Sprint", BoT);
-		abilitiesMap.put("Return", remnants);
-		abilitiesMap.put("Invulnerability", invulnerability);
-		abilitiesMap.put("Robot", robot);
 	}
-
 	
-	public TextureRegion getAbilitiesInterface() {
-		return abilitiesInterface;
+	public void draw(SpriteBatch batch, PlayGameState playState){
+		
+		PlayerCharacter player = playState.getEntityManager().getPlayer();
+		
+		DebugInfo.drawBasicDebugInfo(player, playState.getInputContrller());
+		drawAbilitiesInterface(batch, player);
+		drawHealthEnergyInterface(batch, player);
+		drawDigitsHealth(batch, playState, player);
+		drawWeaponsInterface(batch);
+		batch.draw(minimapInterface, 5, 7, 240, 240);
+	}
+	
+	private void drawAbilitiesInterface(SpriteBatch batch, PlayerCharacter player) {
+		//draw abilities frame
+		batch.draw(abilitiesInterface, width/2 - abilitiesInterface.getRegionWidth(),
+				7, 596, 224);
+		
+		//draw the actual abilities
+		for(int i = 0; i < player.getAbilities().size();i++ ){
+			TextureRegion icon = getAbilitiesMap().get(player.getAbilities().get(i).getAbilityName());
+			batch.draw(icon, width/2 - 109*2 + i * 62*2, 87, 64, 64);
+		}
 	}
 
-
-	public TextureRegion getMinimapInterface() {
-		return minimapInterface;
+	private void drawHealthEnergyInterface(SpriteBatch batch, PlayerCharacter player) {
+		double missingHealthRatio = player.calculateMissingHealthRatio();
+		//draw piston arm
+		batch.draw(pistonArm,  width - 304, height - 68,
+				265, 7);
+		//draw health
+		batch.draw(healthBar, width - 304, height - 84,
+				(int)(missingHealthRatio*265), 39);
+		//draw piston		
+		batch.draw(piston, width - 304 + (int)(missingHealthRatio*265), height - 84);
+		//draw energy bar
+		batch.draw(getEnergyBar(player.getCurrentEnergy(), player.getMaxEnergy()),
+				width - 347, height - 186);
+		
+		// draw the actual UI
+		batch.draw(healthAndEnergyInterface, width - healthAndEnergyInterface.getRegionWidth()- 10,
+				height - healthAndEnergyInterface.getRegionHeight() - 10);
+	}
+	
+	private void drawDigitsHealth(SpriteBatch batch, PlayGameState playState, PlayerCharacter player) {
+		// draws the current health as LCD digits on the HUD
+		BitmapFont lcdFont = playState.getAssetManager().getFontManager().getHUDHealthFont(36);
+		lcdFont.draw(batch, Integer.toString(player.getCurrentHealth()),
+				width - 365, height - 45);
 	}
 
-
-	public TextureRegion getHealthAndEnergyInterface() {
-		return healthAndEnergyInterface;
-	}
-
-	public TextureRegion getPiston() {
-		return piston;
-	}
-
-	public TextureRegion getPistonArm() {
-		return pistonArm;
-	}
-
-	public TextureRegion getHealthBar() {
-		return healthBar;
+	private void drawWeaponsInterface(SpriteBatch batch) {
+		//draws the weapons interface in the bottom right corner
+		batch.draw(weaponsInterface, width - weaponsInterface.getRegionWidth()- 210,
+				height - weaponsInterface.getRegionHeight() - 980, 414, 192);
+		
+		//draws the currently equipped weapons - firearm and melee weapon
+		batch.draw(ak47, width - ak47.getRegionWidth()- 310, 
+				height - ak47.getRegionHeight() - 970, 128, 128);
+		
+		batch.draw(katana, width - katana.getRegionWidth()- 115, 
+				height - katana.getRegionHeight() - 950, 128, 128);
 	}
 	
 	public TextureRegion getEnergyBar(int current, int max) {
-		if(current<0){
-			current = 0;
-		}
-		if(current > max){
-			current =max;
-		}
+		int currentEnergy = current < 0 ? 0 : current;
+		currentEnergy = current > max ? max : currentEnergy;
+		
 		return new TextureRegion(energyBar,
-				0, 0, (int) (294*((double)current/max)), 78);
-	}
-	
-	public TextureRegion getWeaponsInterface() {
-		return weaponsInterface;
-	}
-
-	public TextureRegion getAk47() {
-		return ak47;
-	}
-
-	public TextureRegion getKatana() {
-		return katana;
+				0, 0, (int) (294*((double)currentEnergy/max)), 78);
 	}
 	
 	public HashMap<String, TextureRegion> getAbilitiesMap() {
 		return abilitiesMap;
 	}
-
-	
 }

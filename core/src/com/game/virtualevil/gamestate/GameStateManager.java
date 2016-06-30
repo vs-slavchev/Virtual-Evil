@@ -11,27 +11,24 @@ public class GameStateManager {
 	}
 
 	private final Game game;
-	// an EnumMap containing the states in the game
-	private final EnumMap<StateType, GameState> stateMap = new EnumMap<>(StateType.class);
-	// a reference to the current state
+	private final EnumMap<StateType, GameState> statesMap = new EnumMap<>(StateType.class);
 	private GameState currentState;
 	
 	public GameStateManager(Game game) {
 		this.game = game;
-		stateMap.put(StateType.PLAY, new PlayGameState(this, game));
-		stateMap.put(StateType.MAIN_MENU, new MainMenuGameState(this, game));
-		setCurrentState(StateType.MAIN_MENU);
+		statesMap.put(StateType.PLAY, new PlayGameState(this, game));
+		statesMap.put(StateType.MAIN_MENU, new MainMenuGameState(this, game));
+		setCurrentState(StateType.PLAY);
 	}
 	
 	public void setCurrentState(StateType state) {
-		if (stateMap.containsKey(state) && stateMap.get(state) != null) {
-			currentState = stateMap.get(state);			
+		if (statesMap.containsKey(state) && statesMap.get(state) != null) {
+			currentState = statesMap.get(state);			
 		}
 	}
 	
 	public void startNewGame() {
-		// replace the old playgamestate instance
-		stateMap.put(StateType.PLAY, new PlayGameState(this, game));
+		statesMap.put(StateType.PLAY, new PlayGameState(this, game));
 		setCurrentState(StateType.PLAY);
 	}
 	
@@ -44,13 +41,13 @@ public class GameStateManager {
 	}
 	
 	public void disposeAllStates() {
-		for (GameState state : stateMap.values()) {
+		for (GameState state : statesMap.values()) {
 			state.dispose();
 		}
 	}
 
 	public EnumMap<StateType, GameState> getStateMap() {
-		return stateMap;
+		return statesMap;
 	}
 	
 }
