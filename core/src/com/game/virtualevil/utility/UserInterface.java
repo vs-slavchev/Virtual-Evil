@@ -31,27 +31,6 @@ public class UserInterface {
 			abilitiesMap.put(abilityNames[i], image);
 		}
 	}
-
-	private void cropInterfaceRegions(TextureManager tm) {
-		healthAndEnergyInterface = new TextureRegion(tm.getImage("HPETileSet"),
-				0, 0, 384, 196);
-		healthBar = new TextureRegion(tm.getImage("HPETileSet"), 0, 281, 3, 39);
-		piston = new TextureRegion(tm.getImage("HPETileSet"), 0, 217, 29, 39);
-		pistonArm = new TextureRegion(tm.getImage("HPETileSet"), 0, 265, 3, 7);
-		energyBar = new TextureRegion(tm.getImage("HPETileSet"), 0, 329, 294,
-				78);
-
-		weaponsInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 411,
-				207, 96);
-		ak47 = new TextureRegion(tm.getImage("weaponsTileSet"), 0, 128, 64, 64);
-		katana = new TextureRegion(tm.getImage("weaponsTileSet"), 0, 256, 64, 64);
-
-		minimapInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 518,
-				120, 120);
-		
-		abilitiesInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 657,
-				298, 112);
-	}
 	
 	public void draw(SpriteBatch batch, PlayGameState playState){
 		
@@ -114,6 +93,27 @@ public class UserInterface {
 		
 		batch.draw(katana, width - katana.getRegionWidth()- 115, 
 				height - katana.getRegionHeight() - 950, 128, 128);
+	}
+
+	private void cropInterfaceRegions(TextureManager tm) {
+		healthAndEnergyInterface = new TextureRegion(tm.getImage("HPETileSet"),
+				0, 0, 384, 196);
+		healthBar = new TextureRegion(tm.getImage("HPETileSet"), 0, 281, 3, 39);
+		piston = new TextureRegion(tm.getImage("HPETileSet"), 0, 217, 29, 39);
+		pistonArm = new TextureRegion(tm.getImage("HPETileSet"), 0, 265, 3, 7);
+		energyBar = new TextureRegion(tm.getImage("HPETileSet"), 0, 329, 294,
+				78);
+
+		weaponsInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 411,
+				207, 96);
+		ak47 = new TextureRegion(tm.getImage("weaponsTileSet"), 0, 128, 64, 64);
+		katana = new TextureRegion(tm.getImage("weaponsTileSet"), 0, 256, 64, 64);
+
+		minimapInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 518,
+				120, 120);
+		
+		abilitiesInterface = new TextureRegion(tm.getImage("HPETileSet"), 0, 657,
+				298, 112);
 	}
 	
 	public TextureRegion getEnergyBar(int current, int max) {

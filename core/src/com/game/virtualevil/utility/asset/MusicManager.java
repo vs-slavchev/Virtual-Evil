@@ -17,12 +17,12 @@ public class MusicManager  {
 
 	public void initialize() {
 		for (String name : songNames){
-			songs.add(Gdx.audio.newMusic(Gdx.files.internal(name + ".mp3")));
+			songs.add(Gdx.audio.newMusic(Gdx.files.internal("music/" + name + ".mp3")));
 		}
 		
-		for (int i = 0; i < songs.size(); i++){
-			songs.get(i).setVolume(VOLUME);
-			songs.get(i).setOnCompletionListener(music -> playNextSong());
+		for (Music song : songs){
+			song.setVolume(VOLUME);
+			song.setOnCompletionListener(music -> playNextSong());
 		}
 		
 		songs.get(0).play();

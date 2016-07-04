@@ -28,7 +28,8 @@ public class TextureManager {
 				"startScreenBackground",
 				"chipBuildings",
 				"mainMenuButtons",
-		        "Projectile"
+		        "Projectile",
+		        "explosion"
 		};
 
 		for (int i = 0; i < imgNames.length; i++) {
@@ -49,7 +50,7 @@ public class TextureManager {
 
 	public TextureRegion getImage(String s) {
 		if (!texRegions.containsKey(s)) {
-			VirtualEvilError.show("Image not found in hashmap. key =\n"	+ s);			
+			VirtualEvilError.show("Image not found. File name:\n" + s);			
 		}
 		return texRegions.get(s);
 	}

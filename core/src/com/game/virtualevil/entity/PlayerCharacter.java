@@ -46,8 +46,7 @@ public final class PlayerCharacter extends GameCharacter {
 	 */
 	@Override
 	public void setPosition(final Vector2 position) {
-		this.position.x = position.x;
-		this.position.y = position.y;
+		super.setPosition(position);
 		centerCameraOnPlayer();
 	}
 

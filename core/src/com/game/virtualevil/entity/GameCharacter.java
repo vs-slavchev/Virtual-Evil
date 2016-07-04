@@ -234,7 +234,7 @@ public abstract class GameCharacter extends GameObject {
 		this.currentHealth = currentHealth;
 	}
 
-	public boolean isHasBeenHitRecently() {
+	public boolean hasBeenHitRecently() {
 		return hasBeenHitRecently;
 	}
 

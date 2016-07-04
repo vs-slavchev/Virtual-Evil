@@ -30,11 +30,11 @@ public class Bullet extends GameObject{
 		sb.draw(img, position.x - img.getRegionWidth()/2, position.y - img.getRegionHeight()/2);
 	}
 	
-	public void activate(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion img){
+	public void activate(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion image){
 		isActive = true;
 		
 		this.position = calculateStartPosition(start, target);
-		this.img = img;
+		this.img = image;
 
 		float distance = (float) Math.sqrt(
 				  (target.x - start.x) * (target.x - start.x)
