@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.InputController;
+import com.game.virtualevil.utility.Map;
 import com.game.virtualevil.utility.ability.Ability;
 import com.game.virtualevil.utility.ability.AbilityConstants;
 import com.game.virtualevil.utility.ability.statuseffects.StatusEffect;
@@ -22,7 +23,7 @@ import com.game.virtualevil.utility.weapon.Weapon;
  * inherit from this class.
  */
 
-public abstract class GameCharacter extends GameObject {
+public class GameCharacter extends GameObject {
 
 	public enum Direction {
 		DOWN, LEFT, RIGHT, UP
@@ -49,19 +50,13 @@ public abstract class GameCharacter extends GameObject {
 	protected boolean characterMoved;
 	
 	// control related fields
-	protected PlayGameState playGameState;
 	protected InputController inputController;
 	
-	/* Used only for testing setup. */
-	public GameCharacter(){
-		maxHealth = EntityConstants.CHARACTER_DEFALUT_MAX_HP;
-	}
 	
-	public GameCharacter(PlayGameState playGameState) {
+	public GameCharacter() {
 		this.radius = 16;
-		this.maxHealth = EntityConstants.CHARACTER_DEFALUT_MAX_HP;
+		this.maxHealth = EntityConstants.CHARACTER_MAX_HP;
 		this.currentHealth = maxHealth;
-		this.playGameState = playGameState;
 		position = new Vector2();
 		spriteDirection = Direction.DOWN;
 	}
@@ -85,10 +80,10 @@ public abstract class GameCharacter extends GameObject {
 		return false;
 	}
 	
-	public void update(final float delta) {
+	public void update(final float delta, PlayGameState playState) {
 		if (isActive) {
 			prevDirection = spriteDirection;
-			applyAction(delta);
+			applyAction(delta, playState);
 			if (prevDirection != spriteDirection) {
 				animation = new Animation(0.15f, frames[spriteDirection.ordinal()]);
 				frameTime = 0.0f;
@@ -103,7 +98,7 @@ public abstract class GameCharacter extends GameObject {
 			
 			if (currentHealth <= 0){
 				isActive = false;
-				playGameState.getEntityManager().removeCharacter(this);
+				playState.getEntityManager().removeCharacter(this);
 			}
 			
 			for (StatusEffect effect : statusEffects) {
@@ -128,28 +123,32 @@ public abstract class GameCharacter extends GameObject {
 	}
 	
 	/** Contains the character actions implementation.
-	 * Extend to add action logic for AI or player input processing.
-	 * @param delta the time delta */
-	protected void applyAction(final float delta) {
-		/* check if moving in the desired direction is possible;
-		 * if it is - do move. The characterMoved boolean is used
-		 * to advance the animation of the player. */
-		characterMoved = false;
-		if (inputController.isUp()) {
-			performMovement(Direction.UP, delta);
-		} else if (inputController.isDown()) {
-			performMovement(Direction.DOWN, delta);
-		}
-		if (inputController.isLeft()) {
-			performMovement(Direction.LEFT, delta);
-		} else if (inputController.isRight()) {
-			performMovement(Direction.RIGHT, delta);
-		}
-		weapon.updateTimer();
+	 * Extend to add action logic for AI or player input processing. */
+	protected void applyAction(final float delta, PlayGameState playState) {
+		prepareMovement(delta, playState);
 		updateAnimation(delta);
 	}
+
+	/** Check if moving in the desired direction is possible;
+	 * if it is - do move. The characterMoved boolean is used
+	 * to advance the animation of the player. */
+	protected void prepareMovement(final float delta, PlayGameState playState) {
+		characterMoved = false;
+		Map map = playState.getMap();
+		if (inputController.isUp()) {
+			performMovement(Direction.UP, delta, map);
+		} else if (inputController.isDown()) {
+			performMovement(Direction.DOWN, delta, map);
+		}
+		if (inputController.isLeft()) {
+			performMovement(Direction.LEFT, delta, map);
+		} else if (inputController.isRight()) {
+			performMovement(Direction.RIGHT, delta, map);
+		}
+		weapon.updateTimer();
+	}
 	
-	protected void performMovement(Direction dir, final float delta){
+	protected void performMovement(Direction dir, final float delta, Map map){
 		boolean vertical = false;
 		if (dir == Direction.DOWN || dir == Direction.UP){
 			vertical = true;
@@ -160,7 +159,7 @@ public abstract class GameCharacter extends GameObject {
 		}
 		Rectangle colRect = createColRect(position.x + (vertical ? 0 : offset),
 										  position.y + (vertical ? offset : 0));
-		if (!playGameState.getMap().collidesWithTerrain(colRect)) {
+		if (!map.collidesWithTerrain(colRect)) {
 			if (vertical) {
 				position.y += offset;
 			}
@@ -172,11 +171,7 @@ public abstract class GameCharacter extends GameObject {
 		}
 	}
 	
-	/**
-	 * A helper method: creates a rectangle for the terrain collision.
-	 * @param x left x coordinate
-	 * @param y bottom y coordinate
-	 * @return the collision rectangle */
+	/** A helper method: creates a rectangle for the terrain collision. */
 	protected Rectangle createColRect(final float x, final float y) {
 		return new Rectangle(x + 4, y - 20,
 				collisionBoxVector.x, collisionBoxVector.y);
@@ -241,6 +236,8 @@ public abstract class GameCharacter extends GameObject {
 	public void setHasBeenHitRecently(boolean hasBeenHitRecently) {
 		this.hasBeenHitRecently = hasBeenHitRecently;
 	}
-	
 
+	public Weapon getWeapon() {
+		return weapon;
+	}
 }

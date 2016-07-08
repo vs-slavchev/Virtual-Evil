@@ -1,5 +1,6 @@
 package com.game.virtualevil.entity;
 
+import com.badlogic.gdx.math.Vector2;
 import com.game.virtualevil.gamestate.PlayGameState;
 import com.game.virtualevil.utility.InputController;
 
@@ -16,42 +17,37 @@ public class NonPlayerCharacter extends GameCharacter {
 	protected AI_State aiState = AI_State.IDLE;
 	protected float timer;
 
-	public NonPlayerCharacter(PlayGameState playGameState, final int x,
+	public NonPlayerCharacter(final int x,
 			final int y) {
-		super(playGameState);
+		super();
 		inputController = new InputController();
 		position.x = x;
 		position.y = y;
 		aiState = AI_State.PATROL;
 	}
 
-	public void update(final float delta) {
+	public void update(final float delta, PlayGameState playState) {
 		/*
 		 * toggle isActive according to whether character is in view. Here !=
 		 * works as XOR
 		 */
-		if (isActive != playGameState.isObjectInView(position)) {
+		if (isActive != playState.isObjectInView(position)) {
 			isActive = !isActive;
 		}
-		super.update(delta);
+		super.update(delta, playState);
 	}
 
 	@Override
-	protected void applyAction(final float delta) {
-		
-		if (!isActive){
+	protected void applyAction(final float delta, PlayGameState playState) {
+		if (!isActive) {
 			return;
 		}
-		
-		float playerX = playGameState.getEntityManager().getPlayer().getPosition().x;
-		float playerY = playGameState.getEntityManager().getPlayer().getPosition().y;
-		
-		super.applyAction(delta);
-		//System.out.println(Math.sqrt(Math.pow(position.x - playerX, 2) + Math.pow(position.y - playerY, 2)));
-			switch (aiState) {	
-			case PATROL:
-			if (Math.sqrt(Math.pow(position.x - playerX, 2)
-					+ Math.pow(position.y - playerY, 2)) < 250.0) {
+		Vector2 playerPosition = playState.getEntityManager().getPlayer().getPosition();
+
+		super.applyAction(delta, playState);
+		switch (aiState) {
+		case PATROL:
+			if (Math.sqrt(Math.pow(position.x - playerPosition.x, 2) + Math.pow(position.y - playerPosition.y, 2)) < 250.0) {
 				aiState = AI_State.ATTACK;
 			}
 			timer += delta;
@@ -75,32 +71,20 @@ public class NonPlayerCharacter extends GameCharacter {
 			}
 			break;
 		case ATTACK:
-			weapon.fire(playGameState.getEntityManager().getPlayer()
-					.getPosition());
-			if ((Math.sqrt(Math.pow(position.x - playerX, 2) + Math.pow(position.y - playerY, 2)) > 450.0)) {		
-						aiState = AI_State.PATROL;
+			weapon.fire(playerPosition);
+			if ((Math.sqrt(Math.pow(position.x - playerPosition.x, 2)
+					+ Math.pow(position.y - playerPosition.y, 2)) > 450.0)) {
+				aiState = AI_State.PATROL;
 			}
-
-				// if(playGameState.isCharacterInView(this)){
-				/*
-				 * this.weapon.fire(new
-				 * Vector2(playGameState.getEntityManager().
-				 * getPlayer().getPosition().x ,
-				 * playGameState.getMap().getTotalHeight() -
-				 * playGameState.getEntityManager
-				 * ().getPlayer().getPosition().y));
-				 */
-				// }
-				break;
-			case FLEE:
-				// leg it
-				break;
-			default:
-				// intentionally left empty
-				break;
-			}
+			break;
+		case FLEE:
+			// leg it
+			break;
+		default:
+			// intentionally left empty
+			break;
 		}
-	
+	}	
 
 	public boolean isActive() {
 		return isActive;

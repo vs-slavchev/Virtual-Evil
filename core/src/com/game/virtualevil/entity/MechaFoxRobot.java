@@ -7,7 +7,7 @@ import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 public class MechaFoxRobot extends EnemyCharacter {
 
 	public MechaFoxRobot(PlayGameState playGameState, final int x, final int y) {
-		super(playGameState, x, y);
+		super(x, y);
 		
 		weapon = new Weapon(WeaponType.PISTOL, this, playGameState);
 		spriteSheet = playGameState.getAssetManager().getTextureManager()
@@ -16,8 +16,8 @@ public class MechaFoxRobot extends EnemyCharacter {
 	}
 	
 	@Override
-	protected void applyAction(final float delta) {
-		super.applyAction(delta);
+	protected void applyAction(final float delta, PlayGameState playState) {
+		super.applyAction(delta, playState);
 
 	}
 

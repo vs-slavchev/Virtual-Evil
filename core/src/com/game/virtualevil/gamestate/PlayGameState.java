@@ -76,7 +76,7 @@ public final class PlayGameState extends GameState {
 
 	@Override
 	public void update(final float delta) {
-		entityManager.updateEntities(delta);
+		entityManager.updateEntities(delta, this);
 	}
 
 	@Override

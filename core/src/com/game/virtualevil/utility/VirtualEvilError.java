@@ -6,20 +6,15 @@ import com.badlogic.gdx.Gdx;
 
 /**
  * Exceptions should be exceptional.
- *
+ * Class should be used for fatal errors which are
+ * unrecoverable.
  */
 public class VirtualEvilError {
 
 	public static void show(String errorMessage) {
-		try {
-			throw new RuntimeException(errorMessage);
-		} catch (RuntimeException e) {
 			JOptionPane.showMessageDialog(null,
-					"Error: \n" + e.getMessage(),
-				    "Error",
-				    JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+					"Error: \n" + errorMessage,
+				    "Error", JOptionPane.ERROR_MESSAGE);
 			Gdx.app.exit();
-		}
 	}
 }

@@ -12,40 +12,37 @@ public class TextureManager {
 	
 	private final String path = "images/";
 	private final String ext = ".png";
+	private final String[] imgNames = {
+			"enemy1",
+			"enemy2",
+			"enemy3",
+			"enemy4",
+			"abilitiesTileSet",
+			"weaponsTileSet",
+			"HPETileSet",
+			"hero",
+			"cyber_tileset",
+			"cyber_minimap",
+			"startScreenBackground",
+			"chipBuildings",
+			"mainMenuButtons",
+			"Projectile",
+			"explosion"
+	};
 	
 	public TextureManager() {
-		String[] imgNames = {
-				"enemy1",
-				"enemy2",
-				"enemy3",
-				"enemy4",
-				"abilitiesTileSet",
-				"weaponsTileSet",
-				"HPETileSet",
-				"hero",
-				"cyber_tileset",
-				"cyber_minimap",
-				"startScreenBackground",
-				"chipBuildings",
-				"mainMenuButtons",
-		        "Projectile",
-		        "explosion"
-		};
-
 		for (int i = 0; i < imgNames.length; i++) {
 			loadTexture(imgNames[i]);
 		}
-		// fix bleeding for some tilesets
+		
+		// fix bleeding for some tile sets
 		fixBleeding(texRegions.get("cyber_tileset"));
 		fixBleeding(texRegions.get("chipBuildings"));
 	}
 
-	@SuppressWarnings("null")
 	public void loadTexture(String fname) {
 		TextureRegion textureRegion = new TextureRegion(new Texture(path + fname + ext));		
-		if (textureRegion != null) {
-			texRegions.put(fname, textureRegion);
-		}
+		texRegions.put(fname, textureRegion);
 	}
 
 	public TextureRegion getImage(String s) {

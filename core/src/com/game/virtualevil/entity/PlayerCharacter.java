@@ -13,21 +13,17 @@ public final class PlayerCharacter extends GameCharacter {
 	/* the visual representation of the current health;
 	 * used in drawing the UI */
 	private float healthXCoordianteVisual;
-	
-	/**
-	 * Used only for testing setup. */
-	public PlayerCharacter(){
-		maxEnergy = 100;
-	}
+	private PlayGameState playState;
 
-	public PlayerCharacter(PlayGameState playGameState) {
-		super(playGameState);
+	public PlayerCharacter(PlayGameState playState) {
+		super();
 		this.healthXCoordianteVisual = currentHealth;
 		this.maxEnergy = 100;
+		this.playState = playState;
+		this.inputController = playState.getInputContrller();
 
-		inputController = playGameState.getInputContrller();
 		setPosition(new Vector2(72, 3738));
-		spriteSheet = playGameState.getAssetManager().getTextureManager()
+		spriteSheet = playState.getAssetManager().getTextureManager()
 				.getImage("hero");
 		setUpAnimation();
 		isActive = true;
@@ -37,13 +33,11 @@ public final class PlayerCharacter extends GameCharacter {
 		abilities.add(2, Ability.create("Invulnerability", this));
 		abilities.add(3, Ability.create("Robot", this));
 
-		weapon = new Weapon(WeaponType.MACHINE_GUN, this, playGameState);
+		weapon = new Weapon(WeaponType.MACHINE_GUN, this, playState);
 	}
 
-	/**
-	 * Sets the player and camera positions as the player should always be in
-	 * the center of the camera.
-	 */
+	/** Sets the player and camera positions as the player should always be in
+	 * the center of the camera. */
 	@Override
 	public void setPosition(final Vector2 position) {
 		super.setPosition(position);
@@ -51,21 +45,22 @@ public final class PlayerCharacter extends GameCharacter {
 	}
 
 	private void centerCameraOnPlayer() {
-		playGameState.getCamera().position.set(this.position.x,
+		playState.getCamera().position.set(this.position.x,
 				this.position.y, 0);
-		playGameState.getCamera().update();
+		playState.getCamera().update();
 	}
 
-	public void update(float delta) {
+	public void update(float delta, PlayGameState playGameState) {
 		if (currentHealth != healthXCoordianteVisual) {
 			healthXCoordianteVisual += (currentHealth - healthXCoordianteVisual) / 20.0;
 		}
-		super.update(delta);
+		super.update(delta, playGameState);
 	}
 	
 	@Override
-	public void applyAction(final float delta) {
-		super.applyAction(delta);
+	public void applyAction(final float delta, PlayGameState playGameState) {
+		super.prepareMovement(delta, playGameState);
+		updateAnimation(delta);
 
 		// check the ability related input
 		for (int i = 0; i < abilities.size(); i++) {
@@ -73,26 +68,22 @@ public final class PlayerCharacter extends GameCharacter {
 				abilities.get(i).attemptToUse();
 			}
 		}
-
-
 		if (inputController.isMouseLeftPressed()) {
 			weapon.fire(new Vector2(playGameState.getMouseWorldCoords()));
 		}
 	}
 
-	public double calculateMissingHealthRatio() {
-		return healthXCoordianteVisual/maxHealth;
-	}
-
-	/**
-	 * Overridden because the camera needs to be on the player.
-	 */
+	/** Overridden because the camera needs to be on the player. */
 	@Override
 	protected void updateAnimation(final float delta) {
 		if (characterMoved) {
 			centerCameraOnPlayer();
 			frameTime += delta;
 		}
+	}
+	
+	public double calculateMissingHealthRatio() {
+		return healthXCoordianteVisual/maxHealth;
 	}
 
 	public int getMaxEnergy() {
@@ -102,5 +93,4 @@ public final class PlayerCharacter extends GameCharacter {
 	public int getCurrentEnergy() {
 		return currentEnergy;
 	}
-
 }

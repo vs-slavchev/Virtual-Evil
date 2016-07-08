@@ -1,12 +1,11 @@
 package entity;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.game.virtualevil.entity.GameCharacter;
-import com.game.virtualevil.entity.PlayerCharacter;
 
 public class EntityTest {
 	
@@ -14,7 +13,7 @@ public class EntityTest {
 	
 	@Before
 	public void prepareCharacter(){
-		gc = new PlayerCharacter();
+		gc = new GameCharacter();
 	}
 
 	@Test
