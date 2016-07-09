@@ -45,7 +45,7 @@ public class Bullet extends GameObject{
 		case PISTOL:
 			this.speed = 200;
 			break;
-		case MACHINE_GUN:
+		case AK47:
 			this.speed = 350;
 			break;
 		case RPG:

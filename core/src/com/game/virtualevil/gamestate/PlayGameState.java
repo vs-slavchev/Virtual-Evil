@@ -39,7 +39,6 @@ public final class PlayGameState extends GameState {
 				Gdx.graphics.getHeight() / 2);
 		camera.update();
 
-		// set up ui camera
 		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
 		ScreenViewport viewport = new ScreenViewport(uiCamera);
@@ -49,10 +48,8 @@ public final class PlayGameState extends GameState {
 				uiCamera.viewportHeight / 2, 0);
 		uiCamera.update();
 
-		// user interface initialization
 		userInterface = new UserInterface(assetManager.getTextureManager());
 
-		// set up input handling
 		playerInputController = new InputController();
 		gameInputProcessor = new GameInputProcessor(playerInputController);
 		uiInputProcessor = new UiInputProcessor(gsm);
@@ -111,14 +108,10 @@ public final class PlayGameState extends GameState {
 		}
 		
 		userInterface.draw(batch, this);
-
-		// draw minimap
 		map.drawMiniMap(batch, camera.position, 65, 65);
 	}
 
-	/**
-	 * Returns the cursor coordinates in the game world.
-	 */
+	/** Returns the cursor coordinates in the game world. */
 	public Vector2 getMouseWorldCoords() {
 		return screenToWorldCoords(playerInputController.getMousePosition());
 	}
@@ -128,7 +121,6 @@ public final class PlayGameState extends GameState {
 		Vector2 worldPosition = new Vector2();
 		worldPosition.x = camera.position.x - Gdx.graphics.getWidth() / 2 + screenPosition.x;
 		worldPosition.y = camera.position.y - Gdx.graphics.getHeight() / 2 + (Gdx.graphics.getHeight() - screenPosition.y);
-		
 		return worldPosition;
 	}
 

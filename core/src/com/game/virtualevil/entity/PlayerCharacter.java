@@ -14,6 +14,7 @@ public final class PlayerCharacter extends GameCharacter {
 	 * used in drawing the UI */
 	private float healthXCoordianteVisual;
 	private PlayGameState playState;
+	private Weapon offWeapon;
 
 	public PlayerCharacter(PlayGameState playState) {
 		super();
@@ -21,7 +22,7 @@ public final class PlayerCharacter extends GameCharacter {
 		this.maxEnergy = 100;
 		this.playState = playState;
 		this.inputController = playState.getInputContrller();
-
+		
 		setPosition(new Vector2(72, 3738));
 		spriteSheet = playState.getAssetManager().getTextureManager()
 				.getImage("hero");
@@ -33,7 +34,8 @@ public final class PlayerCharacter extends GameCharacter {
 		abilities.add(2, Ability.create("Invulnerability", this));
 		abilities.add(3, Ability.create("Robot", this));
 
-		weapon = new Weapon(WeaponType.MACHINE_GUN, this, playState);
+		weapon = new Weapon(WeaponType.AK47, this, playState);
+		offWeapon = new Weapon(WeaponType.PISTOL, this, playState);
 	}
 
 	/** Sets the player and camera positions as the player should always be in
@@ -92,5 +94,9 @@ public final class PlayerCharacter extends GameCharacter {
 
 	public int getCurrentEnergy() {
 		return currentEnergy;
+	}
+	
+	public Weapon getOffWeapon(){
+		return offWeapon;
 	}
 }

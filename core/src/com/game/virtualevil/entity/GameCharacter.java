@@ -29,7 +29,6 @@ public class GameCharacter extends GameObject {
 		DOWN, LEFT, RIGHT, UP
 	}
 	
-	// entity related fields
 	protected final int maxHealth;
 	protected int currentHealth;
 	protected float invulnerabilityTimer = 0.5f;
@@ -41,17 +40,13 @@ public class GameCharacter extends GameObject {
 	protected ArrayList<Ability> abilities = new ArrayList<>(AbilityConstants.ABILITIES_COUNT);
 	protected Weapon weapon;
 
-	// animation related fields
 	protected Direction prevDirection, spriteDirection;
 	protected Animation animation;
 	protected TextureRegion spriteSheet;
 	protected TextureRegion[][] frames;
 	protected float frameTime;
 	protected boolean characterMoved;
-	
-	// control related fields
 	protected InputController inputController;
-	
 	
 	public GameCharacter() {
 		this.radius = 16;
@@ -69,14 +64,14 @@ public class GameCharacter extends GameObject {
 				spriteSheet.getRegionHeight()/4 - 16);
 	}
 	
-	public boolean overlap(GameObject otherObject){
+	public boolean overlap(GameObject otherObject) {
 		double marginX = Math.abs(otherObject.position.x - this.position.x);
 		double marginY = Math.abs(otherObject.position.y - this.position.y);
-		
+
 		double distance = Math.sqrt(Math.pow(marginX, 2) + Math.pow(marginY, 2));
-		if(distance < this.radius + otherObject.radius){ 
-		return true;
-	}
+		if (distance < this.radius + otherObject.radius) {
+			return true;
+		}
 		return false;
 	}
 	

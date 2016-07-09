@@ -14,11 +14,10 @@ import com.game.virtualevil.utility.VirtualEvilError;
 
 public class Weapon {
 	public enum WeaponType {
-		PISTOL, MACHINE_GUN, RPG
+		PISTOL, AK47, RPG, KATANA
 	}
 
 	private WeaponType weaponType;
-
 	private int currentAmmo, maxAmmo, totalAmmo, damage;
 	private float rateOfFire, timer;
 	
@@ -37,7 +36,7 @@ public class Weapon {
 			this.totalAmmo = 45;
 			this.rateOfFire = 0.7f;
 			break;
-		case MACHINE_GUN:
+		case AK47:
 			this.damage = 8;
 			this.totalAmmo = 90;
 			this.maxAmmo = 30;
@@ -49,6 +48,7 @@ public class Weapon {
 			this.maxAmmo = 1;
 			this.rateOfFire = 5;
 			break;
+		case KATANA:
 		default:
 			VirtualEvilError.show("Creating unknown weapon:\n" + cWeapon);
 			break;
