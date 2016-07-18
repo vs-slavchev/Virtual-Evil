@@ -11,3 +11,5 @@ In-Game screenshot:
 
 Main Menu screenshot
 ![menu-screenshot](https://cloud.githubusercontent.com/assets/11488023/13367042/35eefd2e-dcd7-11e5-8828-ecf1fb88fcdf.png)
+
+The main character is brought to life in cyberspace in a running computer. A modern 'frankenstein' virus puts together components of games and accidentally creates the player character. Now chased by the system authorities: anti-malware processes, garbage collectors, security daemons and other programs, the cyber warrior must prevail hardships, vanquish foes, endure tests, fight for the right to exist and brave to oppose the faulty AI overlord.
