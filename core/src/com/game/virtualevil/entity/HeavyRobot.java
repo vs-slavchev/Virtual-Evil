@@ -9,7 +9,7 @@ public class HeavyRobot extends EnemyCharacter {
 	public HeavyRobot(PlayGameState playGameState, final int x, final int y) {
 		super(x, y);
 
-		weapon = new Weapon(WeaponType.PISTOL, this, playGameState);
+		weapon = new Weapon(WeaponType.AK47, this, playGameState);
 		spriteSheet = playGameState.getAssetManager().getTextureManager()
 				.getImage("enemy2");
 		setUpAnimation();

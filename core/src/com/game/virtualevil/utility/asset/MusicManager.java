@@ -13,7 +13,7 @@ public class MusicManager  {
 			"Star Eater", "Divide", "Skelletons in the attic",
 			"ABIIISMO - Machine Uprising", "Video Stalker" };
 	private int currentSongIndex = 0;
-	private float VOLUME = 0.0f;
+	private float VOLUME = 0.6f;
 
 	public void initialize() {
 		for (String name : songNames){

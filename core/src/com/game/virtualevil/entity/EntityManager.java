@@ -21,20 +21,20 @@ public class EntityManager {
 		characterList.add(pc);
 		
 		enemyFactory = new EnemyFactory(playGameState);
+		addCharacter("Soldier", 590, 3549);
+		addCharacter("Mecha", 730, 2959);
+		addCharacter("Heavy", 1350, 3650);
 		addCharacter("Soldier", 3650, 1825);
 		addCharacter("Soldier", 3650, 1825);
 		addCharacter("Soldier", 1116, 562);
 		addCharacter("Soldier", 3118, 2168);
 		addCharacter("Soldier", 462, 1468);
-		addCharacter("Soldier", 590, 3549);
 		addCharacter("Soldier", 1578, 590);
 		addCharacter("Soldier", 1569, 2872);
 		addCharacter("Suit", 4300, 1300);
 		addCharacter("Suit", 2252, 2206);
 		addCharacter("Heavy", 3962, 2768);
-		addCharacter("Heavy", 1477, 1443);
 		addCharacter("Mecha", 4176, 3630);
-		addCharacter("Mecha", 730, 2959);
 	}
 
 	public void updateEntities(final float delta, PlayGameState playState) {

@@ -65,8 +65,8 @@ public class GameCharacter extends GameObject {
 	}
 	
 	public boolean overlap(GameObject otherObject) {
-		double marginX = Math.abs(otherObject.position.x - this.position.x);
-		double marginY = Math.abs(otherObject.position.y - this.position.y);
+		double marginX = Math.abs(otherObject.getPosition().x - this.getPosition().x);
+		double marginY = Math.abs(otherObject.getPosition().y - this.getPosition().y);
 
 		double distance = Math.sqrt(Math.pow(marginX, 2) + Math.pow(marginY, 2));
 		if (distance < this.radius + otherObject.radius) {
@@ -185,7 +185,10 @@ public class GameCharacter extends GameObject {
 	}
 
 	public Vector2 getPosition() {
-		return position;
+		Vector2 positionCenter = new Vector2(position);
+		positionCenter.x += 16;
+		positionCenter.y += 16;
+		return positionCenter;
 	}
 
 	public void setPosition(Vector2 position) {

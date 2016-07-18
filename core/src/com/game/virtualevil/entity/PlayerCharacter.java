@@ -38,8 +38,8 @@ public final class PlayerCharacter extends GameCharacter {
 		offWeapon = new Weapon(WeaponType.AK47, this, playState);
 	}
 
-	/** Sets the player and camera positions as the player should always be in
-	 * the center of the camera. */
+	/** The player should always be in
+	 *  the center of the camera. */
 	@Override
 	public void setPosition(final Vector2 position) {
 		super.setPosition(position);
