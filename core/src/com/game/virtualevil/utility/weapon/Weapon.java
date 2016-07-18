@@ -32,15 +32,15 @@ public class Weapon {
 		switch (cWeapon) {
 		case PISTOL:
 			this.damage = 2;
-			this.currentAmmo = 8;
 			this.totalAmmo = 45;
+			this.maxAmmo = 8;
 			this.rateOfFire = 0.7f;
 			break;
 		case AK47:
 			this.damage = 8;
 			this.totalAmmo = 90;
 			this.maxAmmo = 30;
-			this.rateOfFire = 0.2f;
+			this.rateOfFire = 0.17f;
 			break;
 		case RPG:
 			this.damage = 50;
@@ -58,10 +58,14 @@ public class Weapon {
 
 	public void fire(Vector2 target) {
 		if (currentAmmo >= 1 && timer > rateOfFire) {
+			currentAmmo--;
 			timer = 0;
 			playGameState.getEntityManager().getBulletPool().activateBullet(
 					gameCharacter.getPosition(), new Vector2(target), weaponType,
 					playGameState.getAssetManager().getTextureManager().getImage("Projectile"));
+		}
+		if (currentAmmo <= 0){
+			reload();
 		}
 	}
 	
@@ -72,6 +76,9 @@ public class Weapon {
 	public void reload() {
 		if (currentAmmo != maxAmmo) {
 			int toAdd = maxAmmo - currentAmmo;
+			if (toAdd > totalAmmo){
+				toAdd = totalAmmo;
+			}
 			totalAmmo -= toAdd;
 			currentAmmo += toAdd;
 		}
@@ -82,6 +89,6 @@ public class Weapon {
 	}
 	
 	public String getAmmoInfo(){
-		return String.format("%d / %d", currentAmmo, maxAmmo);
+		return String.format("%d / %d", currentAmmo, totalAmmo);
 	}
 }

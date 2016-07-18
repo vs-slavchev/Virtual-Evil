@@ -34,8 +34,8 @@ public final class PlayerCharacter extends GameCharacter {
 		abilities.add(2, Ability.create("Invulnerability", this));
 		abilities.add(3, Ability.create("Robot", this));
 
-		weapon = new Weapon(WeaponType.AK47, this, playState);
-		offWeapon = new Weapon(WeaponType.PISTOL, this, playState);
+		weapon = new Weapon(WeaponType.PISTOL, this, playState);
+		offWeapon = new Weapon(WeaponType.AK47, this, playState);
 	}
 
 	/** Sets the player and camera positions as the player should always be in
@@ -72,6 +72,12 @@ public final class PlayerCharacter extends GameCharacter {
 		}
 		if (inputController.isMouseLeftPressed()) {
 			weapon.fire(new Vector2(playGameState.getMouseWorldCoords()));
+		}
+		if (inputController.isSwitchWeapon()){
+			Weapon temp = weapon;
+			weapon = offWeapon;
+			offWeapon = temp;
+			inputController.setSwitchWeapon(false);
 		}
 	}
 

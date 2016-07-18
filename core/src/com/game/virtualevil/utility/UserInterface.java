@@ -83,7 +83,7 @@ public class UserInterface {
 		
 		BitmapFont lcdFont = playState.getAssetManager().getFontManager().getHUDHealthFont(36);
 		lcdFont.draw(batch, playState.getEntityManager().getPlayer().getWeapon().getAmmoInfo(),
-				width - 200, 50);
+				width - 370, 180);
 	}
 	
 	public TextureRegion getEnergyBar(int current, int max) {
