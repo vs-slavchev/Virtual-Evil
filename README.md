@@ -1,8 +1,13 @@
 # Virtual-Evil ![Build Status](https://travis-ci.org/vs-slavchev/Virtual-Evil.svg?branch=master)
 A LibGDX 2D action game in a cyber setting.
 
+![fox-kill-gif](https://cloud.githubusercontent.com/assets/10689151/16925479/b4baf406-4d24-11e6-9a1d-f32b941f7fdd.gif)
+
+![robot-kill-gif](https://cloud.githubusercontent.com/assets/10689151/16925491/c1e9eb46-4d24-11e6-8fca-f26b0c3bbf92.gif)
+
+
 In-Game screenshot:
-![alt tag](https://cloud.githubusercontent.com/assets/11488023/13382994/47c56ba2-de79-11e5-8d0f-8d10b4e3ab95.png)
+![game-screenshot](https://cloud.githubusercontent.com/assets/11488023/13382994/47c56ba2-de79-11e5-8d0f-8d10b4e3ab95.png)
 
 Main Menu screenshot
-![alt tag](https://cloud.githubusercontent.com/assets/11488023/13367042/35eefd2e-dcd7-11e5-8828-ecf1fb88fcdf.png)
+![menu-screenshot](https://cloud.githubusercontent.com/assets/11488023/13367042/35eefd2e-dcd7-11e5-8828-ecf1fb88fcdf.png)
