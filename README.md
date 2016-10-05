@@ -15,4 +15,5 @@ The main character is brought to life in cyberspace in a running computer. A mod
 Main Menu screenshot:
 ![menu-screenshot](https://cloud.githubusercontent.com/assets/11488023/13367042/35eefd2e-dcd7-11e5-8828-ecf1fb88fcdf.png)
 
-
+## Download
+There is a released version here at https://github.com/vs-slavchev/Virtual-Evil/releases
