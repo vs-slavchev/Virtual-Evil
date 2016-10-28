@@ -51,7 +51,7 @@ project(":core") {
 
 
     dependencies {
-	testCompile 'junit:junit:4.12'
+        testCompile 'junit:junit:4.12'
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"

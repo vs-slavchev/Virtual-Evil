@@ -11,49 +11,48 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
  * - a font should have more than 1 size?
  * - maybe put ttf loading boilerplate into a method? */
 public class FontManager {
-	
-	private final String PATH = "fonts/", FORMAT = ".ttf";
-	private BitmapFont debugFont;
-	private BitmapFont startScreenDigits;
-	private BitmapFont HUDHealthFont;
-	
-	public FontManager() {
-		debugFont = new BitmapFont();
-	}
-	
-	public BitmapFont getDebugFont() {
-		return debugFont;
-	}
-	
-	public BitmapFont getStartScreenDigits(int fontSize) {
-		if (startScreenDigits == null) {
-			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(PATH + "VeraMono" + FORMAT));
-			FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-			parameter.size = fontSize;
-			parameter.color = com.badlogic.gdx.graphics.Color.GREEN;
-			parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
-			startScreenDigits = generator.generateFont(parameter);
-			generator.dispose();
-		}
-		return startScreenDigits;
-	}
-	
-	//LCD style font used for HP display on the HUD
-	public BitmapFont getHUDHealthFont(int fontSize) {
-		if (HUDHealthFont == null) {
-			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(PATH + "24Display" + FORMAT));
-			FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-			parameter.size = fontSize;
-			parameter.color = com.badlogic.gdx.graphics.Color.GREEN;
-			parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
-			HUDHealthFont = generator.generateFont(parameter);
-			generator.dispose();
-		}
-		return HUDHealthFont;
-	}
-	
-	public void disposeAllFonts() {
-		debugFont.dispose();
-		startScreenDigits.dispose();
-	}
+
+    private final String PATH = "fonts/", FORMAT = ".ttf";
+    private BitmapFont debugFont;
+    private BitmapFont startScreenDigits;
+    private BitmapFont HUDHealthFont;
+
+    public FontManager() {
+        debugFont = new BitmapFont();
+    }
+
+    public BitmapFont getDebugFont() {
+        return debugFont;
+    }
+
+    public BitmapFont getStartScreenDigits(int fontSize) {
+        if (startScreenDigits == null) {
+            startScreenDigits = generateFont("VeraMono", fontSize);
+        }
+        return startScreenDigits;
+    }
+
+    //LCD style font used for HP display on the HUD
+    public BitmapFont getHUDHealthFont(int fontSize) {
+        if (HUDHealthFont == null) {
+            HUDHealthFont = generateFont("24Display", fontSize);
+        }
+        return HUDHealthFont;
+    }
+
+    private BitmapFont generateFont(String fontName, int fontSize) {
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(PATH + fontName + FORMAT));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = fontSize;
+        parameter.color = com.badlogic.gdx.graphics.Color.GREEN;
+        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS;
+        BitmapFont product = generator.generateFont(parameter);
+        generator.dispose();
+        return product;
+    }
+
+    public void disposeAllFonts() {
+        debugFont.dispose();
+        startScreenDigits.dispose();
+    }
 }

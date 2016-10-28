@@ -8,80 +8,80 @@ import com.game.virtualevil.entity.GameObject;
 import com.game.virtualevil.utility.VirtualEvilError;
 import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
-public class Bullet extends GameObject{
+public class Bullet extends GameObject {
 
-	private Vector2 delta;
-	private float speed;
-	private TextureRegion img;
-	
-	private boolean isActive;
+    private Vector2 delta;
+    private float speed;
+    private TextureRegion img;
 
-	public Bullet() {
-		isActive = false;
-		
-	}
+    private boolean isActive;
 
-	public void move() {
-		position.x += delta.x * speed * Gdx.graphics.getDeltaTime();
-		position.y += delta.y * speed * Gdx.graphics.getDeltaTime();
-	}
+    public Bullet() {
+        isActive = false;
 
-	public void draw(SpriteBatch sb) {
-		sb.draw(img, position.x - img.getRegionWidth()/2, position.y - img.getRegionHeight()/2);
-	}
-	
-	public void activate(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion image){
-		isActive = true;
-		
-		this.position = calculateStartPosition(start, target);
-		this.img = image;
+    }
 
-		float distance = (float) Math.sqrt(
-				  (target.x - start.x) * (target.x - start.x)
-				+ (target.y - start.y) * (target.y - start.y));
-		delta = new Vector2((target.x - start.x) / distance, (target.y - start.y) / distance);		
+    public void move() {
+        position.x += delta.x * speed * Gdx.graphics.getDeltaTime();
+        position.y += delta.y * speed * Gdx.graphics.getDeltaTime();
+    }
 
-		switch (weaponType) {
-		case PISTOL:
-			this.speed = 200;
-			break;
-		case AK47:
-			this.speed = 350;
-			break;
-		case RPG:
-			this.speed = 50;
-			break;
-		default:
-			VirtualEvilError.show("Creating bullet from unknown weapon:\n" + weaponType);
-			break;
-		}
-	}
-	
-	// calculates and offsets the spawn position of the bullets 
-	public Vector2 calculateStartPosition (Vector2 start, Vector2 target){
-		
-		int offset = 20;
-		float marginX = target.x - start.x;
-		float marginY = target.y - start.y;
-		
-		Vector2 vec = new Vector2(marginX, marginY).nor();
-		vec.x *= offset;
-		vec.y *= offset;
-		vec.x += start.x;
-		vec.y += start.y;
-		return vec;
-	}
+    public void draw(SpriteBatch sb) {
+        sb.draw(img, position.x - img.getRegionWidth() / 2, position.y - img.getRegionHeight() / 2);
+    }
 
-	public boolean isActive() {
-		return isActive;
-	}
-	
-	public void deactivate(){
-		isActive = false;		
-	}
+    public void activate(Vector2 start, Vector2 target, WeaponType weaponType, TextureRegion image) {
+        isActive = true;
 
-	public Vector2 getPosition() {
-		return position;
-	}
-	
+        this.position = calculateStartPosition(start, target);
+        this.img = image;
+
+        float distance = (float) Math.sqrt(
+                (target.x - start.x) * (target.x - start.x)
+                        + (target.y - start.y) * (target.y - start.y));
+        delta = new Vector2((target.x - start.x) / distance, (target.y - start.y) / distance);
+
+        switch (weaponType) {
+            case PISTOL:
+                this.speed = 200;
+                break;
+            case AK47:
+                this.speed = 350;
+                break;
+            case RPG:
+                this.speed = 50;
+                break;
+            default:
+                VirtualEvilError.show("Creating bullet from unknown weapon:\n" + weaponType);
+                break;
+        }
+    }
+
+    // calculates and offsets the spawn position of the bullets
+    public Vector2 calculateStartPosition(Vector2 start, Vector2 target) {
+
+        int offset = 20;
+        float marginX = target.x - start.x;
+        float marginY = target.y - start.y;
+
+        Vector2 vec = new Vector2(marginX, marginY).nor();
+        vec.x *= offset;
+        vec.y *= offset;
+        vec.x += start.x;
+        vec.y += start.y;
+        return vec;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void deactivate() {
+        isActive = false;
+    }
+
+    public Vector2 getPosition() {
+        return position;
+    }
+
 }

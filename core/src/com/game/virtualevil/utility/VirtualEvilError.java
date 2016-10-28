@@ -1,8 +1,8 @@
 package com.game.virtualevil.utility;
 
-import javax.swing.JOptionPane;
-
 import com.badlogic.gdx.Gdx;
+
+import javax.swing.*;
 
 /**
  * Exceptions should be exceptional.
@@ -11,10 +11,10 @@ import com.badlogic.gdx.Gdx;
  */
 public class VirtualEvilError {
 
-	public static void show(String errorMessage) {
-			JOptionPane.showMessageDialog(null,
-					"Error: \n" + errorMessage,
-				    "Error", JOptionPane.ERROR_MESSAGE);
-			Gdx.app.exit();
-	}
+    public static void show(String errorMessage) {
+        JOptionPane.showMessageDialog(null,
+                "Error: \n" + errorMessage,
+                "Error", JOptionPane.ERROR_MESSAGE);
+        Gdx.app.exit();
+    }
 }

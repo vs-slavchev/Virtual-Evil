@@ -6,20 +6,19 @@ import com.game.virtualevil.utility.weapon.Weapon.WeaponType;
 
 public class MechaFoxRobot extends EnemyCharacter {
 
-	public MechaFoxRobot(PlayGameState playGameState, final int x, final int y) {
-		super(x, y);
-		
-		weapon = new Weapon(WeaponType.PISTOL, this, playGameState);
-		spriteSheet = playGameState.getAssetManager().getTextureManager()
-				.getImage("enemy4");
-		setUpAnimation();
-	}
-	
-	@Override
-	protected void applyAction(final float delta, PlayGameState playState) {
-		super.applyAction(delta, playState);
+    public MechaFoxRobot(PlayGameState playGameState, final int x, final int y) {
+        super(x, y);
 
-	}
+        weapon = new Weapon(WeaponType.PISTOL, this, playGameState);
+        spriteSheet = playGameState.getAssetManager().getTextureManager().getImage("enemy4");
+        setUpAnimation();
+    }
+
+    @Override
+    protected void applyAction(final float delta, PlayGameState playState) {
+        super.applyAction(delta, playState);
+
+    }
 
 
 }

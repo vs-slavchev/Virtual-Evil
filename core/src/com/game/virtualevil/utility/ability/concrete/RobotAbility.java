@@ -4,16 +4,16 @@ import com.game.virtualevil.entity.GameCharacter;
 import com.game.virtualevil.utility.ability.Ability;
 import com.game.virtualevil.utility.ability.AbilityConstants;
 
-public class RobotAbility extends Ability{
+public class RobotAbility extends Ability {
 
-	public RobotAbility(String abilityName, GameCharacter character) {
-		super(abilityName, character, AbilityConstants.ROBOT_CD);	
-	}
+    public RobotAbility(String abilityName, GameCharacter character) {
+        super(abilityName, character, AbilityConstants.ROBOT_CD);
+    }
 
-	@Override
-	public void useAbility() {
+    @Override
+    public void useAbility() {
 
-		
-	}
+
+    }
 
 }
